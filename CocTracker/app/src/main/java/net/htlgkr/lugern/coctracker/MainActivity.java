@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 //                Log.i("ad", a);
                 System.out.println();
                 requestViewModel.loadPlayerInfo(a);
+                System.out.println();
 
             }
 
