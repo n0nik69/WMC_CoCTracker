@@ -8,6 +8,7 @@
         android:id="@+id/item_2"
         android:enabled="true"
         android:icon="@drawable/ic_launcher_foreground"
+        android:textSize="50dp"
         android:title="Spieler" />
     <item
         android:id="@+id/item_3"
@@ -19,9 +20,4 @@
         android:enabled="true"
         android:icon="@drawable/ic_launcher_foreground"
         android:title="League" />
-    <item
-        android:id="@+id/item_5"
-        android:enabled="true"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="Goldpass" />
 </menu>

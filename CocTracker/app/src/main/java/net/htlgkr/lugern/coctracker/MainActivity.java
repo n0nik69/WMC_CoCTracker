@@ -1,5 +1,8 @@
 package net.htlgkr.lugern.coctracker;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import android.util.Log;
 
@@ -9,11 +12,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
+import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
@@ -52,22 +57,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        RequestViewModel requestViewModel = new ViewModelProvider(this).get(RequestViewModel.class);
-        requestViewModel.init(getApplicationContext());
-        requestViewModel.requestStatsAndCards(new HTTPListener<>() {
-            @Override
-            public void onSuccess(String a) {
-//                Log.i("ad", a);
-                System.out.println();
-                requestViewModel.loadPlayerInfo(a);
-                System.out.println();
+//        RequestViewModel requestViewModel = new ViewModelProvider(this).get(RequestViewModel.class);
+//        requestViewModel.init(getApplicationContext());
+//        requestViewModel.requestStatsAndCards(new HTTPListener<>() {
+//            @Override
+//            public void onSuccess(String a) {
+//                requestViewModel.loadPlayerInfo(a);
+//            }
+//
+//            @Override
+//            public void onError(String error) {
+//            }
+//        });
 
-            }
 
-            @Override
-            public void onError(String error) {
-                Log.i("Error", error);
+        mainViewModel.state.observe(this, state -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            switch (state) {
+                case MainViewModel.playerScreen:
+                    transaction.replace(R.id.mainFragment, new PlayerScreen(), "PLAYERSCREEN");
+                    break;
             }
+            transaction.commit();
         });
 
     }
