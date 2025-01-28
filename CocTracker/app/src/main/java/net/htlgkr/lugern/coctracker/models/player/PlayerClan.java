@@ -1,11 +1,11 @@
 package net.htlgkr.lugern.coctracker.models.player;
 
-public class Clan {
+public class PlayerClan {
     private String tag;
     private String name;
     private int clanLevel;
 
-    public Clan(String tag, String name, int clanLevel) {
+    public PlayerClan(String tag, String name, int clanLevel) {
         this.tag = tag;
         this.name = name;
         this.clanLevel = clanLevel;

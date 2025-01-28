@@ -23,7 +23,7 @@ public class Player {
     private int donations;
     private int donationsReceived;
     private int clanCapitalContributions;
-    private Clan clan;
+    private PlayerClan playerClan;
     private League league;
     private BuilderBaseLeague builderBaseLeague;
     List<Achievment> achievements = new ArrayList<>();

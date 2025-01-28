@@ -9,7 +9,6 @@ public class MainViewModel extends ViewModel {
     public static final int clanScreen = 2;
     public static final int leagueScreen = 3;
     public static final int rankingScreen = 4;
-    public static final int goldpassScreen = 5;
 
 
 
