@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.obiscr.chatgpt.settings.EasyCodeState">
+    <option name="projectFiles" value="$PROJECT_DIR$/app/src/androidTest/java/net/htlgkr/lugern/coctracker/ExampleInstrumentedTest.java;C:/Users/nikla/Documents/HTL_Grieskirchen/WMC/WMC_CoCTracker/CocTracker/app/src/main/java/net/htlgkr/lugern/coctracker/api/HTTPListener.java;C:/Users/nikla/Documents/HTL_Grieskirchen/WMC/WMC_CoCTracker/CocTracker/app/src/main/java/net/htlgkr/lugern/coctracker/viewmodels/RequestViewModel.java;C:/Users/nikla/Documents/HTL_Grieskirchen/WMC/WMC_CoCTracker/CocTracker/app/src/main/java/net/htlgkr/lugern/coctracker/MainActivity.java;C:/Users/nikla/Documents/HTL_Grieskirchen/WMC/WMC_CoCTracker/CocTracker/app/src/test/java/net/htlgkr/lugern/coctracker/ExampleUnitTest.java;C:/Users/nikla/Documents/HTL_Grieskirchen/WMC/WMC_CoCTracker/CocTracker/app/build.gradle.kts;C:/Users/nikla/Documents/HTL_Grieskirchen/WMC/WMC_CoCTracker/CocTracker/build.gradle.kts;C:/Users/nikla/Documents/HTL_Grieskirchen/WMC/WMC_CoCTracker/CocTracker/settings.gradle.kts" />
+  </component>
+</project>
