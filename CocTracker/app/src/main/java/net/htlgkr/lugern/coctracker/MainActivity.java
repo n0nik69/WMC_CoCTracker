@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 mainViewModel.showScreen(MainViewModel.leagueScreen);
             } else if (item.getItemId() == R.id.item_4) {
                 mainViewModel.showScreen(MainViewModel.rankingScreen);
-            } else if (item.getItemId() == R.id.item_5) {
-                mainViewModel.showScreen(MainViewModel.goldpassScreen);
             }
             return true;
         });
@@ -60,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String a) {
 //                Log.i("ad", a);
+                System.out.println();
                 requestViewModel.loadPlayerInfo(a);
+                System.out.println();
+
             }
 
             @Override
