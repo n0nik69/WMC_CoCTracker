@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
+import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
@@ -55,20 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
-
-
-//        RequestViewModel requestViewModel = new ViewModelProvider(this).get(RequestViewModel.class);
-//        requestViewModel.init(getApplicationContext());
-//        requestViewModel.requestStatsAndCards(new HTTPListener<>() {
-//            @Override
-//            public void onSuccess(String a) {
-//                requestViewModel.loadPlayerInfo(a);
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//            }
-//        });
 
 
         mainViewModel.state.observe(this, state -> {
