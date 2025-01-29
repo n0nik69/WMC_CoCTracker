@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (state) {
                 case MainViewModel.playerScreen:
-                    transaction.replace(R.id.mainFragment, new PlayerScreen(), "PLAYERSCREEN");
+                    transaction.replace(R.id.mainFragment, new ClanScreen(), "PLAYERSCREEN");
                     break;
             }
             transaction.commit();

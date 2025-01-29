@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/clanInfoItem"
+        android:title="Clan Info" />
+    <item
+        android:id="@+id/clanWarLogItem"
+        android:title="War Log" />
+    <item
+        android:id="@+id/searchClanItem"
+        android:title="Clan suchen" />
+    <item
+        android:id="@+id/currentLeagueItem"
+        android:title="Derzeitige League" />
+</menu>

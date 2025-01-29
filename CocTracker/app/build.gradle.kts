@@ -46,9 +46,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation (libs.volley)
-    implementation (libs.gson)
-    implementation (libs.picasso)
+    implementation(libs.volley)
+    implementation(libs.gson)
+    implementation(libs.picasso)
 
 
 }
