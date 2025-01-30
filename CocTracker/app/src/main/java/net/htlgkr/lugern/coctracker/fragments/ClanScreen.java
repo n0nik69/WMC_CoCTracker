@@ -1,5 +1,8 @@
 package net.htlgkr.lugern.coctracker.fragments;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -11,7 +14,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +25,10 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
+import net.htlgkr.lugern.coctracker.models.clan.Clan;
+import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,29 +51,91 @@ public class ClanScreen extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentClanScreenBinding.inflate(inflater, container, false);
-        ImageView imageView = binding.imageView3;
+        ImageView imageView = binding.ivClanBadge;
+        RequestViewModel requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
+        requestViewModel.init(requireContext());
         CircularProgressIndicator progressIndicator = binding.cp;
         progressIndicator.show();
-        String imageUrl = "https://api-assets.clashofclans.com/badges/512/jcC_061k3vRpc6JsBezoLQNucmBuLOL0uyuCUYvWHPQ.png";
         binding.tvClans.setOnClickListener(view -> {
             // Menü-Ressourcen-ID übergeben
             showMenu(view, R.menu.popup_menu);
         });
+        binding.cp.setVisibility(GONE);
+        binding.btnSearchClan.setOnClickListener(view -> {
+            binding.ivClanBadge.setImageDrawable(null);
+
+            String clanTagOrName = String.valueOf(binding.tiClan.getText()).trim().toUpperCase();
+            if (clanTagOrName.contains("#")) {
+                clanTagOrName = clanTagOrName.replace("#", "%23");
+            }
+
+            binding.cp.setVisibility(VISIBLE);
+
+            String url = "https://api.clashofclans.com/v1/clans/" + clanTagOrName;
+            requestViewModel.setApiUrl(url);
+            requestViewModel.requestData(new HTTPListener<>() {
+                @Override
+                public void onSuccess(String a) {
+
+                    requestViewModel.loadClanInfo(a);
+                    System.out.println();
+                    Clan clan = requestViewModel.getClan();
+                    binding.tvClanName.setText(clan.getName());
+                    binding.tvClanDescription.setText(clan.getDescription());
+                    binding.tvClanDescription.setVisibility(VISIBLE);
+                    binding.tvClanName.setVisibility(VISIBLE);
+                    binding.cp.setVisibility(GONE);
+                    Picasso.get()
+                            .load(clan.getBadgeUrls().getLarge())
+                            .into(imageView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    binding.ivClanBadge.setVisibility(VISIBLE);
+                                    progressIndicator.setVisibility(GONE);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    progressIndicator.setVisibility(GONE);
+                                }
+                            });
+                }
+
+                @Override
+                public void onError(String error) {
+                    System.out.println(error);
+                }
+            });
+
+            binding.tiClan.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    binding.btnSearchClan.setVisibility(VISIBLE);
+                    binding.ivClanBadge.setVisibility(GONE);
+                    binding.tvClanDescription.setVisibility(GONE);
+                    binding.tvClanName.setVisibility(GONE);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+
+            binding.btnSearchClan.setVisibility(GONE);
+            binding.ivClanBadge.setVisibility(VISIBLE);
+
+        });
+
 
         // Lade das Bild mit Picasso
-        Picasso.get()
-                .load(imageUrl)
-                .into(imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressIndicator.setVisibility(View.GONE);
-                    }
 
-                    @Override
-                    public void onError(Exception e) {
-                        progressIndicator.setVisibility(View.GONE);
-                    }
-                });
         return binding.getRoot();
     }
 
@@ -73,15 +144,11 @@ public class ClanScreen extends Fragment {
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
 
         popup.setOnMenuItemClickListener(menuItem -> {
-            // Verwende if-else anstelle von switch
             if (menuItem.getItemId() == R.id.clanInfoItem) {
-                // Handle option 1 click
                 return true;
-            } else // Handle option 3 click
-                if (menuItem.getItemId() == R.id.clanWarLogItem) {
-                    // Handle option 2 click
-                    return true;
-                } else return menuItem.getItemId() == R.id.currentLeagueItem;
+            } else if (menuItem.getItemId() == R.id.clanWarLogItem) {
+                return true;
+            } else return menuItem.getItemId() == R.id.currentLeagueItem;
         });
 
         popup.show();

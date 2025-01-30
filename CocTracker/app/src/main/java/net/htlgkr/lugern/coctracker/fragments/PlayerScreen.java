@@ -42,23 +42,23 @@ public class PlayerScreen extends Fragment {
 
         RequestViewModel requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
         requestViewModel.init(requireContext());
-        requestViewModel.requestStatsAndCards(new HTTPListener<>() {
-            @Override
-            public void onSuccess(String a) {
-                requestViewModel.loadPlayerInfo(a);
-                Player player = requestViewModel.getPlayer();
-                binding.tiPlayerTag.setText(player.getTag());
-                binding.tvPlayerClan.setText(player.getClan().getName());
-                binding.tvPlayerTrophies.setText(String.valueOf(player.getTrophies()));
-                binding.tvPlayerName.setText(player.getName());
-                setImageOnImageView(binding.ivTownhall, 17);
-            }
-
-            @Override
-            public void onError(String error) {
-                System.out.println(error);
-            }
-        });
+//        requestViewModel.requestStatsAndCards(new HTTPListener<>() {
+//            @Override
+//            public void onSuccess(String a) {
+//                requestViewModel.loadPlayerInfo(a);
+//                Player player = requestViewModel.getPlayer();
+//                binding.tiPlayerTag.setText(player.getTag());
+//                binding.tvPlayerClan.setText(player.getClan().getName());
+//                binding.tvPlayerTrophies.setText(String.valueOf(player.getTrophies()));
+//                binding.tvPlayerName.setText(player.getName());
+//                setImageOnImageView(binding.ivTownhall, 17);
+//            }
+//
+//            @Override
+//            public void onError(String error) {
+//                System.out.println(error);
+//            }
+//        });
 
         return binding.getRoot();
     }

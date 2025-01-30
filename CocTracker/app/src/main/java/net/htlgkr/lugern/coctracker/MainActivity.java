@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
+import net.htlgkr.lugern.coctracker.fragments.CardFragment;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
@@ -46,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.item_1) {
-                mainViewModel.showScreen(MainViewModel.playerScreen);
-            } else if (item.getItemId() == R.id.item_2) {
                 mainViewModel.showScreen(MainViewModel.clanScreen);
+            } else if (item.getItemId() == R.id.item_2) {
+                mainViewModel.showScreen(MainViewModel.playerScreen);
             } else if (item.getItemId() == R.id.item_3) {
                 mainViewModel.showScreen(MainViewModel.leagueScreen);
             } else if (item.getItemId() == R.id.item_4) {
@@ -62,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (state) {
                 case MainViewModel.playerScreen:
-                    transaction.replace(R.id.mainFragment, new ClanScreen(), "PLAYERSCREEN");
+                    transaction.replace(R.id.mainFragment, new PlayerScreen(), "PLAYERSCREEN");
+
+                    break;
+                case MainViewModel.clanScreen:
+                    transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
+                    transaction.add(R.id.listLayout, new CardFragment());
                     break;
             }
             transaction.commit();

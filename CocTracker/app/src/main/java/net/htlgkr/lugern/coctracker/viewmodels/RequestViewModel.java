@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
+import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.models.player.Player;
 
 import java.util.HashMap;
@@ -20,17 +21,28 @@ import java.util.Map;
 
 public class RequestViewModel extends ViewModel {
 
-    private static final String API_URL = "https://api.clashofclans.com/v1/players/%2322RVG90R2"; // Spieler-URL
-    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImQzZjU2YWU3LWFkZjItNDM3NC1iNmFlLWJkNjRmNWRmOTAzNiIsImlhdCI6MTczODA5MjUyNCwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.3aep5cEIFjVz_QSCy75sjly0N-x1HYc8xR2MYJEw7hdZTcBAGDFFJ5h7EUZ0wsRcUZ4491ZGj0XZHdTdeQunVA"; // Setze deinen API-Schlüssel hier ein
+    private static final String API_URL_PLAYER = "https://api.clashofclans.com/v1/players/%2322RVG90R2"; // Spieler-URL
+    private static final String API_URL_CLAN = "https://api.clashofclans.com/v1/clans/%239RP9V0RY"; // Spieler-URL
+    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImEyNDc0MjU4LTEzNTMtNGViMS1iMzIzLTNmNjZmYjJmYTBkNiIsImlhdCI6MTczODI1MzU2Nywic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.JowjsCiD3OsBWVOr8gxcCUHUzNgLJcXpXeN0G0-HcwVd1qB7p5YRizso0TQXCoufAC_f6Ri1c9WsiILZBIyhuw"; // Setze deinen API-Schlüssel hier ein
+    private static String API_URL = "https://api.clashofclans.com/v1"; // Spieler-URL
     private RequestQueue queue;
     private Gson gson = new Gson();
     private Player player;
+    private Clan clan;
+
+    public static String getApiUrl() {
+        return API_URL;
+    }
+
+    public static void setApiUrl(String apiUrl) {
+        API_URL = apiUrl;
+    }
 
     public void init(Context context) {
         queue = Volley.newRequestQueue(context);
     }
 
-    public void requestStatsAndCards(HTTPListener<String> listener) {
+    public void requestData(HTTPListener<String> listener) {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, API_URL, null,
                 response -> listener.onSuccess(response.toString()),
@@ -55,7 +67,18 @@ public class RequestViewModel extends ViewModel {
         Log.i("Daten", "Daten geladen.. mit Log");
     }
 
+    public void loadClanInfo(String json) {
+        TypeToken<Clan> typeToken = new TypeToken<>() {
+        };
+        clan = gson.fromJson(json, typeToken);
+        System.out.println();
+    }
+
     public Player getPlayer() {
         return player;
+    }
+
+    public Clan getClan() {
+        return clan;
     }
 }
