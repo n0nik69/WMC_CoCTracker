@@ -5,23 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ClanScreen">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:name="net.htlgkr.lugern.coctracker.fragments.CardFragment"
-        android:layout_width="0dp"
-        android:layout_height="600dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginEnd="32dp"
-        android:visibility="gone"
-        app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".fragments.CardFragment"
-        tools:listitem="@layout/fragment_card"
-        tools:visibility="gone" />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/list"-->
+<!--        android:name="net.htlgkr.lugern.coctracker.fragments.CardFragment"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="600dp"-->
+<!--        android:layout_marginStart="32dp"-->
+<!--        android:layout_marginTop="130dp"-->
+<!--        android:layout_marginEnd="32dp"-->
+<!--        android:visibility="invisible"-->
+<!--        app:layoutManager="LinearLayoutManager"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:context=".fragments.CardFragment"-->
+<!--        tools:listitem="@layout/fragment_card"-->
+<!--        tools:visibility="invisible" />-->
 
     <TextView
         android:id="@+id/tvClans"
@@ -48,8 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiClan"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Tag oder Name" />
+            android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
@@ -58,10 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/cp"
@@ -73,7 +70,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        tools:visibility="gone" />
+        tools:visibility="invisible" />
 
     <Button
         android:id="@+id/btnSearchClan"
@@ -96,10 +93,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Clan name"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        tools:visibility="gone" />
+        tools:visibility="invisible" />
 
     <TextView
         android:id="@+id/tvClanDescription"
@@ -108,22 +105,20 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Caln Beschreiföljfaöljdfölajfdlökajsfölkasölfjasölkfjaölsdfj"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvClanName"
-        tools:visibility="gone" />
+        tools:visibility="invisible" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/listLayout"
         android:layout_width="0dp"
-        android:layout_height="600dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearchClan">
+        app:layout_constraintTop_toBottomOf="@+id/tvClanDescription">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

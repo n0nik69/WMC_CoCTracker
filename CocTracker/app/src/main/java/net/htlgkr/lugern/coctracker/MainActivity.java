@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MainViewModel.clanScreen:
                     transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
-                    transaction.add(R.id.listLayout, new CardFragment());
+                    transaction.replace(R.id.listLayout, new CardFragment());
                     break;
             }
             transaction.commit();

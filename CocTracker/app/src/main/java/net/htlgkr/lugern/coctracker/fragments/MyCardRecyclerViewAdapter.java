@@ -30,9 +30,7 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return new ViewHolder(FragmentCardBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
     }
 
     public void setOnItemClickListener(MyOnCardClickListener onItemClickListener) {
@@ -41,10 +39,43 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-//        holder.mItem = values.get(position);
-//        holder.mIdView.setText(values.get(position).id);
-//        holder.mContentView.setText(values.get(position).content);
-        holder.card = values.get(position);
+        Card card = values.get(position);
+
+        holder.binding.tvCardTownhallLvl.setText(card.getTvTownhallLvl());
+        holder.binding.ivCardTownhallLvl.setImageResource(card.getIvTownhallLvl());
+
+        holder.binding.tvPlayerNameInClan.setText(card.getTvName());
+        holder.binding.tvClanRole.setText(card.getTvRole());
+
+        holder.binding.tvCardExpLvl.setText(card.getTvExpLvl());
+        holder.binding.ivCardExpLvl.setImageResource(card.getIvExpLvl());
+
+        holder.binding.tvCardTrophies.setText(card.getTvTrophies());
+        holder.binding.ivCardTrophies.setImageResource(card.getIvTrophies());
+
+        holder.binding.tvBuildbaseTrophies.setText(card.getTvBuildTrophies());
+        holder.binding.ivCardBuildbaseTrophies.setImageResource(card.getIvBuildTrophies());
+
+        holder.binding.tvCardDonations.setText(card.getTvDonations());
+        holder.binding.tvCardDonationsReceived.setText(card.getTvDonationsReceived());
+//        holder.binding.ivCardDonations.setImageResource(card.getIvDonations());
+
+        holder.binding.tvCardLeague.setText(card.getTvLeague());
+
+//        if (card.getIvLeague() != null) {
+//            Glide.with(holder.binding.ivLeague.getContext())
+//                    .load(card.getIvLeagueUrl())
+//                    .into(holder.binding.ivLeague);
+//        } else {
+//            holder.binding.ivLeague.setImageResource(card.getIvLeague()); // Standard-Icon
+//        }
+
+        holder.card = card;
+        holder.itemView.setOnClickListener(v -> {
+            if (onCardClickListener != null) {
+                onCardClickListener.onItemClick(holder.getLayoutPosition());
+            }
+        });
     }
 
     @Override
@@ -55,11 +86,11 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //        public final TextView tv
         public Card card;
-        public Clan clan;
+        public FragmentCardBinding binding;
 
         public ViewHolder(FragmentCardBinding binding) {
             super(binding.getRoot());
-
+            this.binding = binding;
         }
 
         @Override

@@ -23,12 +23,14 @@ public class RequestViewModel extends ViewModel {
 
     private static final String API_URL_PLAYER = "https://api.clashofclans.com/v1/players/%2322RVG90R2"; // Spieler-URL
     private static final String API_URL_CLAN = "https://api.clashofclans.com/v1/clans/%239RP9V0RY"; // Spieler-URL
-    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImEyNDc0MjU4LTEzNTMtNGViMS1iMzIzLTNmNjZmYjJmYTBkNiIsImlhdCI6MTczODI1MzU2Nywic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.JowjsCiD3OsBWVOr8gxcCUHUzNgLJcXpXeN0G0-HcwVd1qB7p5YRizso0TQXCoufAC_f6Ri1c9WsiILZBIyhuw"; // Setze deinen API-Schlüssel hier ein
+    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY2OTAxZDhjLWVlYzQtNGM0NS05YzUzLTAyMWE5ODdhOTQwZiIsImlhdCI6MTczODMwOTQyMSwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjc4LjEwNC42Mi4xIl0sInR5cGUiOiJjbGllbnQifV19.Jd-jzhwBYgAosIPFdscP500sokLfK933LvuokvEcSUZhllZ7msjUfs7fmhREYthz1WQE1LrF-Dh-XneJ2XVeZw"; // Setze deinen API-Schlüssel hier ein
     private static String API_URL = "https://api.clashofclans.com/v1"; // Spieler-URL
     private RequestQueue queue;
     private Gson gson = new Gson();
     private Player player;
     private Clan clan;
+    private boolean searchPerTag = true;
+    
 
     public static String getApiUrl() {
         return API_URL;
@@ -80,5 +82,13 @@ public class RequestViewModel extends ViewModel {
 
     public Clan getClan() {
         return clan;
+    }
+
+    public boolean isSearchPerTag() {
+        return searchPerTag;
+    }
+
+    public void setSearchPerTag(boolean searchPerTag) {
+        this.searchPerTag = searchPerTag;
     }
 }

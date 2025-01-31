@@ -1,6 +1,26 @@
 package net.htlgkr.lugern.coctracker.models;
 
 public class Card {
+    private String tvName;
+    private String tvRole;
+
+
+    public String getTvName() {
+        return tvName;
+    }
+
+    public void setTvName(String tvName) {
+        this.tvName = tvName;
+    }
+
+    public String getTvRole() {
+        return tvRole;
+    }
+
+    public void setTvRole(String tvRole) {
+        this.tvRole = tvRole;
+    }
+
     private String tvTownhallLvl;
     private int ivTownhallLvl;
     private String tvExpLvl;
@@ -10,6 +30,16 @@ public class Card {
     private String tvBuildTrophies;
     private int ivBuildTrophies;
     private String tvDonations;
+    private String tvDonationsReceived;
+
+    public String getTvDonationsReceived() {
+        return tvDonationsReceived;
+    }
+
+    public void setTvDonationsReceived(String tvDonationsReceived) {
+        this.tvDonationsReceived = tvDonationsReceived;
+    }
+
     private int ivDonations;
     private String tvLeague;
     private int ivLeague;
@@ -40,6 +70,54 @@ public class Card {
 
     public void setTvBuildTrophies(String tvBuildTrophies) {
         this.tvBuildTrophies = tvBuildTrophies;
+    }
+
+    public String getTvTownhallLvl() {
+        return tvTownhallLvl;
+    }
+
+    public int getIvTownhallLvl() {
+        return ivTownhallLvl;
+    }
+
+    public String getTvExpLvl() {
+        return tvExpLvl;
+    }
+
+    public int getIvExpLvl() {
+        return ivExpLvl;
+    }
+
+    public String getTvTrophies() {
+        return tvTrophies;
+    }
+
+    public int getIvTrophies() {
+        return ivTrophies;
+    }
+
+    public String getTvBuildTrophies() {
+        return tvBuildTrophies;
+    }
+
+    public int getIvBuildTrophies() {
+        return ivBuildTrophies;
+    }
+
+    public String getTvDonations() {
+        return tvDonations;
+    }
+
+    public int getIvDonations() {
+        return ivDonations;
+    }
+
+    public String getTvLeague() {
+        return tvLeague;
+    }
+
+    public int getIvLeague() {
+        return ivLeague;
     }
 
     public void setIvBuildTrophies(int ivBuildTrophies) {
