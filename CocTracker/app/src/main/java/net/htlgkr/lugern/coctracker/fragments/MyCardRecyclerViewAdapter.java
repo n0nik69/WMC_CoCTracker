@@ -1,18 +1,14 @@
 package net.htlgkr.lugern.coctracker.fragments;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.callback.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentCardBinding;
-import net.htlgkr.lugern.coctracker.models.Card;
-import net.htlgkr.lugern.coctracker.models.clan.Clan;
-
-import org.w3c.dom.Text;
+import net.htlgkr.lugern.coctracker.list.ClanCard;
 
 import java.util.List;
 
@@ -21,10 +17,10 @@ import java.util.List;
  */
 public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Card> values;
+    private final List<ClanCard> values;
     private MyOnCardClickListener onCardClickListener;
 
-    public MyCardRecyclerViewAdapter(List<Card> items) {
+    public MyCardRecyclerViewAdapter(List<ClanCard> items) {
         values = items;
     }
 
@@ -39,28 +35,28 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Card card = values.get(position);
+        ClanCard clanCard = values.get(position);
 
-        holder.binding.tvCardTownhallLvl.setText(card.getTvTownhallLvl());
-        holder.binding.ivCardTownhallLvl.setImageResource(card.getIvTownhallLvl());
+        holder.binding.tvCardTownhallLvl.setText(clanCard.getTvTownhallLvl());
+        holder.binding.ivCardTownhallLvl.setImageResource(clanCard.getIvTownhallLvl());
 
-        holder.binding.tvPlayerNameInClan.setText(card.getTvName());
-        holder.binding.tvClanRole.setText(card.getTvRole());
+        holder.binding.tvPlayerNameInClan.setText(clanCard.getTvName());
+        holder.binding.tvClanRole.setText(clanCard.getTvRole());
 
-        holder.binding.tvCardExpLvl.setText(card.getTvExpLvl());
-        holder.binding.ivCardExpLvl.setImageResource(card.getIvExpLvl());
+        holder.binding.tvCardExpLvl.setText(clanCard.getTvExpLvl());
+        holder.binding.ivCardExpLvl.setImageResource(clanCard.getIvExpLvl());
 
-        holder.binding.tvCardTrophies.setText(card.getTvTrophies());
-        holder.binding.ivCardTrophies.setImageResource(card.getIvTrophies());
+        holder.binding.tvCardTrophies.setText(clanCard.getTvTrophies());
+        holder.binding.ivCardTrophies.setImageResource(clanCard.getIvTrophies());
 
-        holder.binding.tvBuildbaseTrophies.setText(card.getTvBuildTrophies());
-        holder.binding.ivCardBuildbaseTrophies.setImageResource(card.getIvBuildTrophies());
+        holder.binding.tvBuildbaseTrophies.setText(clanCard.getTvBuildTrophies());
+        holder.binding.ivCardBuildbaseTrophies.setImageResource(clanCard.getIvBuildTrophies());
 
-        holder.binding.tvCardDonations.setText(card.getTvDonations());
-        holder.binding.tvCardDonationsReceived.setText(card.getTvDonationsReceived());
+        holder.binding.tvCardDonations.setText(clanCard.getTvDonations());
+        holder.binding.tvCardDonationsReceived.setText(clanCard.getTvDonationsReceived());
 //        holder.binding.ivCardDonations.setImageResource(card.getIvDonations());
 
-        holder.binding.tvCardLeague.setText(card.getTvLeague());
+        holder.binding.tvCardLeague.setText(clanCard.getTvLeague());
 
 //        if (card.getIvLeague() != null) {
 //            Glide.with(holder.binding.ivLeague.getContext())
@@ -70,7 +66,7 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 //            holder.binding.ivLeague.setImageResource(card.getIvLeague()); // Standard-Icon
 //        }
 
-        holder.card = card;
+        holder.clanCard = clanCard;
         holder.itemView.setOnClickListener(v -> {
             if (onCardClickListener != null) {
                 onCardClickListener.onItemClick(holder.getLayoutPosition());
@@ -85,7 +81,7 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //        public final TextView tv
-        public Card card;
+        public ClanCard clanCard;
         public FragmentCardBinding binding;
 
         public ViewHolder(FragmentCardBinding binding) {

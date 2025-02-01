@@ -1,10 +1,6 @@
 package net.htlgkr.lugern.coctracker;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +13,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.fragments.CardFragment;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
+import net.htlgkr.lugern.coctracker.fragments.FoundClanPerNameFragment;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             );
             return WindowInsetsCompat.CONSUMED;
         });
-
+        RequestViewModel requestViewModel = new ViewModelProvider(this).get(RequestViewModel.class);
         MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -59,22 +55,53 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+//        mainViewModel.state.observe(this, state -> {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            switch (state) {
+//                case MainViewModel.playerScreen:
+//                    transaction.replace(R.id.mainFragment, new PlayerScreen(), "PLAYERSCREEN");
+//
+//                    break;
+//                case MainViewModel.clanScreen:
+//                    transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
+////                    transaction.add(R.id.listLayout, new FoundClanPerNameFragment(), "CLANSCREEN");
+//
+//
+//                    if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
+//                        transaction.add(R.id.listLayout, new CardFragment());
+//                    } else {
+//                        transaction.add(R.id.listLayout, new FoundClanPerNameFragment());
+//                    }
+//
+//                    break;
+//            }
+//            transaction.commit();
+//        });
+
         mainViewModel.state.observe(this, state -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (state) {
                 case MainViewModel.playerScreen:
                     transaction.replace(R.id.mainFragment, new PlayerScreen(), "PLAYERSCREEN");
-
                     break;
                 case MainViewModel.clanScreen:
                     transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
-                    transaction.replace(R.id.listLayout, new CardFragment());
+
                     break;
             }
             transaction.commit();
         });
 
+        requestViewModel.isSearchPerTag().observe(this, isSearchPerTag -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (Boolean.TRUE.equals(isSearchPerTag)) {
+                transaction.replace(R.id.listLayout, new CardFragment());
+            } else {
+                transaction.replace(R.id.listLayout, new FoundClanPerNameFragment());
+            }
+            transaction.commit();
+        });
+
+
     }
-
-
 }

@@ -25,7 +25,8 @@ import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
-import net.htlgkr.lugern.coctracker.viewmodels.CardViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.ClanViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.FoundClanViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
 /**
@@ -56,7 +57,8 @@ public class ClanScreen extends Fragment {
         requestViewModel.init(requireContext());
         CircularProgressIndicator progressIndicator = binding.cp;
         progressIndicator.show();
-        CardViewModel cardViewModel = new ViewModelProvider(requireActivity()).get(CardViewModel.class);
+        ClanViewModel clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
+        FoundClanViewModel foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
         binding.listLayout.setVisibility(INVISIBLE);
         binding.tvClans.setOnClickListener(view -> {
             // Menü-Ressourcen-ID übergeben
@@ -68,7 +70,8 @@ public class ClanScreen extends Fragment {
 
             String clanTagOrName = String.valueOf(binding.tiClan.getText()).trim().toUpperCase();
             String url;
-            if (requestViewModel.isSearchPerTag()) {
+//            if (requestViewModel.isSearchPerTag()) {
+            if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
                 if (!clanTagOrName.startsWith("#")) {
                     clanTagOrName = "%23" + clanTagOrName;
                 } else {
@@ -80,28 +83,28 @@ public class ClanScreen extends Fragment {
                 String encodedName = clanTagOrName.replace(" ", "%20");
                 url = "https://api.clashofclans.com/v1/clans?name=" + encodedName + "&limit=5";
             }
-            
+
 
             binding.cp.setVisibility(VISIBLE);
 
             requestViewModel.setApiUrl(url);
             requestViewModel.requestData(new HTTPListener<>() {
                 @Override
-                public void onSuccess(String a) {
+                public void onSuccess(String json) {
                     System.out.println();
-                    if (requestViewModel.isSearchPerTag()) {
-                        requestViewModel.loadClanInfo(a);
+                    if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
+                        requestViewModel.loadClanInfo(json);
                         Clan clan = requestViewModel.getClan();
                         binding.tvClanName.setText(clan.getName());
                         binding.tvClanDescription.setText(clan.getDescription());
                         binding.tvClanDescription.setVisibility(VISIBLE);
                         binding.tvClanName.setVisibility(VISIBLE);
                         binding.cp.setVisibility(INVISIBLE);
-                        cardViewModel.loadDataFromJson(a);
+                        clanViewModel.loadDataFromJson(json);
                         binding.listLayout.setVisibility(VISIBLE);
 
                         Picasso.get()
-                                .load(clan.getBadgeUrls().getLarge())
+                                .load(clan.getBadgeUrls().getMedium())
                                 .into(imageView, new Callback() {
                                     @Override
                                     public void onSuccess() {
@@ -115,6 +118,12 @@ public class ClanScreen extends Fragment {
                                     }
                                 });
 
+                    } else {
+                        requestViewModel.loadFoundClanInfo(json);
+                        foundClanViewModel.loadDataFromJson(json);
+//                        FoundClan foundClan = requestViewModel.getFoundClan();
+                        binding.cp.setVisibility(INVISIBLE);
+                        binding.listLayout.setVisibility(VISIBLE);
                     }
                 }
 

@@ -14,15 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
-import net.htlgkr.lugern.coctracker.viewmodels.ClanViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.FoundClanViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
-public class CardFragment extends Fragment {
+public class FoundClanPerNameFragment extends Fragment {
 
     MainViewModel mainViewModel;
     private int columnCount = 1;
 
-    public CardFragment() {
+    public FoundClanPerNameFragment() {
     }
 
     @Override
@@ -33,23 +33,10 @@ public class CardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_card_list, container, false);
-
-        // Set the adapter
-//        if (view instanceof RecyclerView) {
-//            Context context = view.getContext();
-//            RecyclerView recyclerView = (RecyclerView) view;
-//            if (columnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-//            }
-////            recyclerView.setAdapter(new MyCardRecyclerViewAdapter(PlaceholderContent.ITEMS));
-//        }
-
+        View view = inflater.inflate(R.layout.fragment_foundclan_list, container, false);
         View listView = view.findViewById(R.id.list);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        ClanViewModel clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
+        FoundClanViewModel foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
 
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
@@ -60,10 +47,10 @@ public class CardFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
 
-            clanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-                MyCardRecyclerViewAdapter adapter = new MyCardRecyclerViewAdapter(clanViewModel.observableItems.getValue());
+            foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
+                MyFoundClanPerNameRecyclerViewAdapter adapter = new MyFoundClanPerNameRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
                 recyclerView.setAdapter(adapter);
-                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+                adapter.setOnFoundClanClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
             });
 
         }
