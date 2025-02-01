@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.fragments;
+package net.htlgkr.lugern.coctracker.list.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,19 +10,19 @@ import com.squareup.picasso.Picasso;
 
 import net.htlgkr.lugern.coctracker.callback.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentFoundclanBinding;
-import net.htlgkr.lugern.coctracker.list.FoundClanCard;
+import net.htlgkr.lugern.coctracker.list.listModel.FoundClanCard;
 
 import java.util.List;
 
 /**
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyFoundClanPerNameRecyclerViewAdapter extends RecyclerView.Adapter<MyFoundClanPerNameRecyclerViewAdapter.ViewHolder> {
+public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFoundClanRecyclerViewAdapter.ViewHolder> {
 
     private final List<FoundClanCard> values;
     private MyOnCardClickListener onFoundClanClickListener;
 
-    public MyFoundClanPerNameRecyclerViewAdapter(List<FoundClanCard> items) {
+    public MyFoundClanRecyclerViewAdapter(List<FoundClanCard> items) {
         values = items;
     }
 
@@ -40,7 +40,6 @@ public class MyFoundClanPerNameRecyclerViewAdapter extends RecyclerView.Adapter<
         FoundClanCard foundClanCard = values.get(position);
         String nameAndTag = foundClanCard.getName() + " - " + foundClanCard.getTag();
         holder.binding.tvFoundClanNameAndTag.setText(nameAndTag);
-//        holder.binding.ivFoundClanBadge.setImageResource(foundClanCard.getBadgeUrls().getLarge());
         holder.binding.tvFoundClanIsFamilyFriendly.setText(
                 foundClanCard.isFamilyFriendly() ? "Familiengeeignet" : "Familienungeeignet"
         );
@@ -61,7 +60,7 @@ public class MyFoundClanPerNameRecyclerViewAdapter extends RecyclerView.Adapter<
                 warFrequencyText = "<1x/W";
                 break;
             default:
-                warFrequencyText = "N/A";  // Für alle anderen Fälle
+                warFrequencyText = "N/A";
                 break;
         }
 
@@ -80,27 +79,22 @@ public class MyFoundClanPerNameRecyclerViewAdapter extends RecyclerView.Adapter<
                 typeText = "Geschlossen";
                 break;
             default:
-                typeText = "N/A";  // Für alle anderen Fälle
+                typeText = "N/A";
                 break;
         }
 
         holder.binding.tvFoundClanType.setText(typeText);
 
-
-//        holder.binding.tvFoundClanMembers.setText(foundClanCard.getMembers());
         holder.binding.tvFoundClanMembers.setText("Mitglieder: " + foundClanCard.getMembers()); //passt
         holder.binding.tvFoundClanLvl.setText("Clan Lvl:" + foundClanCard.getClanLevel());
         holder.binding.tvFoundClanMinTHLvl.setText("Min TH Lvl: " + foundClanCard.getRequiredTownhallLevel());
         holder.binding.tvFoundClanMinTrophies.setText("Min Trophäen: " + foundClanCard.getRequiredTrophies());
         holder.binding.tvFoundClanCountryCode.setText(foundClanCard.getLocation().getCountryCode());
-        // Hole die Medium-URL
         String imageUrl = foundClanCard.getBadgeUrls().getMedium();
 
-// Setze das Bild mit Picasso
         Picasso.get()
-                .load(imageUrl)  // Lade das Bild von der URL
-                .into(holder.binding.ivFoundClanBadge);  // Setze es in das ImageView
-
+                .load(imageUrl)
+                .into(holder.binding.ivFoundClanBadge);
 
         holder.foundClanCard = foundClanCard;
     }

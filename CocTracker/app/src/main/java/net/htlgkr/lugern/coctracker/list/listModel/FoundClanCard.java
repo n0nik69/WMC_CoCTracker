@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.list;
+package net.htlgkr.lugern.coctracker.list.listModel;
 
 import net.htlgkr.lugern.coctracker.models.clan.Location;
 import net.htlgkr.lugern.coctracker.models.other.BadgeUrls;

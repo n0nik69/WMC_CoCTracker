@@ -1,9 +1,7 @@
-package net.htlgkr.lugern.coctracker;
+package net.htlgkr.lugern.coctracker.translation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 
 import java.util.Locale;
 

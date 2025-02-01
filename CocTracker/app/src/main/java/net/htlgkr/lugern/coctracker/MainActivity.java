@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import net.htlgkr.lugern.coctracker.fragments.CardFragment;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
-import net.htlgkr.lugern.coctracker.fragments.FoundClanPerNameFragment;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
+import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.FoundClanFragment;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
@@ -54,30 +54,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-
-//        mainViewModel.state.observe(this, state -> {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            switch (state) {
-//                case MainViewModel.playerScreen:
-//                    transaction.replace(R.id.mainFragment, new PlayerScreen(), "PLAYERSCREEN");
-//
-//                    break;
-//                case MainViewModel.clanScreen:
-//                    transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
-////                    transaction.add(R.id.listLayout, new FoundClanPerNameFragment(), "CLANSCREEN");
-//
-//
-//                    if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
-//                        transaction.add(R.id.listLayout, new CardFragment());
-//                    } else {
-//                        transaction.add(R.id.listLayout, new FoundClanPerNameFragment());
-//                    }
-//
-//                    break;
-//            }
-//            transaction.commit();
-//        });
-
         mainViewModel.state.observe(this, state -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (state) {
@@ -86,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MainViewModel.clanScreen:
                     transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
-
                     break;
             }
             transaction.commit();
@@ -95,13 +70,11 @@ public class MainActivity extends AppCompatActivity {
         requestViewModel.isSearchPerTag().observe(this, isSearchPerTag -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if (Boolean.TRUE.equals(isSearchPerTag)) {
-                transaction.replace(R.id.listLayout, new CardFragment());
+                transaction.replace(R.id.listLayout, new ClanFragment());
             } else {
-                transaction.replace(R.id.listLayout, new FoundClanPerNameFragment());
+                transaction.replace(R.id.listLayout, new FoundClanFragment());
             }
             transaction.commit();
         });
-
-
     }
 }

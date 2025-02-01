@@ -1,15 +1,15 @@
 package net.htlgkr.lugern.coctracker.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
@@ -17,12 +17,9 @@ import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
 import net.htlgkr.lugern.coctracker.models.player.Player;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
 public class PlayerScreen extends Fragment {
     FragmentPlayerScreenBinding binding;
+    RequestViewModel requestViewModel;
 
     public PlayerScreen() {
         // Required empty public constructor
@@ -36,29 +33,35 @@ public class PlayerScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentPlayerScreenBinding.inflate(inflater, container, false);
-//        setImageOnImageView(binding.ivTownhall, 9);
-
-        RequestViewModel requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
+        requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
         requestViewModel.init(requireContext());
-//        requestViewModel.requestStatsAndCards(new HTTPListener<>() {
-//            @Override
-//            public void onSuccess(String a) {
-//                requestViewModel.loadPlayerInfo(a);
-//                Player player = requestViewModel.getPlayer();
-//                binding.tiPlayerTag.setText(player.getTag());
-//                binding.tvPlayerClan.setText(player.getClan().getName());
-//                binding.tvPlayerTrophies.setText(String.valueOf(player.getTrophies()));
-//                binding.tvPlayerName.setText(player.getName());
-//                setImageOnImageView(binding.ivTownhall, 17);
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                System.out.println(error);
-//            }
-//        });
+        binding.btnSearchPlayer.setOnClickListener(view -> {
+            String url;
+            String playerTag = String.valueOf(binding.tiPlayerTag.getText()).trim().toUpperCase();
+
+            if (!playerTag.startsWith("#")) {
+                playerTag = "%23" + playerTag;
+            } else {
+                playerTag = playerTag.replace("#", "%23");
+            }
+            url = "https://api.clashofclans.com/v1/players/" + playerTag;
+
+            requestViewModel.setApiUrl(url);
+            requestViewModel.requestData(new HTTPListener<>() {
+                @Override
+                public void onSuccess(String json) {
+                    requestViewModel.loadPlayerInfo(json);
+                    Player player = requestViewModel.getPlayer();
+                    System.out.println();
+                }
+
+                @Override
+                public void onError(String error) {
+                    System.out.println(error);
+                }
+            });
+        });
 
         return binding.getRoot();
     }
@@ -78,4 +81,23 @@ public class PlayerScreen extends Fragment {
         imageView.setImageResource(images[number - 1]);
     }
 
+    private void showMenu(View v, int menuRes) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.playerAchievments) {
+                return true;
+            } else if (menuItem.getItemId() == R.id.playerHeroes) {
+                return true;
+            } else if (menuItem.getItemId() == R.id.playerTroops) {
+                return true;
+            } else if (menuItem.getItemId() == R.id.playerSpells) {
+                return true;
+            }
+            return false;
+        });
+
+        popup.show();
+    }
 }

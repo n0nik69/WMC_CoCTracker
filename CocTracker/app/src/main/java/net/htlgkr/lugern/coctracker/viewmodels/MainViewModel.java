@@ -9,9 +9,7 @@ public class MainViewModel extends ViewModel {
     public static final int clanScreen = 2;
     public static final int leagueScreen = 3;
     public static final int rankingScreen = 4;
-
-
-
+    
     private final MutableLiveData<Integer> _state = new MutableLiveData<>(playerScreen);
     public LiveData<Integer> state = _state;
 

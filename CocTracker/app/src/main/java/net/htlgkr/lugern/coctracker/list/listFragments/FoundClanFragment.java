@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.fragments;
+package net.htlgkr.lugern.coctracker.list.listFragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,15 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
-import net.htlgkr.lugern.coctracker.viewmodels.FoundClanViewModel;
+import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
-public class FoundClanPerNameFragment extends Fragment {
+public class FoundClanFragment extends Fragment {
 
     MainViewModel mainViewModel;
     private int columnCount = 1;
 
-    public FoundClanPerNameFragment() {
+    public FoundClanFragment() {
     }
 
     @Override
@@ -48,7 +49,7 @@ public class FoundClanPerNameFragment extends Fragment {
             }
 
             foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-                MyFoundClanPerNameRecyclerViewAdapter adapter = new MyFoundClanPerNameRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
+                MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
                 recyclerView.setAdapter(adapter);
                 adapter.setOnFoundClanClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
             });

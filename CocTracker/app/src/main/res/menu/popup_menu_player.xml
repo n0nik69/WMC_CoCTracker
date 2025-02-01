@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/playerTroops"
+        android:title="Truppen" />
+    <item
+        android:id="@+id/playerSpells"
+        android:title="Zauber" />
+    <item
+        android:id="@+id/playerHeroes"
+        android:title="Helden" />
+    <item
+        android:id="@+id/playerAchievments"
+        android:title="Errungenschaften" />
+    <item
+        android:id="@+id/aa"
+        android:title="niga" />
+
+</menu>

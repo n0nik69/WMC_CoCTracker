@@ -1,9 +1,9 @@
-package net.htlgkr.lugern.coctracker.viewmodels;
+package net.htlgkr.lugern.coctracker.list.listViewModels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import net.htlgkr.lugern.coctracker.list.FoundClanCard;
+import net.htlgkr.lugern.coctracker.list.listModel.FoundClanCard;
 import net.htlgkr.lugern.coctracker.models.clan.Location;
 import net.htlgkr.lugern.coctracker.models.other.BadgeUrls;
 
@@ -31,9 +31,7 @@ public class FoundClanViewModel extends ViewModel {
 
             for (int i = 0; i < items.length(); i++) {
                 JSONObject member = items.getJSONObject(i);
-
                 FoundClanCard foundClanCard = new FoundClanCard();
-
                 foundClanCard.setName(member.getString("name"));
                 foundClanCard.setTag(member.getString("tag"));
                 foundClanCard.setType(member.getString("type"));
@@ -49,7 +47,7 @@ public class FoundClanViewModel extends ViewModel {
                 foundClanCard.setMembers(member.getInt("members"));
                 foundClanCard.setRequiredBuilderBaseTrophies(member.getInt("requiredBuilderBaseTrophies"));
                 foundClanCard.setRequiredTownhallLevel(member.getInt("requiredTownhallLevel"));
-                
+
 
                 if (member.has("location")) {
                     JSONObject locationJson = member.getJSONObject("location");
@@ -86,6 +84,5 @@ public class FoundClanViewModel extends ViewModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }

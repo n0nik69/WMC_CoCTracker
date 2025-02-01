@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.list;
+package net.htlgkr.lugern.coctracker.list.listModel;
 
 public class ClanCard {
     private String tvName;

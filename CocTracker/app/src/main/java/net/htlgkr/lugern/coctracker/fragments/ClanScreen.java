@@ -24,15 +24,11 @@ import com.squareup.picasso.Picasso;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
+import net.htlgkr.lugern.coctracker.list.listViewModels.ClanViewModel;
+import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
-import net.htlgkr.lugern.coctracker.viewmodels.ClanViewModel;
-import net.htlgkr.lugern.coctracker.viewmodels.FoundClanViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
 public class ClanScreen extends Fragment {
     FragmentClanScreenBinding binding;
     RequestViewModel requestViewModel;
@@ -61,8 +57,7 @@ public class ClanScreen extends Fragment {
         FoundClanViewModel foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
         binding.listLayout.setVisibility(INVISIBLE);
         binding.tvClans.setOnClickListener(view -> {
-            // Menü-Ressourcen-ID übergeben
-            showMenu(view, R.menu.popup_menu);
+            showMenu(view, R.menu.popup_menu_clans);
         });
         binding.cp.setVisibility(INVISIBLE);
         binding.btnSearchClan.setOnClickListener(view -> {
@@ -70,7 +65,6 @@ public class ClanScreen extends Fragment {
 
             String clanTagOrName = String.valueOf(binding.tiClan.getText()).trim().toUpperCase();
             String url;
-//            if (requestViewModel.isSearchPerTag()) {
             if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
                 if (!clanTagOrName.startsWith("#")) {
                     clanTagOrName = "%23" + clanTagOrName;
@@ -121,7 +115,6 @@ public class ClanScreen extends Fragment {
                     } else {
                         requestViewModel.loadFoundClanInfo(json);
                         foundClanViewModel.loadDataFromJson(json);
-//                        FoundClan foundClan = requestViewModel.getFoundClan();
                         binding.cp.setVisibility(INVISIBLE);
                         binding.listLayout.setVisibility(VISIBLE);
                     }
@@ -139,7 +132,6 @@ public class ClanScreen extends Fragment {
             binding.tiClan.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 }
 
                 @Override
@@ -153,18 +145,13 @@ public class ClanScreen extends Fragment {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-
                 }
             });
-
 
             binding.btnSearchClan.setVisibility(INVISIBLE);
             binding.ivClanBadge.setVisibility(VISIBLE);
 
         });
-
-
-        // Lade das Bild mit Picasso
 
         return binding.getRoot();
     }
@@ -177,8 +164,6 @@ public class ClanScreen extends Fragment {
             if (menuItem.getItemId() == R.id.searchClanPerName) {
                 TextInputEditText textInputLayout = binding.tiClan;
                 textInputLayout.setHint("Clan per Name suchen");
-//                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-//                ft.detach(this).attach(this).commit();
                 requestViewModel.setSearchPerTag(false);
                 return true;
             } else if (menuItem.getItemId() == R.id.searchClanPerTag) {

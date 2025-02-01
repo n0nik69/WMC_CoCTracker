@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.fragments;
+package net.htlgkr.lugern.coctracker.list.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.callback.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentCardBinding;
-import net.htlgkr.lugern.coctracker.list.ClanCard;
+import net.htlgkr.lugern.coctracker.list.listModel.ClanCard;
 
 import java.util.List;
 
 /**
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecyclerViewAdapter.ViewHolder> {
+public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecyclerViewAdapter.ViewHolder> {
 
     private final List<ClanCard> values;
     private MyOnCardClickListener onCardClickListener;
 
-    public MyCardRecyclerViewAdapter(List<ClanCard> items) {
+    public MyClanRecyclerViewAdapter(List<ClanCard> items) {
         values = items;
     }
 
@@ -54,7 +54,6 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 
         holder.binding.tvCardDonations.setText(clanCard.getTvDonations());
         holder.binding.tvCardDonationsReceived.setText(clanCard.getTvDonationsReceived());
-//        holder.binding.ivCardDonations.setImageResource(card.getIvDonations());
 
         holder.binding.tvCardLeague.setText(clanCard.getTvLeague());
 
@@ -80,7 +79,6 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        //        public final TextView tv
         public ClanCard clanCard;
         public FragmentCardBinding binding;
 

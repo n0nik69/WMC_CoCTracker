@@ -1,6 +1,4 @@
-package net.htlgkr.lugern.coctracker;
-
-import net.htlgkr.lugern.coctracker.models.clan.FoundClan;
+package net.htlgkr.lugern.coctracker.models.clan;
 
 import java.util.List;
 

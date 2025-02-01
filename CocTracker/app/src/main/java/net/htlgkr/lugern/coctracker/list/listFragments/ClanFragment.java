@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.fragments;
+package net.htlgkr.lugern.coctracker.list.listFragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,15 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
-import net.htlgkr.lugern.coctracker.viewmodels.ClanViewModel;
+import net.htlgkr.lugern.coctracker.list.adapter.MyClanRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.listViewModels.ClanViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
-public class CardFragment extends Fragment {
+public class ClanFragment extends Fragment {
 
     MainViewModel mainViewModel;
     private int columnCount = 1;
 
-    public CardFragment() {
+    public ClanFragment() {
     }
 
     @Override
@@ -34,19 +35,6 @@ public class CardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_card_list, container, false);
-
-        // Set the adapter
-//        if (view instanceof RecyclerView) {
-//            Context context = view.getContext();
-//            RecyclerView recyclerView = (RecyclerView) view;
-//            if (columnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-//            }
-////            recyclerView.setAdapter(new MyCardRecyclerViewAdapter(PlaceholderContent.ITEMS));
-//        }
-
         View listView = view.findViewById(R.id.list);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         ClanViewModel clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
@@ -61,7 +49,7 @@ public class CardFragment extends Fragment {
             }
 
             clanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-                MyCardRecyclerViewAdapter adapter = new MyCardRecyclerViewAdapter(clanViewModel.observableItems.getValue());
+                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(clanViewModel.observableItems.getValue());
                 recyclerView.setAdapter(adapter);
                 adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
             });
