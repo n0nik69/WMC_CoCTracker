@@ -36,6 +36,7 @@ public class PlayerScreen extends Fragment {
         binding = FragmentPlayerScreenBinding.inflate(inflater, container, false);
         requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
         requestViewModel.init(requireContext());
+        binding.tvPlayer.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_player));
         binding.btnSearchPlayer.setOnClickListener(view -> {
             String url;
             String playerTag = String.valueOf(binding.tiPlayerTag.getText()).trim().toUpperCase();

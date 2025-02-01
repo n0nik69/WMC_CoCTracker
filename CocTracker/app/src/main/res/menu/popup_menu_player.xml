@@ -13,7 +13,7 @@
         android:id="@+id/playerAchievments"
         android:title="Errungenschaften" />
     <item
-        android:id="@+id/aa"
-        android:title="niga" />
+        android:id="@+id/topPlayers"
+        android:title="Spieler-Bestenliste" />
 
 </menu>

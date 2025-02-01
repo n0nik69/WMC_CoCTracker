@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -35,10 +36,88 @@ import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 public class ClanScreen extends Fragment {
     FragmentClanScreenBinding binding;
     RequestViewModel requestViewModel;
+    ClanViewModel clanViewModel;
+    FoundClanViewModel foundClanViewModel;
+    String clanTagOrName;
+    ImageView imageView;
+    String url;
+    CircularProgressIndicator progressIndicator;
     private boolean isMenuSelected = false;
 
     public ClanScreen() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        String clanTag = getArguments() != null ? getArguments().getString("CLAN_TAG") : null;
+        if (clanTag != null) {
+            loadClanFromName(clanTag);
+        }
+    }
+
+
+    public void loadClanFromName(String clanTagOrName) {
+        updateButtonState();
+
+        clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
+        foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
+        requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
+        requestViewModel.init(requireContext());
+        binding.btnSearchClan.setVisibility(INVISIBLE);
+
+        ConstraintLayout listLayout = binding.listLayout;
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
+        params.topMargin = 100;
+
+        if (!clanTagOrName.startsWith("#")) {
+            clanTagOrName = "%23" + clanTagOrName;
+        } else {
+            clanTagOrName = clanTagOrName.replace("#", "%23");
+        }
+        url = "https://api.clashofclans.com/v1/clans/" + clanTagOrName;
+        requestViewModel.setApiUrl(url);
+        requestViewModel.requestData(new HTTPListener<>() {
+            @Override
+            public void onSuccess(String json) {
+                System.out.println();
+
+                requestViewModel.loadClanInfo(json);
+                Clan clan = requestViewModel.getClan();
+                binding.tvClanName.setText(clan.getName());
+                binding.tvClanDescription.setText(clan.getDescription());
+                binding.tvClanDescription.setVisibility(VISIBLE);
+                binding.tvClanName.setVisibility(VISIBLE);
+                binding.cp.setVisibility(INVISIBLE);
+                clanViewModel.loadDataFromJson(json);
+                binding.listLayout.setVisibility(VISIBLE);
+
+                Picasso.get()
+                        .load(clan.getBadgeUrls().getLarge())
+                        .into(imageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                binding.ivClanBadge.setVisibility(VISIBLE);
+                                progressIndicator.setVisibility(INVISIBLE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                progressIndicator.setVisibility(INVISIBLE);
+                            }
+                        });
+            }
+
+            @Override
+            public void onError(String error) {
+                System.out.println(error);
+                binding.tvClanName.setVisibility(VISIBLE);
+                binding.cp.setVisibility(INVISIBLE);
+                binding.tvClanName.setText("Kein Clan gefunden");
+            }
+        });
     }
 
     @Override
@@ -51,18 +130,28 @@ public class ClanScreen extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentClanScreenBinding.inflate(inflater, container, false);
-        ClanViewModel clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
-        FoundClanViewModel foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
-
+        clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
+        foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
         requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
         requestViewModel.init(requireContext());
-        ImageView imageView = binding.ivClanBadge;
-
-        CircularProgressIndicator progressIndicator = binding.cp;
+        imageView = binding.ivClanBadge;
+        progressIndicator = binding.cp;
         binding.cp.setVisibility(INVISIBLE);
-        progressIndicator.show();
         binding.listLayout.setVisibility(INVISIBLE);
         binding.tvClans.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_clans));
+
+        foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
+            MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
+            adapter.setOnFoundClanClickListener(position -> {
+                FoundClanCard clickedClan = foundClanViewModel.observableItems.getValue().get(position);
+                if (clickedClan != null) {
+                    String clanTag = clickedClan.getTag();
+                    Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
+
+                }
+            });
+        });
+
 
         binding.btnSearchClan.setEnabled(false);
         binding.btnSearchClan.setOnClickListener(view -> testMethod(clanViewModel, imageView, progressIndicator, foundClanViewModel));
@@ -94,9 +183,10 @@ public class ClanScreen extends Fragment {
 
     private void testMethod(ClanViewModel clanViewModel, ImageView imageView, CircularProgressIndicator progressIndicator, FoundClanViewModel foundClanViewModel) {
         binding.ivClanBadge.setImageDrawable(null);
+        progressIndicator.show();
 
-        String clanTagOrName = String.valueOf(binding.tiClan.getText()).trim().toUpperCase();
-        String url;
+        clanTagOrName = String.valueOf(binding.tiClan.getText()).trim().toUpperCase();
+
         if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
             if (!clanTagOrName.startsWith("#")) {
                 clanTagOrName = "%23" + clanTagOrName;
@@ -108,24 +198,6 @@ public class ClanScreen extends Fragment {
             String encodedName = clanTagOrName.replace(" ", "%20");
             url = "https://api.clashofclans.com/v1/clans?name=" + encodedName + "&limit=10";
         }
-
-        foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-            MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
-//            recyclerView.setAdapter(adapter);
-
-            adapter.setOnFoundClanClickListener(position -> {
-                FoundClanCard clickedClan = foundClanViewModel.observableItems.getValue().get(position);
-                if (clickedClan != null) {
-                    String clanTag = clickedClan.getTag();
-                    ClanScreen clanScreen = new ClanScreen();
-//                    testMethod();
-                    Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
-                }
-            });
-
-
-        });
-
 
         binding.cp.setVisibility(VISIBLE);
 
@@ -144,6 +216,9 @@ public class ClanScreen extends Fragment {
                     binding.cp.setVisibility(INVISIBLE);
                     clanViewModel.loadDataFromJson(json);
                     binding.listLayout.setVisibility(VISIBLE);
+                    ConstraintLayout listLayout = binding.listLayout;
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
+                    params.topMargin = 600;
 
                     Picasso.get()
                             .load(clan.getBadgeUrls().getMedium())
@@ -165,6 +240,9 @@ public class ClanScreen extends Fragment {
                     foundClanViewModel.loadDataFromJson(json);
                     binding.cp.setVisibility(INVISIBLE);
                     binding.listLayout.setVisibility(VISIBLE);
+                    ConstraintLayout listLayout = binding.listLayout;
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
+                    params.topMargin = 8;
                 }
             }
 
@@ -176,7 +254,6 @@ public class ClanScreen extends Fragment {
                 binding.tvClanName.setText("Kein Clan gefunden");
             }
         });
-
 
         binding.btnSearchClan.setVisibility(INVISIBLE);
         binding.ivClanBadge.setVisibility(VISIBLE);
@@ -190,9 +267,20 @@ public class ClanScreen extends Fragment {
             TextInputEditText textInputLayout = binding.tiClan;
 
             if (menuItem.getItemId() == R.id.searchClanPerName) {
+                binding.btnSearchClan.setVisibility(VISIBLE);
+                binding.tvClanName.setVisibility(INVISIBLE);
+                binding.ivClanBadge.setVisibility(INVISIBLE);
+                binding.tvClanDescription.setVisibility(INVISIBLE);
+                binding.listLayout.setVisibility(INVISIBLE);
                 textInputLayout.setHint("Clan per Name suchen");
+                binding.tiClan.setHint("nigga");
                 requestViewModel.setSearchPerTag(false);
             } else if (menuItem.getItemId() == R.id.searchClanPerTag) {
+                binding.btnSearchClan.setVisibility(VISIBLE);
+                binding.tvClanName.setVisibility(INVISIBLE);
+                binding.ivClanBadge.setVisibility(INVISIBLE);
+                binding.tvClanDescription.setVisibility(INVISIBLE);
+                binding.listLayout.setVisibility(INVISIBLE);
                 textInputLayout.setHint("Clan per Tag suchen");
                 requestViewModel.setSearchPerTag(true);
             } else {
@@ -203,7 +291,6 @@ public class ClanScreen extends Fragment {
             updateButtonState();
             return true;
         });
-
         popup.show();
     }
 
@@ -211,6 +298,4 @@ public class ClanScreen extends Fragment {
         boolean isTextNotEmpty = !binding.tiClan.getText().toString().trim().isEmpty();
         binding.btnSearchClan.setEnabled(isTextNotEmpty && isMenuSelected);
     }
-
-
 }

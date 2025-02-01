@@ -6,4 +6,7 @@
     <item
         android:id="@+id/searchClanPerTag"
         android:title="Clan per Tag suchen" />
+    <item
+        android:id="@+id/topClans"
+        android:title="Clan-Bestenliste" />
 </menu>
