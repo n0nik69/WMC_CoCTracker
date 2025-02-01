@@ -1,13 +1,9 @@
-package net.htlgkr.lugern.coctracker.models.player;
+package net.htlgkr.lugern.coctracker.einModel.einClan;
 
-public class League {
+public class Location {
     private int id;
     private String name;
-
-    public League(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private String countryCode;
 
     public int getId() {
         return id;
@@ -23,5 +19,14 @@ public class League {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 }

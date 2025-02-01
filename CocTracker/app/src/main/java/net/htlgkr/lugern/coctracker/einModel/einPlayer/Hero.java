@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.models.player;
+package net.htlgkr.lugern.coctracker.einModel.einPlayer;
 
 import java.util.List;
 

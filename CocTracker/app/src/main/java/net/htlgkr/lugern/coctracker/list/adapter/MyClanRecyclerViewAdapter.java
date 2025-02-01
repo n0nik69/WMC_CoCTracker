@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.callback.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentCardBinding;
-import net.htlgkr.lugern.coctracker.list.listModel.ClanCard;
+import net.htlgkr.lugern.coctracker.einModel.einPlayer.Player;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ import java.util.List;
  */
 public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ClanCard> values;
+    private final List<Player> values;
     private MyOnCardClickListener onCardClickListener;
 
-    public MyClanRecyclerViewAdapter(List<ClanCard> items) {
+    public MyClanRecyclerViewAdapter(List<Player> items) {
         values = items;
     }
 
@@ -35,27 +35,27 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        ClanCard clanCard = values.get(position);
+        Player clan = values.get(position);
 
-        holder.binding.tvCardTownhallLvl.setText(clanCard.getTvTownhallLvl());
-        holder.binding.ivCardTownhallLvl.setImageResource(clanCard.getIvTownhallLvl());
+        holder.binding.tvCardTownhallLvl.setText(clan.getTownHallLevel());
+//        holder.binding.ivCardTownhallLvl.setImageResource(clan.getIvTownhallLvl());
 
-        holder.binding.tvPlayerNameInClan.setText(clanCard.getTvName());
-        holder.binding.tvClanRole.setText(clanCard.getTvRole());
+        holder.binding.tvPlayerNameInClan.setText(clan.getName());
+//        holder.binding.tvClanRole.setText(clan.getTvRole());
 
-        holder.binding.tvCardExpLvl.setText(clanCard.getTvExpLvl());
-        holder.binding.ivCardExpLvl.setImageResource(clanCard.getIvExpLvl());
+        holder.binding.tvCardExpLvl.setText(clan.getExpLevel());
+//        holder.binding.ivCardExpLvl.setImageResource(clan.getIvExpLvl());
 
-        holder.binding.tvCardTrophies.setText(clanCard.getTvTrophies());
-        holder.binding.ivCardTrophies.setImageResource(clanCard.getIvTrophies());
+        holder.binding.tvCardTrophies.setText(clan.getTrophies());
+//        holder.binding.ivCardTrophies.setImageResource(clan.getIvTrophies());
 
-        holder.binding.tvBuildbaseTrophies.setText(clanCard.getTvBuildTrophies());
-        holder.binding.ivCardBuildbaseTrophies.setImageResource(clanCard.getIvBuildTrophies());
+        holder.binding.tvBuildbaseTrophies.setText(clan.getBuilderBaseTrophies());
+//        holder.binding.ivCardBuildbaseTrophies.setImageResource(clan.getIvBuildTrophies());
 
-        holder.binding.tvCardDonations.setText(clanCard.getTvDonations());
-        holder.binding.tvCardDonationsReceived.setText(clanCard.getTvDonationsReceived());
+        holder.binding.tvCardDonations.setText(clan.getDonations());
+//        holder.binding.tvCardDonationsReceived.setText(clan.getTvDonationsReceived());
 
-        holder.binding.tvCardLeague.setText(clanCard.getTvLeague());
+        holder.binding.tvCardLeague.setText(clan.getLeague().toString());
 
 //        if (card.getIvLeague() != null) {
 //            Glide.with(holder.binding.ivLeague.getContext())
@@ -65,7 +65,7 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
 //            holder.binding.ivLeague.setImageResource(card.getIvLeague()); // Standard-Icon
 //        }
 
-        holder.clanCard = clanCard;
+        holder.clan = clan;
         holder.itemView.setOnClickListener(v -> {
             if (onCardClickListener != null) {
                 onCardClickListener.onItemClick(holder.getLayoutPosition());
@@ -79,7 +79,7 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ClanCard clanCard;
+        public Player clan;
         public FragmentCardBinding binding;
 
         public ViewHolder(FragmentCardBinding binding) {

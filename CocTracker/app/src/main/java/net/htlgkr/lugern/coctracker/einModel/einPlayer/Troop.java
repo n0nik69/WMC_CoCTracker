@@ -1,12 +1,12 @@
-package net.htlgkr.lugern.coctracker.models.player;
+package net.htlgkr.lugern.coctracker.einModel.einPlayer;
 
-public class Spell {
+public class Troop {
     private String name;
     private int level;
     private int maxLevel;
     private String village;
 
-    public Spell(String name, int level, int maxLevel, String village) {
+    public Troop(String name, int level, int maxLevel, String village) {
         this.name = name;
         this.level = level;
         this.maxLevel = maxLevel;

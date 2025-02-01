@@ -1,6 +1,5 @@
 package net.htlgkr.lugern.coctracker.list.listViewModels;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
@@ -11,42 +10,34 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+public class MainClanViewModel extends ViewModel {
 
-public class FoundClanViewModel extends ViewModel {
-    public MutableLiveData<ArrayList<Clan>> observableItems;
-    private ArrayList<Clan> clans;
-
-    public FoundClanViewModel() {
-        observableItems = new MutableLiveData<>();
-        clans = new ArrayList<>();
-    }
 
     public void loadDataFromJson(String json) {
         try {
             JSONObject jsonResponse = new JSONObject(json);
             JSONArray items = jsonResponse.getJSONArray("items");
 
-            clans.clear();
+//            clanCards.clear();
 
             for (int i = 0; i < items.length(); i++) {
                 JSONObject member = items.getJSONObject(i);
-                Clan clan = new Clan();
-                clan.setName(member.getString("name"));
-                clan.setTag(member.getString("tag"));
-                clan.setType(member.getString("type"));
-                clan.setClanLevel(member.getInt("clanLevel"));
-                clan.setClanPoints(member.getInt("clanPoints"));
-                clan.setClanCapitalPoints(member.getInt("clanCapitalPoints"));
-                clan.setClanBuilderBasePoints(member.getInt("clanBuilderBasePoints"));
-                clan.setRequiredTrophies(member.getInt("requiredTrophies"));
-                clan.setWarFrequency(member.getString("warFrequency"));
-                clan.setWarWinStreak(member.getInt("warWinStreak"));
-                clan.setWarWins(member.getInt("warWins"));
-                clan.setWarLogPublic(member.getBoolean("isWarLogPublic"));
-                clan.setMembers(member.getInt("members"));
-                clan.setRequiredBuilderBaseTrophies(member.getInt("requiredBuilderBaseTrophies"));
-                clan.setRequiredTownhallLevel(member.getInt("requiredTownhallLevel"));
+                Clan foundClanCard = new Clan();
+                foundClanCard.setName(member.getString("name"));
+                foundClanCard.setTag(member.getString("tag"));
+                foundClanCard.setType(member.getString("type"));
+                foundClanCard.setClanLevel(member.getInt("clanLevel"));
+                foundClanCard.setClanPoints(member.getInt("clanPoints"));
+                foundClanCard.setClanCapitalPoints(member.getInt("clanCapitalPoints"));
+                foundClanCard.setClanBuilderBasePoints(member.getInt("clanBuilderBasePoints"));
+                foundClanCard.setRequiredTrophies(member.getInt("requiredTrophies"));
+                foundClanCard.setWarFrequency(member.getString("warFrequency"));
+                foundClanCard.setWarWinStreak(member.getInt("warWinStreak"));
+                foundClanCard.setWarWins(member.getInt("warWins"));
+                foundClanCard.setWarLogPublic(member.getBoolean("isWarLogPublic"));
+                foundClanCard.setMembers(member.getInt("members"));
+                foundClanCard.setRequiredBuilderBaseTrophies(member.getInt("requiredBuilderBaseTrophies"));
+                foundClanCard.setRequiredTownhallLevel(member.getInt("requiredTownhallLevel"));
 
 
                 if (member.has("location")) {
@@ -61,11 +52,11 @@ public class FoundClanViewModel extends ViewModel {
                     }
 
 
-                    clan.setLocation(location);
+                    foundClanCard.setLocation(location);
                 }
 
                 if (member.has("isFamilyFriendly")) {
-                    clan.setFamilyFriendly(member.getBoolean("isFamilyFriendly"));
+                    foundClanCard.setFamilyFriendly(member.getBoolean("isFamilyFriendly"));
                 }
 
                 if (member.has("badgeUrls")) {
@@ -74,13 +65,13 @@ public class FoundClanViewModel extends ViewModel {
                     badgeUrls.setSmall(badgeJson.getString("small"));
                     badgeUrls.setMedium(badgeJson.getString("medium"));
                     badgeUrls.setLarge(badgeJson.getString("large"));
-                    clan.setBadgeUrls(badgeUrls);
+                    foundClanCard.setBadgeUrls(badgeUrls);
                 }
 
-                clans.add(clan);
+//                clanCards.add(foundClanCard);
             }
 
-            observableItems.postValue(clans);
+//            observableItems.postValue(clanCards);
         } catch (JSONException e) {
             e.printStackTrace();
         }

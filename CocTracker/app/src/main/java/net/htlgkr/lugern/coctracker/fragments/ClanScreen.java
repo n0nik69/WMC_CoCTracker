@@ -26,11 +26,10 @@ import com.squareup.picasso.Picasso;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
+import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
-import net.htlgkr.lugern.coctracker.list.listModel.FoundClanCard;
 import net.htlgkr.lugern.coctracker.list.listViewModels.ClanViewModel;
 import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
-import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
 public class ClanScreen extends Fragment {
@@ -107,7 +106,7 @@ public class ClanScreen extends Fragment {
                             public void onError(Exception e) {
                                 progressIndicator.setVisibility(INVISIBLE);
                             }
-                        });
+                        }); ////////////////////////////////von der api die daten , always, never, onceperweek etc
             }
 
             @Override
@@ -143,9 +142,9 @@ public class ClanScreen extends Fragment {
         foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
             MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
             adapter.setOnFoundClanClickListener(position -> {
-                FoundClanCard clickedClan = foundClanViewModel.observableItems.getValue().get(position);
-                if (clickedClan != null) {
-                    String clanTag = clickedClan.getTag();
+                Clan clan = foundClanViewModel.observableItems.getValue().get(position);
+                if (clan != null) {
+                    String clanTag = clan.getTag();
                     Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
 
                 }

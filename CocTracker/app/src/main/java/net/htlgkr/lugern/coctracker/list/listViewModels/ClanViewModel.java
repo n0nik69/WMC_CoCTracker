@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import net.htlgkr.lugern.coctracker.R;
-import net.htlgkr.lugern.coctracker.list.listModel.ClanCard;
+import net.htlgkr.lugern.coctracker.einModel.einPlayer.Player;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,8 +13,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ClanViewModel extends ViewModel {
-    public MutableLiveData<ArrayList<ClanCard>> observableItems;
-    private ArrayList<ClanCard> clanCards;
+    public MutableLiveData<ArrayList<Player>> observableItems;
+    private ArrayList<Player> clanCards;
 
     public ClanViewModel() {
         observableItems = new MutableLiveData<>();
@@ -31,10 +31,10 @@ public class ClanViewModel extends ViewModel {
             for (int i = 0; i < memberList.length(); i++) {
                 JSONObject member = memberList.getJSONObject(i);
 
-                ClanCard clanCard = new ClanCard();
+                Player player = new Player();
                 int townHallLevel = member.getInt("townHallLevel");
 
-                clanCard.setTvTownhallLvl("TH " + townHallLevel);
+                player.setTownHallLevel(townHallLevel);
 
                 int[] townHallIcons = {
                         R.drawable.a1, R.drawable.a2, R.drawable.a3, R.drawable.a4, R.drawable.a5,
@@ -45,34 +45,33 @@ public class ClanViewModel extends ViewModel {
 
                 int townHallIcon = (townHallLevel >= 1 && townHallLevel <= 17) ? townHallIcons[townHallLevel - 1] : R.drawable.a1;
 
-                clanCard.setIvTownhallLvl(townHallIcon);
+//                player.setIvTownhallLvl(townHallIcon);
 
 
-                clanCard.setTvExpLvl("XP: " + member.getInt("expLevel"));
-                clanCard.setIvExpLvl(R.drawable.xp_small);
+                player.setExpLevel(member.getInt("expLevel"));
+//                player.setIvExpLvl(R.drawable.xp_small);
 
-                clanCard.setTvTrophies(member.getInt("trophies") + " 🏆");
-                clanCard.setIvTrophies(R.drawable.a1);
+                player.setTrophies(member.getInt("trophies"));
+//                player.setIvTrophies(R.drawable.a1);
 
-                clanCard.setTvBuildTrophies(member.getInt("builderBaseTrophies") + " 🏗");
-                clanCard.setIvBuildTrophies(R.drawable.a1);
+                player.setBuilderBaseTrophies(member.getInt("builderBaseTrophies"));
+//                player.setIvBuildTrophies(R.drawable.a1);
 
-                clanCard.setTvDonations("Gespendet: " + member.getInt("donations") + " / Erhalten: " + member.getInt("donationsReceived"));
-                clanCard.setTvDonations(member.getString("donations"));
-                clanCard.setTvDonationsReceived(member.getString("donationsReceived"));
+                player.setDonations(member.getInt("donations"));
+                player.setDonationsReceived(member.getInt("donationsReceived"));
 
 
-                String nameAndTag = member.getString("name") + " - " + member.getString("tag");
-                clanCard.setTvName(nameAndTag);
-                clanCard.setTvRole(member.getString("role"));
+                player.setName(member.getString("name"));
+                player.setTag(member.getString("tag"));
+//                player.set(member.getString("role"));
 
                 if (member.has("league")) {
                     JSONObject league = member.getJSONObject("league");
-                    clanCard.setTvLeague(league.getString("name"));
-                    clanCard.setIvLeague(R.drawable.a1);
+//                    player.setLeague(league.getString("name"));
+//                    player.setIvLeague(R.drawable.a1);
                 }
 
-                clanCards.add(clanCard);
+                clanCards.add(player);
             }
 
             observableItems.postValue(clanCards);

@@ -14,10 +14,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
-import net.htlgkr.lugern.coctracker.models.clan.Clan;
-import net.htlgkr.lugern.coctracker.models.clan.FoundClan;
+import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
+import net.htlgkr.lugern.coctracker.einModel.einPlayer.Player;
 import net.htlgkr.lugern.coctracker.models.clan.FoundClanResponse;
-import net.htlgkr.lugern.coctracker.models.player.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +31,7 @@ public class RequestViewModel extends ViewModel {
     private Gson gson = new Gson();
     private Player player;
     private Clan clan;
-    private List<FoundClan> foundClans;
+    private List<Clan> clans;
 
     public static String getApiUrl() {
         return API_URL;
@@ -86,9 +85,8 @@ public class RequestViewModel extends ViewModel {
 
     public void loadFoundClanInfo(String json) {
         FoundClanResponse response = gson.fromJson(json, FoundClanResponse.class);
-        foundClans = response.getItems();
+        clans = response.getItems();
     }
-
 
     public Player getPlayer() {
         return player;

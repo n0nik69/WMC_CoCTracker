@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import net.htlgkr.lugern.coctracker.callback.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentFoundclanBinding;
-import net.htlgkr.lugern.coctracker.list.listModel.FoundClanCard;
+import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
 
 import java.util.List;
 
@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFoundClanRecyclerViewAdapter.ViewHolder> {
 
-    private final List<FoundClanCard> values;
+    private final List<Clan> values;
     private MyOnCardClickListener onFoundClanClickListener;
 
-    public MyFoundClanRecyclerViewAdapter(List<FoundClanCard> items) {
+    public MyFoundClanRecyclerViewAdapter(List<Clan> items) {
         values = items;
     }
 
@@ -37,16 +37,16 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        FoundClanCard foundClanCard = values.get(position);
-        String nameAndTag = foundClanCard.getName() + " - " + foundClanCard.getTag();
+        Clan clan = values.get(position);
+        String nameAndTag = clan.getName() + " - " + clan.getTag();
         holder.binding.tvFoundClanNameAndTag.setText(nameAndTag);
         holder.binding.tvFoundClanIsFamilyFriendly.setText(
-                foundClanCard.isFamilyFriendly() ? "Familiengeeignet" : "Familienungeeignet"
+                clan.isFamilyFriendly() ? "Familiengeeignet" : "Familienungeeignet"
         );
 
         String warFrequencyText;
 
-        switch (foundClanCard.getWarFrequency()) {
+        switch (clan.getWarFrequency()) {
             case "oncePerWeek":
                 warFrequencyText = "1x/W";
                 break;
@@ -68,7 +68,7 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
 
         String typeText;
 
-        switch (foundClanCard.getType()) {
+        switch (clan.getType()) {
             case "open":
                 typeText = "Offen";
                 break;
@@ -86,22 +86,22 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
         holder.binding.tvFoundClanType.setText(typeText);
 
         holder.binding.tvFoundClanMembers.setText("Mitglieder: " +
-                (foundClanCard.getMembers() != 0 ? foundClanCard.getMembers() : "N/A"));
+                (clan.getMembers() != 0 ? clan.getMembers() : "N/A"));
 
         holder.binding.tvFoundClanLvl.setText("Clan Lvl: " +
-                (foundClanCard.getClanLevel() != 0 ? foundClanCard.getClanLevel() : "N/A"));
+                (clan.getClanLevel() != 0 ? clan.getClanLevel() : "N/A"));
 
         holder.binding.tvFoundClanMinTHLvl.setText("Min TH Lvl: " +
-                (foundClanCard.getRequiredTownhallLevel() != 0 ? foundClanCard.getRequiredTownhallLevel() : "N/A"));
+                (clan.getRequiredTownhallLevel() != 0 ? clan.getRequiredTownhallLevel() : "N/A"));
 
         holder.binding.tvFoundClanMinTrophies.setText("Min Trophäen: " +
-                (foundClanCard.getRequiredTrophies() != 0 ? foundClanCard.getRequiredTrophies() : "N/A"));
+                (clan.getRequiredTrophies() != 0 ? clan.getRequiredTrophies() : "N/A"));
 
         holder.binding.tvFoundClanCountryCode.setText(
-                (foundClanCard.getLocation() != null && foundClanCard.getLocation().getCountryCode() != null)
-                        ? foundClanCard.getLocation().getCountryCode() : "N/A");
+                (clan.getLocation() != null && clan.getLocation().getCountryCode() != null)
+                        ? clan.getLocation().getCountryCode() : "N/A");
 
-        String imageUrl = foundClanCard.getBadgeUrls().getMedium();
+        String imageUrl = clan.getBadgeUrls().getMedium();
 
         Picasso.get()
                 .load(imageUrl)
@@ -113,7 +113,7 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
             }
         });
 
-        holder.foundClanCard = foundClanCard;
+        holder.clan = clan;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public FoundClanCard foundClanCard;
+        public Clan clan;
         public FragmentFoundclanBinding binding;
 
         public ViewHolder(FragmentFoundclanBinding binding) {
