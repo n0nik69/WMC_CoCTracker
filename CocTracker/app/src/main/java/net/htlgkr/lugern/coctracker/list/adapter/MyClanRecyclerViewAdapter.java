@@ -92,7 +92,6 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
             return super.toString() + " ";
         }
 
-
         @Override
         public void onClick(View v) {
             onCardClickListener.onItemClick(getLayoutPosition());

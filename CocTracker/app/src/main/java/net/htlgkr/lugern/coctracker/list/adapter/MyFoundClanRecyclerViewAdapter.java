@@ -50,7 +50,7 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
             case "oncePerWeek":
                 warFrequencyText = "1x/W";
                 break;
-            case "Always":
+            case "always":
                 warFrequencyText = "Immer";
                 break;
             case "moreThanOncePerWeek":
@@ -85,16 +85,33 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
 
         holder.binding.tvFoundClanType.setText(typeText);
 
-        holder.binding.tvFoundClanMembers.setText("Mitglieder: " + foundClanCard.getMembers()); //passt
-        holder.binding.tvFoundClanLvl.setText("Clan Lvl:" + foundClanCard.getClanLevel());
-        holder.binding.tvFoundClanMinTHLvl.setText("Min TH Lvl: " + foundClanCard.getRequiredTownhallLevel());
-        holder.binding.tvFoundClanMinTrophies.setText("Min Trophäen: " + foundClanCard.getRequiredTrophies());
-        holder.binding.tvFoundClanCountryCode.setText(foundClanCard.getLocation().getCountryCode());
+        holder.binding.tvFoundClanMembers.setText("Mitglieder: " +
+                (foundClanCard.getMembers() != 0 ? foundClanCard.getMembers() : "N/A"));
+
+        holder.binding.tvFoundClanLvl.setText("Clan Lvl: " +
+                (foundClanCard.getClanLevel() != 0 ? foundClanCard.getClanLevel() : "N/A"));
+
+        holder.binding.tvFoundClanMinTHLvl.setText("Min TH Lvl: " +
+                (foundClanCard.getRequiredTownhallLevel() != 0 ? foundClanCard.getRequiredTownhallLevel() : "N/A"));
+
+        holder.binding.tvFoundClanMinTrophies.setText("Min Trophäen: " +
+                (foundClanCard.getRequiredTrophies() != 0 ? foundClanCard.getRequiredTrophies() : "N/A"));
+
+        holder.binding.tvFoundClanCountryCode.setText(
+                (foundClanCard.getLocation() != null && foundClanCard.getLocation().getCountryCode() != null)
+                        ? foundClanCard.getLocation().getCountryCode() : "N/A");
+
         String imageUrl = foundClanCard.getBadgeUrls().getMedium();
 
         Picasso.get()
                 .load(imageUrl)
                 .into(holder.binding.ivFoundClanBadge);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onFoundClanClickListener != null) {
+                onFoundClanClickListener.onItemClick(holder.getLayoutPosition());
+            }
+        });
 
         holder.foundClanCard = foundClanCard;
     }
@@ -115,7 +132,7 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
 
         @Override
         public String toString() {
-            return super.toString() + " '";
+            return super.toString() + " ";
         }
 
         @Override

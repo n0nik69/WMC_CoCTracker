@@ -2,7 +2,6 @@ package net.htlgkr.lugern.coctracker.list.listFragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.listModel.FoundClanCard;
 import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -51,7 +52,18 @@ public class FoundClanFragment extends Fragment {
             foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
                 MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
                 recyclerView.setAdapter(adapter);
-                adapter.setOnFoundClanClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+
+                adapter.setOnFoundClanClickListener(position -> {
+                    FoundClanCard clickedClan = foundClanViewModel.observableItems.getValue().get(position);
+                    if (clickedClan != null) {
+                        String clanTag = clickedClan.getTag();
+                        ClanScreen clanScreen = new ClanScreen();
+//                        clanScreen.testMethod();
+//                        Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
+                    }
+                });
+
+
             });
 
         }

@@ -51,6 +51,7 @@ public class ClanFragment extends Fragment {
             clanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
                 MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(clanViewModel.observableItems.getValue());
                 recyclerView.setAdapter(adapter);
+
                 adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
             });
 
