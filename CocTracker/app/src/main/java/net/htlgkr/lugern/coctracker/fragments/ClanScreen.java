@@ -27,8 +27,10 @@ import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.adapter.MyTopClansRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.list.listViewModels.ClanViewModel;
 import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
+import net.htlgkr.lugern.coctracker.list.listViewModels.TopClansViewModel;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
@@ -39,6 +41,7 @@ public class ClanScreen extends Fragment {
     FoundClanViewModel foundClanViewModel;
     String clanTagOrName;
     ImageView imageView;
+    TopClansViewModel topClansViewModel;
     String url;
     CircularProgressIndicator progressIndicator;
     private boolean isMenuSelected = false;
@@ -50,7 +53,10 @@ public class ClanScreen extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
+        foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
+        requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
+        topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
         String clanTag = getArguments() != null ? getArguments().getString("CLAN_TAG") : null;
         if (clanTag != null) {
             loadClanFromName(clanTag);
@@ -61,9 +67,7 @@ public class ClanScreen extends Fragment {
     public void loadClanFromName(String clanTagOrName) {
         updateButtonState();
 
-        clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
-        foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
-        requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
+
         requestViewModel.init(requireContext());
         binding.btnSearchClan.setVisibility(INVISIBLE);
 
@@ -150,6 +154,18 @@ public class ClanScreen extends Fragment {
                 }
             });
         });
+        topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
+        topClansViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
+            MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(topClansViewModel.observableItems.getValue());
+            adapter.setOnItemClickListener(position -> {
+//                ClanRanking clanRanking = topClansViewModel.observableItems.getValue().get(position);
+//                if (clanRanking != null) {
+//                    String clanTag = clanRanking.getTag();
+//                    Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
+//
+//                }
+            });
+        });
 
 
         binding.btnSearchClan.setEnabled(false);
@@ -193,12 +209,15 @@ public class ClanScreen extends Fragment {
                 clanTagOrName = clanTagOrName.replace("#", "%23");
             }
             url = "https://api.clashofclans.com/v1/clans/" + clanTagOrName;
-        } else {
+        } else if (Boolean.TRUE.equals(requestViewModel.isSearchPerName().getValue())) {
             String encodedName = clanTagOrName.replace(" ", "%20");
             url = "https://api.clashofclans.com/v1/clans?name=" + encodedName + "&limit=10";
+        } else {
+            url = "https://api.clashofclans.com/v1/locations/32000022/rankings/clans?limit=10";
         }
 
         binding.cp.setVisibility(VISIBLE);
+
 
         requestViewModel.setApiUrl(url);
         requestViewModel.requestData(new HTTPListener<>() {
@@ -234,7 +253,7 @@ public class ClanScreen extends Fragment {
                                 }
                             });
 
-                } else {
+                } else if (Boolean.TRUE.equals(requestViewModel.isSearchPerName().getValue())) {
                     requestViewModel.loadFoundClanInfo(json);
                     foundClanViewModel.loadDataFromJson(json);
                     binding.cp.setVisibility(INVISIBLE);
@@ -242,8 +261,11 @@ public class ClanScreen extends Fragment {
                     ConstraintLayout listLayout = binding.listLayout;
                     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
                     params.topMargin = 8;
+                } else {
+                    displayTopClans();
                 }
             }
+
 
             @Override
             public void onError(String error) {
@@ -258,6 +280,36 @@ public class ClanScreen extends Fragment {
         binding.ivClanBadge.setVisibility(VISIBLE);
     }
 
+    private void displayTopClans() {
+        Log.i("klasdf", "displayTop clans ageajdfffffffffffffffffff");
+        topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
+        url = "https://api.clashofclans.com/v1/locations/32000022/rankings/clans?limit=10";
+        requestViewModel.setApiUrl(url);
+        requestViewModel.requestData(new HTTPListener<>() {
+            @Override
+            public void onSuccess(String json) {
+                Log.d("DEBUG", "API-Antwort erhalten: " + json);
+                requestViewModel.loadTopClans(json);
+                topClansViewModel.setTopClan(json);
+                binding.cp.setVisibility(INVISIBLE);
+                binding.listLayout.setVisibility(VISIBLE);
+                binding.listLayout.setVisibility(VISIBLE);
+                binding.listLayout.invalidate();
+
+                ConstraintLayout listLayout = binding.listLayout;
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
+                params.topMargin = 0;
+            }
+
+            @Override
+            public void onError(String error) {
+                System.out.println(error);
+            }
+        });
+
+
+    }
+
     private void showMenu(View v, int menuRes) {
         PopupMenu popup = new PopupMenu(getContext(), v);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
@@ -266,6 +318,7 @@ public class ClanScreen extends Fragment {
             TextInputEditText textInputLayout = binding.tiClan;
 
             if (menuItem.getItemId() == R.id.searchClanPerName) {
+                binding.textInputLayout.setVisibility(VISIBLE);
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(INVISIBLE);
                 binding.ivClanBadge.setVisibility(INVISIBLE);
@@ -274,6 +327,7 @@ public class ClanScreen extends Fragment {
                 textInputLayout.setHint("Clan per Name suchen");
                 requestViewModel.setSearchPerTag(false);
             } else if (menuItem.getItemId() == R.id.searchClanPerTag) {
+                binding.textInputLayout.setVisibility(VISIBLE);
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(INVISIBLE);
                 binding.ivClanBadge.setVisibility(INVISIBLE);
@@ -281,7 +335,15 @@ public class ClanScreen extends Fragment {
                 binding.listLayout.setVisibility(INVISIBLE);
                 textInputLayout.setHint("Clan per Tag suchen");
                 requestViewModel.setSearchPerTag(true);
-            } else {
+            } else if (menuItem.getItemId() == R.id.topClans) {
+
+                binding.textInputLayout.setVisibility(INVISIBLE);
+                binding.btnSearchClan.setVisibility(INVISIBLE);
+                binding.tvClanName.setVisibility(INVISIBLE);
+                binding.ivClanBadge.setVisibility(INVISIBLE);
+                binding.tvClanDescription.setVisibility(INVISIBLE);
+                binding.listLayout.setVisibility(VISIBLE);
+                displayTopClans();
                 return false;
             }
 

@@ -2,68 +2,58 @@ package net.htlgkr.lugern.coctracker.list.listFragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.list.adapter.MyTopClansRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.listViewModels.TopClansViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
-/**
- * A fragment representing a list of Items.
- */
 public class TopClansFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    MainViewModel mainViewModel;
+    private int columnCount = 1;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public TopClansFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static TopClansFragment newInstance(int columnCount) {
-        TopClansFragment fragment = new TopClansFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_clans_list, container, false);
-
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        View listView = view.findViewById(R.id.list);
+        TopClansViewModel topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
+        if (listView instanceof RecyclerView) {
+            Context context = listView.getContext();
+            RecyclerView recyclerView = (RecyclerView) listView;
+            if (columnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
-//            recyclerView.setAdapter(new MyTopClansRecyclerViewAdapter(PlaceholderContent.ITEMS));
+
+            topClansViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
+                MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(topClansViewModel.observableItems.getValue());
+                recyclerView.setAdapter(adapter);
+
+                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+            });
         }
         return view;
     }

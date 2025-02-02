@@ -11,13 +11,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
+import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
 import net.htlgkr.lugern.coctracker.models.player.Player;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +32,12 @@ public class RequestViewModel extends ViewModel {
     private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImMxZTY3Nzg2LTkyNGYtNDY4Mi1hYTViLTlhNmI0NGVjYzEzYSIsImlhdCI6MTczODQwNjgxOCwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.VolJrLgvOZcd4kpRbQyz_774_PCFod2wHbFEDrYx8USjYun5KpbjRJHBhtB6k6Qzjwb4yUbmG9FsvNkWFDraNw"; // Setze deinen API-Schlüssel hier ein
     private static String API_URL = "https://api.clashofclans.com/v1"; // Spieler-URL
     private final MutableLiveData<Boolean> searchPerTag = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> searchPerName = new MutableLiveData<>();
     private RequestQueue queue;
     private Gson gson = new Gson();
     private Player player;
     private Clan clan;
+    private List<ClanRanking> clanRanking;
     private List<ClanMember> clanMembers;
 
     public static String getApiUrl() {
@@ -43,6 +50,10 @@ public class RequestViewModel extends ViewModel {
 
     public LiveData<Boolean> isSearchPerTag() {
         return searchPerTag;
+    }
+
+    public LiveData<Boolean> isSearchPerName() {
+        return searchPerName;
     }
 
     public void init(Context context) {
@@ -79,6 +90,16 @@ public class RequestViewModel extends ViewModel {
         System.out.println();
     }
 
+    public void loadTopClans(String json) {
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+        JsonArray itemsArray = jsonObject.getAsJsonArray("items");
+
+        Type listType = new TypeToken<List<ClanRanking>>() {
+        }.getType();
+        List<ClanRanking> clanRankings = gson.fromJson(itemsArray, listType);
+
+    }
+
     public void loadFoundClanInfo(String json) {
 //        ClanMemberList response = gson.fromJson(json, ClanMemberList.class);
 //        clanMembers = response.getClanMemberList();
@@ -92,36 +113,9 @@ public class RequestViewModel extends ViewModel {
         this.player = player;
     }
 
-    public MutableLiveData<Boolean> getSearchPerTag() {
-        return searchPerTag;
-    }
 
     public void setSearchPerTag(boolean value) {
         searchPerTag.setValue(value);
-    }
-
-    public RequestQueue getQueue() {
-        return queue;
-    }
-
-    public void setQueue(RequestQueue queue) {
-        this.queue = queue;
-    }
-
-    public Gson getGson() {
-        return gson;
-    }
-
-    public void setGson(Gson gson) {
-        this.gson = gson;
-    }
-
-    public List<ClanMember> getClanMembers() {
-        return clanMembers;
-    }
-
-    public void setClanMembers(List<ClanMember> clanMembers) {
-        this.clanMembers = clanMembers;
     }
 
     public Clan getClan() {

@@ -16,7 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
-import net.htlgkr.lugern.coctracker.list.listFragments.FoundClanFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             if (Boolean.TRUE.equals(isSearchPerTag)) {
                 transaction.replace(R.id.listLayout, new ClanFragment());
             } else {
-                transaction.replace(R.id.listLayout, new FoundClanFragment());
+                transaction.replace(R.id.listLayout, new TopClansFragment());
             }
             transaction.commit();
         });
