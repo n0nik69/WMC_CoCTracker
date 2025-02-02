@@ -4,6 +4,24 @@ public class Location {
     private int id;
     private String name;
     private String countryCode;
+    private String localizedName;
+    private boolean isCountry;
+
+    public String getLocalizedName() {
+        return localizedName;
+    }
+
+    public void setLocalizedName(String localizedName) {
+        this.localizedName = localizedName;
+    }
+
+    public boolean isCountry() {
+        return isCountry;
+    }
+
+    public void setCountry(boolean country) {
+        isCountry = country;
+    }
 
     public int getId() {
         return id;

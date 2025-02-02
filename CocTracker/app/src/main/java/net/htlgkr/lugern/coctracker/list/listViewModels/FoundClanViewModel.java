@@ -3,9 +3,11 @@ package net.htlgkr.lugern.coctracker.list.listViewModels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import net.htlgkr.lugern.coctracker.einModel.einClan.BadgeUrls;
 import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
 import net.htlgkr.lugern.coctracker.einModel.einClan.Location;
-import net.htlgkr.lugern.coctracker.models.other.BadgeUrls;
+import net.htlgkr.lugern.coctracker.einModel.einClan.Type;
+import net.htlgkr.lugern.coctracker.einModel.einClan.WarFrequency;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,13 +36,13 @@ public class FoundClanViewModel extends ViewModel {
                 Clan clan = new Clan();
                 clan.setName(member.getString("name"));
                 clan.setTag(member.getString("tag"));
-                clan.setType(member.getString("type"));
+                clan.setType(Type.valueOf(member.getString("type")));
                 clan.setClanLevel(member.getInt("clanLevel"));
                 clan.setClanPoints(member.getInt("clanPoints"));
                 clan.setClanCapitalPoints(member.getInt("clanCapitalPoints"));
                 clan.setClanBuilderBasePoints(member.getInt("clanBuilderBasePoints"));
                 clan.setRequiredTrophies(member.getInt("requiredTrophies"));
-                clan.setWarFrequency(member.getString("warFrequency"));
+                clan.setWarFrequency(WarFrequency.valueOf(member.getString("warFrequency")));
                 clan.setWarWinStreak(member.getInt("warWinStreak"));
                 clan.setWarWins(member.getInt("warWins"));
                 clan.setWarLogPublic(member.getBoolean("isWarLogPublic"));

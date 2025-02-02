@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.models.other;
+package net.htlgkr.lugern.coctracker.einModel.einClan;
 
 public class BadgeUrls {
     private String small;

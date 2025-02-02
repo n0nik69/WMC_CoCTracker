@@ -15,8 +15,9 @@ import com.google.gson.reflect.TypeToken;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
+import net.htlgkr.lugern.coctracker.einModel.einClan.ClanMember;
+import net.htlgkr.lugern.coctracker.einModel.einClan.ClanMemberList;
 import net.htlgkr.lugern.coctracker.einModel.einPlayer.Player;
-import net.htlgkr.lugern.coctracker.models.clan.FoundClanResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class RequestViewModel extends ViewModel {
     private Gson gson = new Gson();
     private Player player;
     private Clan clan;
-    private List<Clan> clans;
+    private List<ClanMember> clanMembers;
 
     public static String getApiUrl() {
         return API_URL;
@@ -43,10 +44,6 @@ public class RequestViewModel extends ViewModel {
 
     public LiveData<Boolean> isSearchPerTag() {
         return searchPerTag;
-    }
-
-    public void setSearchPerTag(boolean value) {
-        searchPerTag.setValue(value);
     }
 
     public void init(Context context) {
@@ -84,8 +81,8 @@ public class RequestViewModel extends ViewModel {
     }
 
     public void loadFoundClanInfo(String json) {
-        FoundClanResponse response = gson.fromJson(json, FoundClanResponse.class);
-        clans = response.getItems();
+        ClanMemberList response = gson.fromJson(json, ClanMemberList.class);
+        clanMembers = response.getClanMemberList();
     }
 
     public Player getPlayer() {
@@ -94,6 +91,38 @@ public class RequestViewModel extends ViewModel {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public MutableLiveData<Boolean> getSearchPerTag() {
+        return searchPerTag;
+    }
+
+    public void setSearchPerTag(boolean value) {
+        searchPerTag.setValue(value);
+    }
+
+    public RequestQueue getQueue() {
+        return queue;
+    }
+
+    public void setQueue(RequestQueue queue) {
+        this.queue = queue;
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    public void setGson(Gson gson) {
+        this.gson = gson;
+    }
+
+    public List<ClanMember> getClanMembers() {
+        return clanMembers;
+    }
+
+    public void setClanMembers(List<ClanMember> clanMembers) {
+        this.clanMembers = clanMembers;
     }
 
     public Clan getClan() {

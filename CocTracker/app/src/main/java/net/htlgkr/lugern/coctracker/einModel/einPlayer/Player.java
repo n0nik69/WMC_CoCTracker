@@ -2,6 +2,7 @@ package net.htlgkr.lugern.coctracker.einModel.einPlayer;
 
 import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
 import net.htlgkr.lugern.coctracker.einModel.einClan.Label;
+import net.htlgkr.lugern.coctracker.einModel.playerundclan.BuilderBaseLeague;
 
 import java.util.List;
 

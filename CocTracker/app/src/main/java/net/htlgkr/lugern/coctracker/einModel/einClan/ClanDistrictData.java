@@ -1,11 +1,9 @@
 package net.htlgkr.lugern.coctracker.einModel.einClan;
 
-import java.util.List;
-
-public class Label {
+public class ClanDistrictData {
     private String name;
     private int id;
-    private List<String> iconUrls;
+    private int districtHallLevel;
 
     public String getName() {
         return name;
@@ -23,11 +21,11 @@ public class Label {
         this.id = id;
     }
 
-    public List<String> getIconUrls() {
-        return iconUrls;
+    public int getDistrictHallLevel() {
+        return districtHallLevel;
     }
 
-    public void setIconUrls(List<String> iconUrls) {
-        this.iconUrls = iconUrls;
+    public void setDistrictHallLevel(int districtHallLevel) {
+        this.districtHallLevel = districtHallLevel;
     }
 }

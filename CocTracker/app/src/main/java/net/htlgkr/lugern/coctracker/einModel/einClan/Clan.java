@@ -1,14 +1,9 @@
 package net.htlgkr.lugern.coctracker.einModel.einClan;
 
-import net.htlgkr.lugern.coctracker.einModel.einPlayer.Player;
-import net.htlgkr.lugern.coctracker.models.other.BadgeUrls;
-
-import java.util.List;
-
 public class Clan {
     private String tag;
     private String name;
-    private String type;
+    private Type type;
     private String description;
     private boolean isFamilyFriendly;
     private int clanLevel;
@@ -18,7 +13,7 @@ public class Clan {
     private int requiredTrophies;
     private int requiredBuilderBaseTrophies;
     private int requiredTownhallLevel;
-    private String warFrequency;
+    private WarFrequency warFrequency;
     private int warWinStreak;
     private int warWins;
     private int warTies;
@@ -26,13 +21,45 @@ public class Clan {
     private boolean isWarLogPublic;
     private int members;
     private BadgeUrls badgeUrls;
-    private List<Player> memberList;
+    private ClanMemberList memberList;
     private Location location;
     private CapitalLeague capitalLeague;
     private WarLeague warLeague;
-    private List<Label> labels;
+    private LabelList labels;
     private Language chatLanguage;
     private ClanCapital clanCapital;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public WarFrequency getWarFrequency() {
+        return warFrequency;
+    }
+
+    public void setWarFrequency(WarFrequency warFrequency) {
+        this.warFrequency = warFrequency;
+    }
+
+    public LabelList getLabels() {
+        return labels;
+    }
+
+    public void setLabels(LabelList labels) {
+        this.labels = labels;
+    }
+
+    public ClanMemberList getMemberList() {
+        return memberList;
+    }
+
+    public void setMemberList(ClanMemberList memberList) {
+        this.memberList = memberList;
+    }
 
     public String getTag() {
         return tag;
@@ -48,14 +75,6 @@ public class Clan {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getDescription() {
@@ -130,14 +149,6 @@ public class Clan {
         this.requiredTownhallLevel = requiredTownhallLevel;
     }
 
-    public String getWarFrequency() {
-        return warFrequency;
-    }
-
-    public void setWarFrequency(String warFrequency) {
-        this.warFrequency = warFrequency;
-    }
-
     public int getWarWinStreak() {
         return warWinStreak;
     }
@@ -194,13 +205,6 @@ public class Clan {
         this.badgeUrls = badgeUrls;
     }
 
-    public List<Player> getMemberList() {
-        return memberList;
-    }
-
-    public void setMemberList(List<Player> memberList) {
-        this.memberList = memberList;
-    }
 
     public Location getLocation() {
         return location;
@@ -224,14 +228,6 @@ public class Clan {
 
     public void setWarLeague(WarLeague warLeague) {
         this.warLeague = warLeague;
-    }
-
-    public List<Label> getLabels() {
-        return labels;
-    }
-
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
     }
 
     public Language getChatLanguage() {

@@ -47,17 +47,26 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
         String warFrequencyText;
 
         switch (clan.getWarFrequency()) {
-            case "oncePerWeek":
+            case ONCE_PER_WEEK:
                 warFrequencyText = "1x/W";
                 break;
-            case "always":
+            case ALWAYS:
                 warFrequencyText = "Immer";
                 break;
-            case "moreThanOncePerWeek":
+            case MORE_THAN_ONCE_PER_WEEK:
                 warFrequencyText = ">1x/W";
                 break;
-            case "lessThanOncePerWeek":
+            case LESS_THAN_ONCE_PER_WEEK:
                 warFrequencyText = "<1x/W";
+                break;
+            case NEVER:
+                warFrequencyText = "Egal";
+                break;
+            case ANY:
+                warFrequencyText = "Egal";
+                break;
+            case UNKNOWN:
+                warFrequencyText = "N/A";
                 break;
             default:
                 warFrequencyText = "N/A";
@@ -69,13 +78,13 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
         String typeText;
 
         switch (clan.getType()) {
-            case "open":
+            case OPEN:
                 typeText = "Offen";
                 break;
-            case "inviteOnly":
+            case INVITE_ONLY:
                 typeText = "Einladung";
                 break;
-            case "closed":
+            case CLOSED:
                 typeText = "Geschlossen";
                 break;
             default:

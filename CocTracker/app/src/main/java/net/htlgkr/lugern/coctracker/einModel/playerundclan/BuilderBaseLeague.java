@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.einModel.einPlayer;
+package net.htlgkr.lugern.coctracker.einModel.playerundclan;
 
 public class BuilderBaseLeague {
     private int id;
