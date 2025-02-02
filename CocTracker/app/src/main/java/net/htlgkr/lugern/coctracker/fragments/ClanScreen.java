@@ -26,10 +26,10 @@ import com.squareup.picasso.Picasso;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
-import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.list.listViewModels.ClanViewModel;
 import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
+import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
 public class ClanScreen extends Fragment {
@@ -90,7 +90,7 @@ public class ClanScreen extends Fragment {
                 binding.tvClanDescription.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(VISIBLE);
                 binding.cp.setVisibility(INVISIBLE);
-                clanViewModel.loadDataFromJson(json);
+                clanViewModel.setPlayerPerClan(json);
                 binding.listLayout.setVisibility(VISIBLE);
 
                 Picasso.get()
@@ -213,7 +213,7 @@ public class ClanScreen extends Fragment {
                     binding.tvClanDescription.setVisibility(VISIBLE);
                     binding.tvClanName.setVisibility(VISIBLE);
                     binding.cp.setVisibility(INVISIBLE);
-                    clanViewModel.loadDataFromJson(json);
+                    clanViewModel.setPlayerPerClan(json);
                     binding.listLayout.setVisibility(VISIBLE);
                     ConstraintLayout listLayout = binding.listLayout;
                     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
@@ -272,7 +272,6 @@ public class ClanScreen extends Fragment {
                 binding.tvClanDescription.setVisibility(INVISIBLE);
                 binding.listLayout.setVisibility(INVISIBLE);
                 textInputLayout.setHint("Clan per Name suchen");
-                binding.tiClan.setHint("nigga");
                 requestViewModel.setSearchPerTag(false);
             } else if (menuItem.getItemId() == R.id.searchClanPerTag) {
                 binding.btnSearchClan.setVisibility(VISIBLE);

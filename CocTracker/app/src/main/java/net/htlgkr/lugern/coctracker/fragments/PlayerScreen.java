@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
-import net.htlgkr.lugern.coctracker.einModel.einPlayer.Player;
+import net.htlgkr.lugern.coctracker.models.player.Player;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
 public class PlayerScreen extends Fragment {

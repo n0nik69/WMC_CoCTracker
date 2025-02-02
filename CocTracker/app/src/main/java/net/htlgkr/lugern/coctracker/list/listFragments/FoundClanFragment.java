@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
-import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
+import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class FoundClanFragment extends Fragment {

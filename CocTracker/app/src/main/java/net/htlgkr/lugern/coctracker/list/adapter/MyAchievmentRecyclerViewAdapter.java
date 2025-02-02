@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.htlgkr.lugern.coctracker.callback.MyOnCardClickListener;
+import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentAchievmentBinding;
 import net.htlgkr.lugern.coctracker.list.listModel.AchievmentCard;
 

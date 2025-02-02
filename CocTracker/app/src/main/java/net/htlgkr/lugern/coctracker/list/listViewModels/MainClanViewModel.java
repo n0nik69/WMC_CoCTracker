@@ -2,11 +2,11 @@ package net.htlgkr.lugern.coctracker.list.listViewModels;
 
 import androidx.lifecycle.ViewModel;
 
-import net.htlgkr.lugern.coctracker.einModel.einClan.BadgeUrls;
-import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
-import net.htlgkr.lugern.coctracker.einModel.einClan.Location;
-import net.htlgkr.lugern.coctracker.einModel.einClan.Type;
-import net.htlgkr.lugern.coctracker.einModel.einClan.WarFrequency;
+import net.htlgkr.lugern.coctracker.models.clan.BadgeUrls;
+import net.htlgkr.lugern.coctracker.models.clan.Clan;
+import net.htlgkr.lugern.coctracker.models.clan.Location;
+import net.htlgkr.lugern.coctracker.models.clan.Type;
+import net.htlgkr.lugern.coctracker.models.clan.WarFrequency;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -2,6 +2,7 @@ package net.htlgkr.lugern.coctracker.list.listFragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.list.adapter.MyClanRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.list.listViewModels.ClanViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -47,10 +49,10 @@ public class ClanFragment extends Fragment {
             }
 
             clanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-//                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(clanViewModel.observableItems.getValue());
-//                recyclerView.setAdapter(adapter);
-//
-//                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(clanViewModel.observableItems.getValue());
+                recyclerView.setAdapter(adapter);
+
+                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
             });
 
         }

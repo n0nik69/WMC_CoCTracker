@@ -71,7 +71,7 @@
                         card_view:srcCompat="@drawable/a1" />
 
                     <TextView
-                        android:id="@+id/tvCardTownhallLvl"
+                        android:id="@+id/tvPlayerTrophies"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -94,10 +94,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
-                        card_view:srcCompat="@drawable/a1" />
+                        card_view:srcCompat="@drawable/ab1" />
 
                     <TextView
-                        android:id="@+id/tvCardExpLvl"
+                        android:id="@+id/tvPlayerBuildbaseTrophies"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -124,14 +124,14 @@
                     android:weightSum="10">
 
                     <ImageView
-                        android:id="@+id/ivCardTrophies"
+                        android:id="@+id/ivPlayerLeague"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
                         card_view:srcCompat="@drawable/a1" />
 
                     <TextView
-                        android:id="@+id/tvCardTrophies"
+                        android:id="@+id/tvPlayerLeague"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -148,14 +148,14 @@
                     android:weightSum="10">
 
                     <ImageView
-                        android:id="@+id/ivCardBuildbaseTrophies"
+                        android:id="@+id/ivPlayerBuildbaseLeague"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
                         card_view:srcCompat="@drawable/a1" />
 
                     <TextView
-                        android:id="@+id/tvBuildbaseTrophies"
+                        android:id="@+id/tvPlayerBuildbaseLeague"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -214,10 +214,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            card_view:srcCompat="@drawable/arrowdown" />
+                            card_view:srcCompat="@drawable/xp_small" />
 
                         <TextView
-                            android:id="@+id/tvCardDonationsReceived"
+                            android:id="@+id/tvCardXPLevel"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -235,14 +235,13 @@
                     android:weightSum="10">
 
                     <ImageView
-                        android:id="@+id/ivCardLeague"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
                         card_view:srcCompat="@drawable/a1" />
 
                     <TextView
-                        android:id="@+id/tvCardLeague"
+                        android:id="@+id/tvPlayerTownhallLevel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"

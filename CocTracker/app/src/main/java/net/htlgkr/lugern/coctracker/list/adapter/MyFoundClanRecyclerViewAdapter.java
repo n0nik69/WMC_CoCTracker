@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import net.htlgkr.lugern.coctracker.callback.MyOnCardClickListener;
+import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentFoundclanBinding;
-import net.htlgkr.lugern.coctracker.einModel.einClan.Clan;
+import net.htlgkr.lugern.coctracker.models.clan.Clan;
 
 import java.util.List;
 
@@ -47,25 +47,25 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
         String warFrequencyText;
 
         switch (clan.getWarFrequency()) {
-            case ONCE_PER_WEEK:
+            case oncePerWeek:
                 warFrequencyText = "1x/W";
                 break;
-            case ALWAYS:
+            case always:
                 warFrequencyText = "Immer";
                 break;
-            case MORE_THAN_ONCE_PER_WEEK:
+            case moreThanOncePerWeek:
                 warFrequencyText = ">1x/W";
                 break;
-            case LESS_THAN_ONCE_PER_WEEK:
+            case lessThanOncePerWeek:
                 warFrequencyText = "<1x/W";
                 break;
-            case NEVER:
+            case never:
                 warFrequencyText = "Egal";
                 break;
-            case ANY:
+            case any:
                 warFrequencyText = "Egal";
                 break;
-            case UNKNOWN:
+            case unknown:
                 warFrequencyText = "N/A";
                 break;
             default:
@@ -78,13 +78,13 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
         String typeText;
 
         switch (clan.getType()) {
-            case OPEN:
+            case open:
                 typeText = "Offen";
                 break;
-            case INVITE_ONLY:
+            case inviteOnly:
                 typeText = "Einladung";
                 break;
-            case CLOSED:
+            case closed:
                 typeText = "Geschlossen";
                 break;
             default:
