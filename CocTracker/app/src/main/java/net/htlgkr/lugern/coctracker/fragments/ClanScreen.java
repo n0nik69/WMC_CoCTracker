@@ -27,21 +27,14 @@ import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
-import net.htlgkr.lugern.coctracker.list.adapter.MyTopClansRecyclerViewAdapter;
-import net.htlgkr.lugern.coctracker.list.listViewModels.ClanViewModel;
-import net.htlgkr.lugern.coctracker.list.listViewModels.FoundClanViewModel;
-import net.htlgkr.lugern.coctracker.list.listViewModels.TopClansViewModel;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
-import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 
 public class ClanScreen extends Fragment {
     FragmentClanScreenBinding binding;
-    RequestViewModel requestViewModel;
-    ClanViewModel clanViewModel;
-    FoundClanViewModel foundClanViewModel;
+    LogicViewModel logicViewModel;
     String clanTagOrName;
     ImageView imageView;
-    TopClansViewModel topClansViewModel;
     String url;
     CircularProgressIndicator progressIndicator;
     private boolean isMenuSelected = false;
@@ -53,10 +46,7 @@ public class ClanScreen extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
-        foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
-        requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
-        topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
+        logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         String clanTag = getArguments() != null ? getArguments().getString("CLAN_TAG") : null;
         if (clanTag != null) {
             loadClanFromName(clanTag);
@@ -66,11 +56,8 @@ public class ClanScreen extends Fragment {
 
     public void loadClanFromName(String clanTagOrName) {
         updateButtonState();
-
-
-        requestViewModel.init(requireContext());
+        logicViewModel.init(requireContext());
         binding.btnSearchClan.setVisibility(INVISIBLE);
-
         ConstraintLayout listLayout = binding.listLayout;
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
         params.topMargin = 100;
@@ -81,20 +68,20 @@ public class ClanScreen extends Fragment {
             clanTagOrName = clanTagOrName.replace("#", "%23");
         }
         url = "https://api.clashofclans.com/v1/clans/" + clanTagOrName;
-        requestViewModel.setApiUrl(url);
-        requestViewModel.requestData(new HTTPListener<>() {
+        logicViewModel.setApiUrl(url);
+        logicViewModel.requestData(new HTTPListener<>() {
             @Override
             public void onSuccess(String json) {
                 System.out.println();
 
-                requestViewModel.loadClanInfo(json);
-                Clan clan = requestViewModel.getClan();
+                logicViewModel.loadClanInfo(json);
+                Clan clan = logicViewModel.getClan();
                 binding.tvClanName.setText(clan.getName());
                 binding.tvClanDescription.setText(clan.getDescription());
                 binding.tvClanDescription.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(VISIBLE);
                 binding.cp.setVisibility(INVISIBLE);
-                clanViewModel.setPlayerPerClan(json);
+                logicViewModel.setPlayerPerClan(json);
                 binding.listLayout.setVisibility(VISIBLE);
 
                 Picasso.get()
@@ -110,7 +97,7 @@ public class ClanScreen extends Fragment {
                             public void onError(Exception e) {
                                 progressIndicator.setVisibility(INVISIBLE);
                             }
-                        }); ////////////////////////////////von der api die daten , always, never, onceperweek etc
+                        });
             }
 
             @Override
@@ -133,20 +120,23 @@ public class ClanScreen extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentClanScreenBinding.inflate(inflater, container, false);
-        clanViewModel = new ViewModelProvider(requireActivity()).get(ClanViewModel.class);
-        foundClanViewModel = new ViewModelProvider(requireActivity()).get(FoundClanViewModel.class);
-        requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
-        requestViewModel.init(requireContext());
+        logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
+        logicViewModel.init(requireContext());
         imageView = binding.ivClanBadge;
         progressIndicator = binding.cp;
         binding.cp.setVisibility(INVISIBLE);
         binding.listLayout.setVisibility(INVISIBLE);
-        binding.tvClans.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_clans));
+        binding.tvClans.setOnClickListener(view -> {
+            logicViewModel.setSearchPerName(false);
+            logicViewModel.setSearchPerTag(false);
+            logicViewModel.setShowTopClansList(false);
+            showMenu(view, R.menu.popup_menu_clans);
+        });
 
-        foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-            MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(foundClanViewModel.observableItems.getValue());
+        logicViewModel.observableItemsClan.observe(getViewLifecycleOwner(), items -> {
+            MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(logicViewModel.observableItemsClan.getValue());
             adapter.setOnFoundClanClickListener(position -> {
-                Clan clan = foundClanViewModel.observableItems.getValue().get(position);
+                Clan clan = logicViewModel.observableItemsClan.getValue().get(position);
                 if (clan != null) {
                     String clanTag = clan.getTag();
                     Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
@@ -154,22 +144,24 @@ public class ClanScreen extends Fragment {
                 }
             });
         });
-        topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
-        topClansViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-            MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(topClansViewModel.observableItems.getValue());
-            adapter.setOnItemClickListener(position -> {
-//                ClanRanking clanRanking = topClansViewModel.observableItems.getValue().get(position);
-//                if (clanRanking != null) {
-//                    String clanTag = clanRanking.getTag();
-//                    Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
-//
-//                }
-            });
-        });
+//        logicViewModel.observableItemsClan.observe(getViewLifecycleOwner(), items -> {
+//            MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(logicViewModel.observableItemsClan.getValue());
+//            adapter.setOnItemClickListener(position -> {
+////                ClanRanking clanRanking = topClansViewModel.observableItems.getValue().get(position);
+////                if (clanRanking != null) {
+////                    String clanTag = clanRanking.getTag();
+////                    Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
+////
+////                }
+//            });
+//        });
 
 
         binding.btnSearchClan.setEnabled(false);
-        binding.btnSearchClan.setOnClickListener(view -> testMethod(clanViewModel, imageView, progressIndicator, foundClanViewModel));
+        binding.btnSearchClan.setOnClickListener(view -> {
+
+            testMethod(imageView, progressIndicator, logicViewModel);
+        });
 
         binding.tiClan.addTextChangedListener(new TextWatcher() {
             @Override
@@ -196,20 +188,20 @@ public class ClanScreen extends Fragment {
         return binding.getRoot();
     }
 
-    private void testMethod(ClanViewModel clanViewModel, ImageView imageView, CircularProgressIndicator progressIndicator, FoundClanViewModel foundClanViewModel) {
+    private void testMethod(ImageView imageView, CircularProgressIndicator progressIndicator, LogicViewModel logicViewModel) {
         binding.ivClanBadge.setImageDrawable(null);
         progressIndicator.show();
 
         clanTagOrName = String.valueOf(binding.tiClan.getText()).trim().toUpperCase();
 
-        if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
+        if (Boolean.TRUE.equals(logicViewModel.getSearchPerTag().getValue())) {
             if (!clanTagOrName.startsWith("#")) {
                 clanTagOrName = "%23" + clanTagOrName;
             } else {
                 clanTagOrName = clanTagOrName.replace("#", "%23");
             }
             url = "https://api.clashofclans.com/v1/clans/" + clanTagOrName;
-        } else if (Boolean.TRUE.equals(requestViewModel.isSearchPerName().getValue())) {
+        } else if (Boolean.TRUE.equals(logicViewModel.getSearchPerName().getValue())) {
             String encodedName = clanTagOrName.replace(" ", "%20");
             url = "https://api.clashofclans.com/v1/clans?name=" + encodedName + "&limit=10";
         } else {
@@ -219,20 +211,20 @@ public class ClanScreen extends Fragment {
         binding.cp.setVisibility(VISIBLE);
 
 
-        requestViewModel.setApiUrl(url);
-        requestViewModel.requestData(new HTTPListener<>() {
+        logicViewModel.setApiUrl(url);
+        logicViewModel.requestData(new HTTPListener<>() {
             @Override
             public void onSuccess(String json) {
                 System.out.println();
-                if (Boolean.TRUE.equals(requestViewModel.isSearchPerTag().getValue())) {
-                    requestViewModel.loadClanInfo(json);
-                    Clan clan = requestViewModel.getClan();
+                if (Boolean.TRUE.equals(logicViewModel.getSearchPerTag().getValue())) {
+                    logicViewModel.loadClanInfo(json);
+                    Clan clan = logicViewModel.getClan();
                     binding.tvClanName.setText(clan.getName());
                     binding.tvClanDescription.setText(clan.getDescription());
                     binding.tvClanDescription.setVisibility(VISIBLE);
                     binding.tvClanName.setVisibility(VISIBLE);
                     binding.cp.setVisibility(INVISIBLE);
-                    clanViewModel.setPlayerPerClan(json);
+                    logicViewModel.setPlayerPerClan(json);
                     binding.listLayout.setVisibility(VISIBLE);
                     ConstraintLayout listLayout = binding.listLayout;
                     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
@@ -253,9 +245,9 @@ public class ClanScreen extends Fragment {
                                 }
                             });
 
-                } else if (Boolean.TRUE.equals(requestViewModel.isSearchPerName().getValue())) {
-                    requestViewModel.loadFoundClanInfo(json);
-                    foundClanViewModel.loadClanDataFromJson(json);
+                } else if (Boolean.TRUE.equals(logicViewModel.getSearchPerName().getValue())) {
+                    logicViewModel.loadFoundClanInfo(json);
+                    logicViewModel.loadClanDataFromJson(json);
                     binding.cp.setVisibility(INVISIBLE);
                     binding.listLayout.setVisibility(VISIBLE);
                     ConstraintLayout listLayout = binding.listLayout;
@@ -282,17 +274,15 @@ public class ClanScreen extends Fragment {
 
     private void displayTopClans() {
         Log.i("klasdf", "displayTop clans ageajdfffffffffffffffffff");
-        topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
         url = "https://api.clashofclans.com/v1/locations/32000022/rankings/clans?limit=10";
-        requestViewModel.setApiUrl(url);
-        requestViewModel.requestData(new HTTPListener<>() {
+        logicViewModel.setApiUrl(url);
+        logicViewModel.requestData(new HTTPListener<>() {
             @Override
             public void onSuccess(String json) {
                 Log.d("DEBUG", "API-Antwort erhalten: " + json);
-                requestViewModel.loadTopClans(json);
-                topClansViewModel.setTopClan(json);
+                logicViewModel.loadTopClans(json);
+                logicViewModel.setTopClan(json);
                 binding.cp.setVisibility(INVISIBLE);
-                binding.listLayout.setVisibility(VISIBLE);
                 binding.listLayout.setVisibility(VISIBLE);
                 binding.listLayout.invalidate();
 
@@ -318,6 +308,7 @@ public class ClanScreen extends Fragment {
             TextInputEditText textInputLayout = binding.tiClan;
 
             if (menuItem.getItemId() == R.id.searchClanPerName) {
+                logicViewModel.setSearchPerName(true);
                 binding.textInputLayout.setVisibility(VISIBLE);
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(INVISIBLE);
@@ -325,8 +316,9 @@ public class ClanScreen extends Fragment {
                 binding.tvClanDescription.setVisibility(INVISIBLE);
                 binding.listLayout.setVisibility(INVISIBLE);
                 textInputLayout.setHint("Clan per Name suchen");
-                requestViewModel.setSearchPerTag(false);
+
             } else if (menuItem.getItemId() == R.id.searchClanPerTag) {
+                logicViewModel.setSearchPerTag(true);
                 binding.textInputLayout.setVisibility(VISIBLE);
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(INVISIBLE);
@@ -334,9 +326,9 @@ public class ClanScreen extends Fragment {
                 binding.tvClanDescription.setVisibility(INVISIBLE);
                 binding.listLayout.setVisibility(INVISIBLE);
                 textInputLayout.setHint("Clan per Tag suchen");
-                requestViewModel.setSearchPerTag(true);
-            } else if (menuItem.getItemId() == R.id.topClans) {
 
+            } else if (menuItem.getItemId() == R.id.topClans) {
+                logicViewModel.setShowTopClansList(true);
                 binding.textInputLayout.setVisibility(INVISIBLE);
                 binding.btnSearchClan.setVisibility(INVISIBLE);
                 binding.tvClanName.setVisibility(INVISIBLE);
@@ -344,6 +336,7 @@ public class ClanScreen extends Fragment {
                 binding.tvClanDescription.setVisibility(INVISIBLE);
                 binding.listLayout.setVisibility(VISIBLE);
                 displayTopClans();
+
                 return false;
             }
 

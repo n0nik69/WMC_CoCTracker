@@ -45,19 +45,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class MainMainViewModel extends ViewModel {
+public class LogicViewModel extends ViewModel {
     private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImMxZTY3Nzg2LTkyNGYtNDY4Mi1hYTViLTlhNmI0NGVjYzEzYSIsImlhdCI6MTczODQwNjgxOCwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.VolJrLgvOZcd4kpRbQyz_774_PCFod2wHbFEDrYx8USjYun5KpbjRJHBhtB6k6Qzjwb4yUbmG9FsvNkWFDraNw"; // Setze deinen API-Schlüssel hier ein
-    private static String API_URL = "https://api.clashofclans.com/v1"; // Spieler-URL
-    private final MutableLiveData<Boolean> searchPerTag = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> searchPerName = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> playerClicked = new MutableLiveData<>();
+    private static String API_URL = "https://api.clashofclans.com/v1";
     public MutableLiveData<ArrayList<AchievmentCard>> observableItemsAchievmentCard;
     public MutableLiveData<ArrayList<ClanMember>> observableItemsClanMember;
     public MutableLiveData<ArrayList<Clan>> observableItemsClan;
     public MutableLiveData<ArrayList<ClanRanking>> observableItemsClanRanking;
-    List<PlayerRanking> playerRankings;
+    public MutableLiveData<ArrayList<PlayerRanking>> observableItemsPlayerRanking;
+    private MutableLiveData<Boolean> searchPerTag = new MutableLiveData<>();
+    private MutableLiveData<Boolean> showTopPlayersList = new MutableLiveData<>();
+    private MutableLiveData<Boolean> showTopClansList = new MutableLiveData<>();
+    private MutableLiveData<Boolean> searchPerName = new MutableLiveData<>();
     private RequestQueue queue;
-    private Gson gson = new Gson();
+    private Gson gson;
     private Player player;
     private Clan clan;
     private List<ClanRanking> clanRanking;
@@ -66,13 +67,16 @@ public class MainMainViewModel extends ViewModel {
     private ArrayList<ClanMember> clanCards;
     private ArrayList<Clan> clans;
     private ArrayList<ClanRanking> clanRankings;
+    private ArrayList<PlayerRanking> playerRankings;
 
-    public MainMainViewModel() {
+    public LogicViewModel() {
         observableItemsAchievmentCard = new MutableLiveData<>();
         achievmentCards = new ArrayList<>();
+        playerRankings = new ArrayList<>();
+        observableItemsPlayerRanking = new MutableLiveData<>();
         observableItemsClanMember = new MutableLiveData<>();
         clanCards = new ArrayList<>();
-
+        gson = new Gson();
         observableItemsClan = new MutableLiveData<>();
         clans = new ArrayList<>();
         observableItemsClanRanking = new MutableLiveData<>();
@@ -88,20 +92,96 @@ public class MainMainViewModel extends ViewModel {
         API_URL = apiUrl;
     }
 
-    public void setPlayerClicked() {
-        playerClicked.setValue(true);
-    }
-
-    public LiveData<Boolean> getPlayerClicked() {
-        return playerClicked;
-    }
-
-    public LiveData<Boolean> isSearchPerTag() {
+    public MutableLiveData<Boolean> getSearchPerTag() {
         return searchPerTag;
     }
 
-    public LiveData<Boolean> isSearchPerName() {
+    public void setSearchPerTag(boolean searchPerTag) {
+        this.searchPerTag.setValue(searchPerTag);
+    }
+
+    public MutableLiveData<Boolean> getSearchPerName() {
         return searchPerName;
+    }
+
+    public void setSearchPerName(boolean searchPerName) {
+        this.searchPerName.setValue(searchPerName);
+    }
+
+    public LiveData<Boolean> getShowTopClansList() {
+        return showTopClansList;
+    }
+
+    public void setShowTopClansList(boolean showTopClansList) {
+        this.showTopClansList.setValue(showTopClansList);
+    }
+
+    public MutableLiveData<ArrayList<AchievmentCard>> getObservableItemsAchievmentCard() {
+        return observableItemsAchievmentCard;
+    }
+
+    public void setObservableItemsAchievmentCard(MutableLiveData<ArrayList<AchievmentCard>> observableItemsAchievmentCard) {
+        this.observableItemsAchievmentCard = observableItemsAchievmentCard;
+    }
+
+    public MutableLiveData<ArrayList<ClanMember>> getObservableItemsClanMember() {
+        return observableItemsClanMember;
+    }
+
+    public void setObservableItemsClanMember(MutableLiveData<ArrayList<ClanMember>> observableItemsClanMember) {
+        this.observableItemsClanMember = observableItemsClanMember;
+    }
+
+    public MutableLiveData<ArrayList<Clan>> getObservableItemsClan() {
+        return observableItemsClan;
+    }
+
+    public void setObservableItemsClan(MutableLiveData<ArrayList<Clan>> observableItemsClan) {
+        this.observableItemsClan = observableItemsClan;
+    }
+
+    public MutableLiveData<ArrayList<ClanRanking>> getObservableItemsClanRanking() {
+        return observableItemsClanRanking;
+    }
+
+    public void setObservableItemsClanRanking(MutableLiveData<ArrayList<ClanRanking>> observableItemsClanRanking) {
+        this.observableItemsClanRanking = observableItemsClanRanking;
+    }
+
+    public ArrayList<ClanMember> getClanCards() {
+        return clanCards;
+    }
+
+    public void setClanCards(ArrayList<ClanMember> clanCards) {
+        this.clanCards = clanCards;
+    }
+
+    public ArrayList<Clan> getClans() {
+        return clans;
+    }
+
+    public void setClans(ArrayList<Clan> clans) {
+        this.clans = clans;
+    }
+
+    public ArrayList<ClanRanking> getClanRankings() {
+        return clanRankings;
+    }
+
+    public void setClanRankings(ArrayList<ClanRanking> clanRankings) {
+        this.clanRankings = clanRankings;
+    }
+
+    public void setPlayerClicked() {
+        showTopPlayersList.setValue(true);
+    }
+
+    public LiveData<Boolean> getShowTopPlayersList() {
+        return showTopPlayersList;
+    }
+
+    public void setShowTopPlayersList(boolean showTopPlayersList) {
+        this.showTopPlayersList.setValue(showTopPlayersList);
     }
 
     public void init(Context context) {
@@ -140,23 +220,11 @@ public class MainMainViewModel extends ViewModel {
         playerRankings = gson.fromJson(itemsArray, listType);
     }
 
-    public MutableLiveData<Boolean> getSearchPerTag() {
-        return searchPerTag;
-    }
-
-    public void setSearchPerTag(boolean value) {
-        searchPerTag.setValue(value);
-    }
-
-    public MutableLiveData<Boolean> getSearchPerName() {
-        return searchPerName;
-    }
-
     public List<PlayerRanking> getPlayerRankings() {
         return playerRankings;
     }
 
-    public void setPlayerRankings(List<PlayerRanking> playerRankings) {
+    public void setPlayerRankings(ArrayList<PlayerRanking> playerRankings) {
         this.playerRankings = playerRankings;
     }
 
@@ -266,6 +334,35 @@ public class MainMainViewModel extends ViewModel {
         this.achievmentCards = achievmentCards;
     }
 
+    public void setTopPlayer(String json) {
+        try {
+            JSONObject jsonResponse = new JSONObject(json);
+            JSONArray items = jsonResponse.getJSONArray("items");
+
+            playerRankings.clear();
+            for (int i = 0; i < items.length(); i++) {
+                JSONObject member = items.getJSONObject(i);
+                PlayerRanking playerRanking = new PlayerRanking();
+                playerRanking.setRank(member.getInt("rank"));
+//                playerRanking.setMembers(member.getInt("members"));
+                playerRanking.setName(member.getString("name"));
+                playerRanking.setTag(member.getString("tag"));
+                playerRanking.setPreviousRank(member.getInt("previousRank"));
+                playerRanking.setTrophies(member.getInt("trophies"));
+                playerRanking.setAttackWins(member.getInt("attackWins"));
+                playerRanking.setDefenseWins(member.getInt("defenseWins"));
+                playerRanking.setExpLevel(member.getInt("expLevel"));
+                
+
+                playerRankings.add(playerRanking);
+            }
+
+            observableItemsPlayerRanking.postValue(playerRankings);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setPlayerPerClan(String json) {
         try {
             JSONObject jsonResponse = new JSONObject(json);
@@ -289,7 +386,6 @@ public class MainMainViewModel extends ViewModel {
 
                 setIfExistsLeague(member, clanMember::setLeague);
                 setIfExistsBuilderBaseLeague(member, clanMember::setBuilderBaseLeague);
-
                 setIfExistsString(member, "name", clanMember::setName);
                 setIfExistsString(member, "tag", clanMember::setTag);
                 List<PlayerAchievmentProgress> achievements = new ArrayList<>();
@@ -411,7 +507,6 @@ public class MainMainViewModel extends ViewModel {
                 JSONObject builderBaseLeagueObject = member.getJSONObject("builderBaseLeague");
                 int id = builderBaseLeagueObject.getInt("id");
                 String name = builderBaseLeagueObject.getString("name");
-
                 BuilderBaseLeague builderBaseLeague = new BuilderBaseLeague(id, name);
                 setter.accept(builderBaseLeague);
             } catch (JSONException e) {
@@ -424,7 +519,6 @@ public class MainMainViewModel extends ViewModel {
         try {
             JSONObject jsonResponse = new JSONObject(json);
             JSONArray items = jsonResponse.getJSONArray("items");
-
             clans.clear();
 
             for (int i = 0; i < items.length(); i++) {
@@ -457,8 +551,6 @@ public class MainMainViewModel extends ViewModel {
                     } else {
                         location.setCountryCode("N/A");
                     }
-
-
                     clan.setLocation(location);
                 }
 
@@ -548,6 +640,7 @@ public class MainMainViewModel extends ViewModel {
         }
     }
 
+
     public void setTopClan(String json) {
         try {
             JSONObject jsonResponse = new JSONObject(json);
@@ -557,15 +650,8 @@ public class MainMainViewModel extends ViewModel {
             for (int i = 0; i < items.length(); i++) {
                 JSONObject member = items.getJSONObject(i);
                 ClanRanking clanRanking = new ClanRanking();
-
-
-//                requestViewModel.getPlayerClicked().observe(this, clicked -> {
-//                    if (Boolean.TRUE.equals(clicked)) {
-//
-//                    }
-//                });
                 clanRanking.setRank(member.getInt("rank"));
-//                clanRanking.setMembers(member.getInt("members"));
+                clanRanking.setMembers(member.getInt("members"));
                 clanRanking.setName(member.getString("name"));
                 clanRanking.setTag(member.getString("tag"));
                 clanRanking.setClanLevel(member.getInt("clanLevel"));

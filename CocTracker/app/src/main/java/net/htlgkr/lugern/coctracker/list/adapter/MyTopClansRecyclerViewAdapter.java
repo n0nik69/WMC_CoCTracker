@@ -42,7 +42,7 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
         holder.binding.tvClanRank.setText(String.valueOf(clanRanking.getRank()));
         holder.binding.tvClanRankMembers.setText(clanRanking.getMembers() + "/50");
         holder.binding.tvClanRankName.setText(clanRanking.getName());
-        holder.binding.tvClanRankTag.setText(clanRanking.getTag());
+//        holder.binding.tvClanRankTag.setText(clanRanking.getTag());
         holder.binding.tvClanRankTrophies.setText(String.valueOf(clanRanking.getClanPoints()));
 
         holder.clanRanking = clanRanking;
@@ -61,7 +61,6 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ClanRanking clanRanking;
         public FragmentTopClansBinding binding;
-
 
         public ViewHolder(FragmentTopClansBinding binding) {
             super(binding.getRoot());

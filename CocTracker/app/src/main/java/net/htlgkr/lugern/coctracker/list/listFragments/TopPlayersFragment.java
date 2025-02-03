@@ -14,17 +14,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
-import net.htlgkr.lugern.coctracker.list.adapter.MyTopClansRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.adapter.MyTopPlayersRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
-public class TopClansFragment extends Fragment {
+/**
+ * A fragment representing a list of Items.
+ */
+public class TopPlayersFragment extends Fragment {
 
     MainViewModel mainViewModel;
     private int columnCount = 1;
     private LogicViewModel logicViewModel;
 
-    public TopClansFragment() {
+    public TopPlayersFragment() {
     }
 
     @Override
@@ -35,25 +38,22 @@ public class TopClansFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_top_clans_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_top_players_list, container, false);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
-
-        View listView = view.findViewById(R.id.list);
         // Set the adapter
-        if (listView instanceof RecyclerView) {
-            Context context = listView.getContext();
-            RecyclerView recyclerView = (RecyclerView) listView;
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
             if (columnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
-
-            logicViewModel.observableItemsClanRanking.observe(getViewLifecycleOwner(), items -> {
-                MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(items);
+            logicViewModel.observableItemsPlayerRanking.observe(getViewLifecycleOwner(), items -> {
+                MyTopPlayersRecyclerViewAdapter adapter = new MyTopPlayersRecyclerViewAdapter(items);
                 recyclerView.setAdapter(adapter);
-                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked top players list " + position));
             });
         }
         return view;

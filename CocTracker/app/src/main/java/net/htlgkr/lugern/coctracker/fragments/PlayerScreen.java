@@ -1,5 +1,7 @@
 package net.htlgkr.lugern.coctracker.fragments;
 
+import static android.view.View.INVISIBLE;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +16,16 @@ import androidx.lifecycle.ViewModelProvider;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
-import net.htlgkr.lugern.coctracker.list.listViewModels.TopClansViewModel;
 import net.htlgkr.lugern.coctracker.models.player.Player;
 import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
-import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 
 import java.util.List;
 
 public class PlayerScreen extends Fragment {
     FragmentPlayerScreenBinding binding;
-    RequestViewModel requestViewModel;
+    //    RequestViewModel requestViewModel;
+    LogicViewModel logicViewModel;
 
     public PlayerScreen() {
         // Required empty public constructor
@@ -38,9 +40,12 @@ public class PlayerScreen extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPlayerScreenBinding.inflate(inflater, container, false);
-        requestViewModel = new ViewModelProvider(requireActivity()).get(RequestViewModel.class);
-        requestViewModel.init(requireContext());
-        binding.tvPlayer.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_player));
+        logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
+        logicViewModel.init(requireContext());
+        binding.tvPlayer.setOnClickListener(view -> {
+            logicViewModel.setShowTopPlayersList(false);
+            showMenu(view, R.menu.popup_menu_player);
+        });
         binding.btnSearchPlayer.setOnClickListener(view -> {
             String url;
             String playerTag = String.valueOf(binding.tiPlayerTag.getText()).trim().toUpperCase();
@@ -52,12 +57,12 @@ public class PlayerScreen extends Fragment {
             }
             url = "https://api.clashofclans.com/v1/players/" + playerTag;
 
-            requestViewModel.setApiUrl(url);
-            requestViewModel.requestData(new HTTPListener<>() {
+            logicViewModel.setApiUrl(url);
+            logicViewModel.requestData(new HTTPListener<>() {
                 @Override
                 public void onSuccess(String json) {
-                    requestViewModel.loadPlayerInfo(json);
-                    Player player = requestViewModel.getPlayer();
+                    logicViewModel.loadPlayerInfo(json);
+                    Player player = logicViewModel.getPlayer();
                     System.out.println();
                 }
 
@@ -101,7 +106,7 @@ public class PlayerScreen extends Fragment {
                 return true;
             } else if (menuItem.getItemId() == R.id.topPlayers) {
                 binding.tvPlayer.setOnClickListener(view -> {
-                    requestViewModel.setPlayerClicked(); // Signal an MainActivity senden
+                    logicViewModel.setPlayerClicked();
                 });
                 loadTopPlayers();
             }
@@ -112,18 +117,18 @@ public class PlayerScreen extends Fragment {
     }
 
     private void loadTopPlayers() {
-
+        logicViewModel.setShowTopPlayersList(true);
         String url = "https://api.clashofclans.com/v1/locations/32000022/rankings/players?limit=10";
 
-        requestViewModel.setApiUrl(url);
-        requestViewModel.requestData(new HTTPListener<>() {
+        logicViewModel.setApiUrl(url);
+        logicViewModel.requestData(new HTTPListener<>() {
             @Override
             public void onSuccess(String json) {
-                requestViewModel.loadTopPlayers(json);
-                TopClansViewModel topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
-
-                topClansViewModel.setTopClan(json);
-                List<PlayerRanking> playerRankingList = requestViewModel.getPlayerRankings();
+                logicViewModel.loadTopPlayers(json);
+                binding.btnSearchPlayer.setVisibility(INVISIBLE);
+                binding.textInputLayout2.setVisibility(INVISIBLE);
+                logicViewModel.setTopPlayer(json);
+                List<PlayerRanking> playerRankingList = logicViewModel.getPlayerRankings();
                 System.out.println();
             }
 

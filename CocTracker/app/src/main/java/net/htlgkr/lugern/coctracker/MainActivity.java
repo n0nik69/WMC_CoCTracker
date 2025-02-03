@@ -16,9 +16,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.FoundClanFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.TopPlayersFragment;
+import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
-import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             );
             return WindowInsetsCompat.CONSUMED;
         });
-        RequestViewModel requestViewModel = new ViewModelProvider(this).get(RequestViewModel.class);
+        LogicViewModel logicViewModel = new ViewModelProvider(this).get(LogicViewModel.class);
         MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -67,21 +69,36 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         });
 
-        requestViewModel.isSearchPerTag().observe(this, isSearchPerTag -> {
+        logicViewModel.getSearchPerName().observe(this, isSearchPerName -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            if (Boolean.TRUE.equals(isSearchPerTag)) {
+            if (isSearchPerName) {
+                transaction.replace(R.id.listLayout, new FoundClanFragment());
+            }
+            transaction.commit();
+        });
+
+        logicViewModel.getSearchPerTag().observe(this, isSearchPerTag -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (isSearchPerTag) {
                 transaction.replace(R.id.listLayout, new ClanFragment());
-            } else {
+            }
+            transaction.commit();
+        });
+
+        logicViewModel.getShowTopClansList().observe(this, showTopClansList -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (showTopClansList) {
                 transaction.replace(R.id.listLayout, new TopClansFragment());
             }
             transaction.commit();
         });
 
-        requestViewModel.getPlayerClicked().observe(this, clicked -> {
-            if (Boolean.TRUE.equals(clicked)) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.playerListLayout, new TopClansFragment());
+        logicViewModel.getShowTopPlayersList().observe(this, showTopPlayersList -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (showTopPlayersList) {
+                transaction.replace(R.id.playerListLayout, new TopPlayersFragment());
             }
+            transaction.commit();
         });
 
 
