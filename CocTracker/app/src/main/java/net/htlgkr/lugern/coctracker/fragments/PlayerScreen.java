@@ -14,8 +14,12 @@ import androidx.lifecycle.ViewModelProvider;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
+import net.htlgkr.lugern.coctracker.list.listViewModels.TopClansViewModel;
 import net.htlgkr.lugern.coctracker.models.player.Player;
+import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
+
+import java.util.List;
 
 public class PlayerScreen extends Fragment {
     FragmentPlayerScreenBinding binding;
@@ -95,10 +99,38 @@ public class PlayerScreen extends Fragment {
                 return true;
             } else if (menuItem.getItemId() == R.id.playerSpells) {
                 return true;
+            } else if (menuItem.getItemId() == R.id.topPlayers) {
+                binding.tvPlayer.setOnClickListener(view -> {
+                    requestViewModel.setPlayerClicked(); // Signal an MainActivity senden
+                });
+                loadTopPlayers();
             }
             return false;
         });
 
         popup.show();
+    }
+
+    private void loadTopPlayers() {
+
+        String url = "https://api.clashofclans.com/v1/locations/32000022/rankings/players?limit=10";
+
+        requestViewModel.setApiUrl(url);
+        requestViewModel.requestData(new HTTPListener<>() {
+            @Override
+            public void onSuccess(String json) {
+                requestViewModel.loadTopPlayers(json);
+                TopClansViewModel topClansViewModel = new ViewModelProvider(requireActivity()).get(TopClansViewModel.class);
+
+                topClansViewModel.setTopClan(json);
+                List<PlayerRanking> playerRankingList = requestViewModel.getPlayerRankings();
+                System.out.println();
+            }
+
+            @Override
+            public void onError(String error) {
+                System.out.println(error);
+            }
+        });
     }
 }

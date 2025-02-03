@@ -24,7 +24,7 @@ public class FoundClanViewModel extends ViewModel {
         clans = new ArrayList<>();
     }
 
-    public void loadDataFromJson(String json) {
+    public void loadClanDataFromJson(String json) {
         try {
             JSONObject jsonResponse = new JSONObject(json);
             JSONArray items = jsonResponse.getJSONArray("items");

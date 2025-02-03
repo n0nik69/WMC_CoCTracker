@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
+import net.htlgkr.lugern.coctracker.viewmodels.RequestViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,11 +14,13 @@ import java.util.ArrayList;
 
 public class TopClansViewModel extends ViewModel {
     public MutableLiveData<ArrayList<ClanRanking>> observableItems;
+    RequestViewModel requestViewModel;
     private ArrayList<ClanRanking> clanRankings;
 
     public TopClansViewModel() {
         observableItems = new MutableLiveData<>();
         clanRankings = new ArrayList<>();
+//        requestViewModel = new ViewModelProvider(this).get(RequestViewModel.class);
     }
 
     public void setTopClan(String json) {
@@ -30,8 +33,14 @@ public class TopClansViewModel extends ViewModel {
                 JSONObject member = items.getJSONObject(i);
                 ClanRanking clanRanking = new ClanRanking();
 
+
+//                requestViewModel.getPlayerClicked().observe(this, clicked -> {
+//                    if (Boolean.TRUE.equals(clicked)) {
+//
+//                    }
+//                });
                 clanRanking.setRank(member.getInt("rank"));
-                clanRanking.setMembers(member.getInt("members"));
+//                clanRanking.setMembers(member.getInt("members"));
                 clanRanking.setName(member.getString("name"));
                 clanRanking.setTag(member.getString("tag"));
                 clanRanking.setClanLevel(member.getInt("clanLevel"));

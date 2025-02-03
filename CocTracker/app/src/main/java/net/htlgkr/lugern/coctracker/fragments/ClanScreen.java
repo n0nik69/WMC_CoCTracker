@@ -255,7 +255,7 @@ public class ClanScreen extends Fragment {
 
                 } else if (Boolean.TRUE.equals(requestViewModel.isSearchPerName().getValue())) {
                     requestViewModel.loadFoundClanInfo(json);
-                    foundClanViewModel.loadDataFromJson(json);
+                    foundClanViewModel.loadClanDataFromJson(json);
                     binding.cp.setVisibility(INVISIBLE);
                     binding.listLayout.setVisibility(VISIBLE);
                     ConstraintLayout listLayout = binding.listLayout;

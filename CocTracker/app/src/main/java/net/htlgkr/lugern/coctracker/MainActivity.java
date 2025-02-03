@@ -76,5 +76,15 @@ public class MainActivity extends AppCompatActivity {
             }
             transaction.commit();
         });
+
+        requestViewModel.getPlayerClicked().observe(this, clicked -> {
+            if (Boolean.TRUE.equals(clicked)) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.playerListLayout, new TopClansFragment());
+            }
+        });
+
+
     }
+
 }

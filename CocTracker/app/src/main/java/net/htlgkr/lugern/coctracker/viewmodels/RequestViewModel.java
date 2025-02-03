@@ -21,6 +21,7 @@ import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
 import net.htlgkr.lugern.coctracker.models.player.Player;
+import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -33,6 +34,8 @@ public class RequestViewModel extends ViewModel {
     private static String API_URL = "https://api.clashofclans.com/v1"; // Spieler-URL
     private final MutableLiveData<Boolean> searchPerTag = new MutableLiveData<>();
     private final MutableLiveData<Boolean> searchPerName = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> playerClicked = new MutableLiveData<>();
+    List<PlayerRanking> playerRankings;
     private RequestQueue queue;
     private Gson gson = new Gson();
     private Player player;
@@ -46,6 +49,14 @@ public class RequestViewModel extends ViewModel {
 
     public static void setApiUrl(String apiUrl) {
         API_URL = apiUrl;
+    }
+
+    public void setPlayerClicked() {
+        playerClicked.setValue(true);
+    }
+
+    public LiveData<Boolean> getPlayerClicked() {
+        return playerClicked;
     }
 
     public LiveData<Boolean> isSearchPerTag() {
@@ -83,6 +94,67 @@ public class RequestViewModel extends ViewModel {
         player = gson.fromJson(json, typeToken);
     }
 
+    public void loadTopPlayers(String json) {
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+        JsonArray itemsArray = jsonObject.getAsJsonArray("items");
+
+        Type listType = new TypeToken<List<PlayerRanking>>() {
+        }.getType();
+        playerRankings = gson.fromJson(itemsArray, listType);
+    }
+
+    public MutableLiveData<Boolean> getSearchPerTag() {
+        return searchPerTag;
+    }
+
+    public void setSearchPerTag(boolean value) {
+        searchPerTag.setValue(value);
+    }
+
+    public MutableLiveData<Boolean> getSearchPerName() {
+        return searchPerName;
+    }
+
+    public List<PlayerRanking> getPlayerRankings() {
+        return playerRankings;
+    }
+
+    public void setPlayerRankings(List<PlayerRanking> playerRankings) {
+        this.playerRankings = playerRankings;
+    }
+
+    public RequestQueue getQueue() {
+        return queue;
+    }
+
+    public void setQueue(RequestQueue queue) {
+        this.queue = queue;
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    public void setGson(Gson gson) {
+        this.gson = gson;
+    }
+
+    public List<ClanRanking> getClanRanking() {
+        return clanRanking;
+    }
+
+    public void setClanRanking(List<ClanRanking> clanRanking) {
+        this.clanRanking = clanRanking;
+    }
+
+    public List<ClanMember> getClanMembers() {
+        return clanMembers;
+    }
+
+    public void setClanMembers(List<ClanMember> clanMembers) {
+        this.clanMembers = clanMembers;
+    }
+
     public void loadClanInfo(String json) {
         TypeToken<Clan> typeToken = new TypeToken<>() {
         };
@@ -111,11 +183,6 @@ public class RequestViewModel extends ViewModel {
 
     public void setPlayer(Player player) {
         this.player = player;
-    }
-
-
-    public void setSearchPerTag(boolean value) {
-        searchPerTag.setValue(value);
     }
 
     public Clan getClan() {

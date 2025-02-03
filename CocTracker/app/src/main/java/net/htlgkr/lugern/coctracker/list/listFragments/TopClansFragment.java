@@ -49,7 +49,8 @@ public class TopClansFragment extends Fragment {
             }
 
             topClansViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-                MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(topClansViewModel.observableItems.getValue());
+//                MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(topClansViewModel.observableItems.getValue());
+                MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(items);
                 recyclerView.setAdapter(adapter);
 
                 adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
