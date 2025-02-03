@@ -49,12 +49,17 @@ public class ClanFragment extends Fragment {
             }
 
             logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
-                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(logicViewModel.observableItemsClanMember.getValue());
+                Log.d("ClanFragment", "Items erhalten: " + items.size());
+
+                if (items.isEmpty()) {
+                    Log.e("ClanFragment", "Die Liste ist leer!");
+                }
+
+                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(items);
                 recyclerView.setAdapter(adapter);
 
                 adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
             });
-
         }
         return view;
     }

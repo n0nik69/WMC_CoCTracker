@@ -25,7 +25,4 @@ public class ClanDistrictData {
         return districtHallLevel;
     }
 
-    public void setDistrictHallLevel(int districtHallLevel) {
-        this.districtHallLevel = districtHallLevel;
-    }
 }

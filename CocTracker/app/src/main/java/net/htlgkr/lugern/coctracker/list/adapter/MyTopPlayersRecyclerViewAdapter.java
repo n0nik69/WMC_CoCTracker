@@ -31,7 +31,6 @@ public class MyTopPlayersRecyclerViewAdapter extends RecyclerView.Adapter<MyTopP
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-//
         PlayerRanking playerRanking = values.get(position);
 
         holder.binding.tvTopPlayerLevel.setText(String.valueOf(playerRanking.getExpLevel()));
@@ -66,7 +65,6 @@ public class MyTopPlayersRecyclerViewAdapter extends RecyclerView.Adapter<MyTopP
         public ViewHolder(FragmentTopPlayersBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-//            binding.tv
         }
 
         @Override

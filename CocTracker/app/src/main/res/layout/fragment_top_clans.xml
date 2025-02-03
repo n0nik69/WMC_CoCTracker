@@ -16,7 +16,7 @@
             android:id="@+id/tvClanRank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:text="1."
             android:textSize="16sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +27,7 @@
             android:id="@+id/ivClanRankBadge"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_marginStart="8dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/tvClanRank"
             card_view:layout_constraintTop_toTopOf="parent"
@@ -56,6 +57,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/ivClanRankBadge"
             card_view:layout_constraintTop_toTopOf="parent">

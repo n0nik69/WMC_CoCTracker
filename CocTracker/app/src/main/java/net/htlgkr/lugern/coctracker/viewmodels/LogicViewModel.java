@@ -17,33 +17,18 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
-import net.htlgkr.lugern.coctracker.list.listModel.AchievmentCard;
-import net.htlgkr.lugern.coctracker.models.clan.BadgeUrls;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
-import net.htlgkr.lugern.coctracker.models.clan.IconUrls;
-import net.htlgkr.lugern.coctracker.models.clan.Location;
-import net.htlgkr.lugern.coctracker.models.clan.Role;
-import net.htlgkr.lugern.coctracker.models.clan.WarFrequency;
-import net.htlgkr.lugern.coctracker.models.player.League;
+import net.htlgkr.lugern.coctracker.models.player.AchievmentCard;
 import net.htlgkr.lugern.coctracker.models.player.Player;
-import net.htlgkr.lugern.coctracker.models.player.PlayerAchievmentProgress;
 import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
-import net.htlgkr.lugern.coctracker.models.player.Village;
-import net.htlgkr.lugern.coctracker.models.shared.BuilderBaseLeague;
-import net.htlgkr.lugern.coctracker.models.shared.Label;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class LogicViewModel extends ViewModel {
     private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImMxZTY3Nzg2LTkyNGYtNDY4Mi1hYTViLTlhNmI0NGVjYzEzYSIsImlhdCI6MTczODQwNjgxOCwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.VolJrLgvOZcd4kpRbQyz_774_PCFod2wHbFEDrYx8USjYun5KpbjRJHBhtB6k6Qzjwb4yUbmG9FsvNkWFDraNw"; // Setze deinen API-Schlüssel hier ein
@@ -52,6 +37,7 @@ public class LogicViewModel extends ViewModel {
     public MutableLiveData<ArrayList<ClanMember>> observableItemsClanMember;
     public MutableLiveData<ArrayList<Clan>> observableItemsClan;
     public MutableLiveData<ArrayList<ClanRanking>> observableItemsClanRanking;
+    public MutableLiveData<ArrayList<Clan>> observableItemsFoundClans;
     public MutableLiveData<ArrayList<PlayerRanking>> observableItemsPlayerRanking;
     private MutableLiveData<Boolean> searchPerTag = new MutableLiveData<>();
     private MutableLiveData<Boolean> showTopPlayersList = new MutableLiveData<>();
@@ -61,32 +47,23 @@ public class LogicViewModel extends ViewModel {
     private Gson gson;
     private Player player;
     private Clan clan;
-    private List<ClanRanking> clanRanking;
-    private List<ClanMember> clanMembers;
-    private ArrayList<AchievmentCard> achievmentCards;
-    private ArrayList<ClanMember> clanCards;
-    private ArrayList<Clan> clans;
     private ArrayList<ClanRanking> clanRankings;
     private ArrayList<PlayerRanking> playerRankings;
+    private ArrayList<Clan> foundClans;
 
     public LogicViewModel() {
         observableItemsAchievmentCard = new MutableLiveData<>();
-        achievmentCards = new ArrayList<>();
+        observableItemsFoundClans = new MutableLiveData<>();
         playerRankings = new ArrayList<>();
         observableItemsPlayerRanking = new MutableLiveData<>();
         observableItemsClanMember = new MutableLiveData<>();
-        clanCards = new ArrayList<>();
         gson = new Gson();
         observableItemsClan = new MutableLiveData<>();
-        clans = new ArrayList<>();
+        foundClans = new ArrayList<>();
         observableItemsClanRanking = new MutableLiveData<>();
         clanRankings = new ArrayList<>();
-
     }
 
-    public static String getApiUrl() {
-        return API_URL;
-    }
 
     public static void setApiUrl(String apiUrl) {
         API_URL = apiUrl;
@@ -114,62 +91,6 @@ public class LogicViewModel extends ViewModel {
 
     public void setShowTopClansList(boolean showTopClansList) {
         this.showTopClansList.setValue(showTopClansList);
-    }
-
-    public MutableLiveData<ArrayList<AchievmentCard>> getObservableItemsAchievmentCard() {
-        return observableItemsAchievmentCard;
-    }
-
-    public void setObservableItemsAchievmentCard(MutableLiveData<ArrayList<AchievmentCard>> observableItemsAchievmentCard) {
-        this.observableItemsAchievmentCard = observableItemsAchievmentCard;
-    }
-
-    public MutableLiveData<ArrayList<ClanMember>> getObservableItemsClanMember() {
-        return observableItemsClanMember;
-    }
-
-    public void setObservableItemsClanMember(MutableLiveData<ArrayList<ClanMember>> observableItemsClanMember) {
-        this.observableItemsClanMember = observableItemsClanMember;
-    }
-
-    public MutableLiveData<ArrayList<Clan>> getObservableItemsClan() {
-        return observableItemsClan;
-    }
-
-    public void setObservableItemsClan(MutableLiveData<ArrayList<Clan>> observableItemsClan) {
-        this.observableItemsClan = observableItemsClan;
-    }
-
-    public MutableLiveData<ArrayList<ClanRanking>> getObservableItemsClanRanking() {
-        return observableItemsClanRanking;
-    }
-
-    public void setObservableItemsClanRanking(MutableLiveData<ArrayList<ClanRanking>> observableItemsClanRanking) {
-        this.observableItemsClanRanking = observableItemsClanRanking;
-    }
-
-    public ArrayList<ClanMember> getClanCards() {
-        return clanCards;
-    }
-
-    public void setClanCards(ArrayList<ClanMember> clanCards) {
-        this.clanCards = clanCards;
-    }
-
-    public ArrayList<Clan> getClans() {
-        return clans;
-    }
-
-    public void setClans(ArrayList<Clan> clans) {
-        this.clans = clans;
-    }
-
-    public ArrayList<ClanRanking> getClanRankings() {
-        return clanRankings;
-    }
-
-    public void setClanRankings(ArrayList<ClanRanking> clanRankings) {
-        this.clanRankings = clanRankings;
     }
 
     public void setPlayerClicked() {
@@ -201,85 +122,58 @@ public class LogicViewModel extends ViewModel {
                 return headers;
             }
         };
-
         queue.add(jsonObjectRequest);
     }
 
-    public void loadPlayerInfo(String json) {
+    public void loadPlayerFromJson(String json) {
         TypeToken<Player> typeToken = new TypeToken<>() {
         };
         player = gson.fromJson(json, typeToken);
     }
 
-    public void loadTopPlayers(String json) {
+    public void loadTopPlayerFromJson(String json) {
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
         JsonArray itemsArray = jsonObject.getAsJsonArray("items");
 
         Type listType = new TypeToken<List<PlayerRanking>>() {
         }.getType();
+
         playerRankings = gson.fromJson(itemsArray, listType);
+        observableItemsPlayerRanking.postValue(playerRankings);
     }
 
     public List<PlayerRanking> getPlayerRankings() {
         return playerRankings;
     }
 
-    public void setPlayerRankings(ArrayList<PlayerRanking> playerRankings) {
-        this.playerRankings = playerRankings;
-    }
-
-    public RequestQueue getQueue() {
-        return queue;
-    }
-
-    public void setQueue(RequestQueue queue) {
-        this.queue = queue;
-    }
-
-    public Gson getGson() {
-        return gson;
-    }
-
-    public void setGson(Gson gson) {
-        this.gson = gson;
-    }
-
-    public List<ClanRanking> getClanRanking() {
-        return clanRanking;
-    }
-
-    public void setClanRanking(List<ClanRanking> clanRanking) {
-        this.clanRanking = clanRanking;
-    }
-
-    public List<ClanMember> getClanMembers() {
-        return clanMembers;
-    }
-
-    public void setClanMembers(List<ClanMember> clanMembers) {
-        this.clanMembers = clanMembers;
-    }
-
-    public void loadClanInfo(String json) {
+    public void loadClanFromJson(String json) {
         TypeToken<Clan> typeToken = new TypeToken<>() {
         };
         clan = gson.fromJson(json, typeToken);
+        observableItemsClanMember.postValue(clan.getMemberList());
         System.out.println();
     }
 
-    public void loadTopClans(String json) {
+    public void loadTopClansFromJson(String json) {
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
         JsonArray itemsArray = jsonObject.getAsJsonArray("items");
-
         Type listType = new TypeToken<List<ClanRanking>>() {
         }.getType();
-        List<ClanRanking> clanRankings = gson.fromJson(itemsArray, listType);
-
+        clanRankings = gson.fromJson(itemsArray, listType);
+        observableItemsClanRanking.postValue(clanRankings);
     }
 
-    public void loadFoundClanInfo(String json) {
-//        ClanMemberList response = gson.fromJson(json, ClanMemberList.class);
-//        clanMembers = response.getClanMemberList();
+    public void loadFoundClansFromJson(String json) {
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+        JsonArray itemsArray = jsonObject.getAsJsonArray("items");
+        Type listType = new TypeToken<List<Clan>>() {
+        }.getType();
+
+        List<Clan> newFoundClans = gson.fromJson(itemsArray, listType);
+        foundClans.clear();
+        foundClans.addAll(newFoundClans);
+
+        observableItemsFoundClans.postValue(foundClans);
     }
 
     public Player getPlayer() {
@@ -296,373 +190,5 @@ public class LogicViewModel extends ViewModel {
 
     public void setClan(Clan clan) {
         this.clan = clan;
-    }
-
-    public void loadDataFromJson(String json) {
-        try {
-            JSONObject jsonResponse = new JSONObject(json);
-            JSONArray achievementList = jsonResponse.getJSONArray("achievements");
-
-            ArrayList<AchievmentCard> achievmentCards = new ArrayList<>();
-
-            for (int i = 0; i < achievementList.length(); i++) {
-                JSONObject achievement = achievementList.getJSONObject(i);
-                AchievmentCard achievmentCard = new AchievmentCard();
-
-                achievmentCard.setName(achievement.getString("name"));
-                achievmentCard.setStars(achievement.getInt("stars"));
-                achievmentCard.setValue(achievement.getInt("value"));
-                achievmentCard.setTarget(achievement.getInt("target"));
-                achievmentCard.setInfo(achievement.getString("info"));
-                achievmentCard.setCompletionInfo(achievement.optString("completionInfo", ""));
-                achievmentCard.setVillage(achievement.getString("village"));
-
-                achievmentCards.add(achievmentCard);
-            }
-
-            observableItemsAchievmentCard.postValue(achievmentCards);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList<AchievmentCard> getAchievmentCards() {
-        return achievmentCards;
-    }
-
-    public void setAchievmentCards(ArrayList<AchievmentCard> achievmentCards) {
-        this.achievmentCards = achievmentCards;
-    }
-
-    public void setTopPlayer(String json) {
-        try {
-            JSONObject jsonResponse = new JSONObject(json);
-            JSONArray items = jsonResponse.getJSONArray("items");
-
-            playerRankings.clear();
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject member = items.getJSONObject(i);
-                PlayerRanking playerRanking = new PlayerRanking();
-                playerRanking.setRank(member.getInt("rank"));
-//                playerRanking.setMembers(member.getInt("members"));
-                playerRanking.setName(member.getString("name"));
-                playerRanking.setTag(member.getString("tag"));
-                playerRanking.setPreviousRank(member.getInt("previousRank"));
-                playerRanking.setTrophies(member.getInt("trophies"));
-                playerRanking.setAttackWins(member.getInt("attackWins"));
-                playerRanking.setDefenseWins(member.getInt("defenseWins"));
-                playerRanking.setExpLevel(member.getInt("expLevel"));
-                
-
-                playerRankings.add(playerRanking);
-            }
-
-            observableItemsPlayerRanking.postValue(playerRankings);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void setPlayerPerClan(String json) {
-        try {
-            JSONObject jsonResponse = new JSONObject(json);
-            JSONArray memberList = jsonResponse.getJSONArray("memberList");
-
-            clanCards.clear();
-            for (int i = 0; i < memberList.length(); i++) {
-                JSONObject member = memberList.getJSONObject(i);
-                ClanMember clanMember = new ClanMember();
-                setIfExistsInt(member, "expLevel", clanMember::setExpLevel);
-                setIfExistsInt(member, "townHallLevel", clanMember::setTownHallLevel);
-                setIfExistsInt(member, "clanRank", clanMember::setClanRank);
-                setIfExistsInt(member, "previousClanRank", clanMember::setPreviousClanRank);
-
-                setIfExistsInt(member, "trophies", clanMember::setTrophies);
-                setIfExistsInt(member, "builderBaseTrophies", clanMember::setBuilderBaseTrophies);
-                setIfExistsInt(member, "donations", clanMember::setDonations);
-                setIfExistsInt(member, "donationsReceived", clanMember::setDonationsReceived);
-                if (member.has("role"))
-                    clanMember.setRole(Role.valueOf(member.optString("role", null)));
-
-                setIfExistsLeague(member, clanMember::setLeague);
-                setIfExistsBuilderBaseLeague(member, clanMember::setBuilderBaseLeague);
-                setIfExistsString(member, "name", clanMember::setName);
-                setIfExistsString(member, "tag", clanMember::setTag);
-                List<PlayerAchievmentProgress> achievements = new ArrayList<>();
-                List<Label> labels = new ArrayList<>();
-                setAchievementListIfExists(member, achievements);
-                setLabelListIfExists(member, labels);
-                clanCards.add(clanMember);
-            }
-
-            observableItemsClanMember.postValue(clanCards);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    //hilfsmethoden shit
-    private void setIfExistsInt(JSONObject member, String key, Consumer<Integer> setter) {
-        if (member.has(key)) {
-            try {
-                setter.accept(member.getInt(key));
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    private void setIfExistsString(JSONObject member, String key, Consumer<String> setter) {
-        if (member.has(key)) {
-            try {
-                setter.accept(member.getString(key));
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    private void setAchievementListIfExists(JSONObject member, List<PlayerAchievmentProgress> achievements) {
-        try {
-            if (member.has("achievements")) {
-                JSONArray array = member.getJSONArray("achievements");
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject achievementObject = array.getJSONObject(i);
-                    PlayerAchievmentProgress achievementProgress = new PlayerAchievmentProgress();
-
-                    setIfExistsInt(achievementObject, "stars", achievementProgress::setStars);
-                    setIfExistsInt(achievementObject, "value", achievementProgress::setValue);
-                    setIfExistsString(achievementObject, "name", achievementProgress::setName);
-                    setIfExistsInt(achievementObject, "target", achievementProgress::setTarget);
-                    setIfExistsString(achievementObject, "completionInfo", achievementProgress::setCompletionInfo);
-                    setIfExistsString(achievementObject, "village", value -> achievementProgress.setVillage(Village.valueOf(value)));
-                    achievements.add(achievementProgress);
-                }
-            }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void setLabelListIfExists(JSONObject member, List<Label> labels) {
-        try {
-            if (member.has("labels")) {
-                JSONArray array = member.getJSONArray("labels");
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject labelObject = array.getJSONObject(i);
-                    Label label = new Label();
-                    setIfExistsString(labelObject, "name", label::setName);
-                    setIfExistsInt(labelObject, "id", label::setId);
-                    setIfExistsJSONObject(labelObject, label::setIconUrls);
-                    labels.add(label);
-                }
-            }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void setIfExistsJSONObject(JSONObject jsonObject, Consumer<IconUrls> setter) {
-        try {
-            if (jsonObject.has("iconUrls")) {
-                JSONObject iconUrlsObject = jsonObject.getJSONObject("iconUrls");
-                IconUrls iconUrls = new IconUrls();
-                setIfExistsString(iconUrlsObject, "small", iconUrls::setSmall);
-                setIfExistsString(iconUrlsObject, "medium", iconUrls::setMedium);
-                setIfExistsString(iconUrlsObject, "large", iconUrls::setLarge);
-                setter.accept(iconUrls);
-            }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void setIfExistsLeague(JSONObject member, Consumer<League> setter) {
-        if (member.has("league")) {
-            try {
-                JSONObject leagueObject = member.getJSONObject("league");
-                League league = new League();
-                setIfExistsInt(leagueObject, "id", league::setId);
-                setIfExistsString(leagueObject, "name", league::setName);
-
-                if (leagueObject.has("iconUrls")) {
-                    JSONObject iconUrlsObject = leagueObject.getJSONObject("iconUrls");
-                    IconUrls iconUrls = new IconUrls();
-                    setIfExistsString(iconUrlsObject, "small", iconUrls::setSmall);
-                    setIfExistsString(iconUrlsObject, "medium", iconUrls::setMedium);
-                    setIfExistsString(iconUrlsObject, "large", iconUrls::setLarge);
-                    league.setIconUrls(iconUrls);
-                }
-
-                setter.accept(league);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    private void setIfExistsBuilderBaseLeague(JSONObject member, Consumer<BuilderBaseLeague> setter) {
-        if (member.has("builderBaseLeague")) {
-            try {
-                JSONObject builderBaseLeagueObject = member.getJSONObject("builderBaseLeague");
-                int id = builderBaseLeagueObject.getInt("id");
-                String name = builderBaseLeagueObject.getString("name");
-                BuilderBaseLeague builderBaseLeague = new BuilderBaseLeague(id, name);
-                setter.accept(builderBaseLeague);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    public void loadClanDataFromJson(String json) {
-        try {
-            JSONObject jsonResponse = new JSONObject(json);
-            JSONArray items = jsonResponse.getJSONArray("items");
-            clans.clear();
-
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject member = items.getJSONObject(i);
-                Clan clan = new Clan();
-                clan.setName(member.getString("name"));
-                clan.setTag(member.getString("tag"));
-                clan.setType(net.htlgkr.lugern.coctracker.models.clan.Type.valueOf(member.getString("type")));
-                clan.setClanLevel(member.getInt("clanLevel"));
-                clan.setClanPoints(member.getInt("clanPoints"));
-                clan.setClanCapitalPoints(member.getInt("clanCapitalPoints"));
-                clan.setClanBuilderBasePoints(member.getInt("clanBuilderBasePoints"));
-                clan.setRequiredTrophies(member.getInt("requiredTrophies"));
-                clan.setWarFrequency(WarFrequency.valueOf(member.getString("warFrequency")));
-                clan.setWarWinStreak(member.getInt("warWinStreak"));
-                clan.setWarWins(member.getInt("warWins"));
-                clan.setWarLogPublic(member.getBoolean("isWarLogPublic"));
-                clan.setMembers(member.getInt("members"));
-                clan.setRequiredBuilderBaseTrophies(member.getInt("requiredBuilderBaseTrophies"));
-                clan.setRequiredTownhallLevel(member.getInt("requiredTownhallLevel"));
-
-
-                if (member.has("location")) {
-                    JSONObject locationJson = member.getJSONObject("location");
-                    Location location = new Location();
-                    location.setId(locationJson.getInt("id"));
-                    location.setName(locationJson.getString("name"));
-                    if (locationJson.has("countryCode") && !locationJson.isNull("countryCode")) {
-                        location.setCountryCode(locationJson.getString("countryCode"));
-                    } else {
-                        location.setCountryCode("N/A");
-                    }
-                    clan.setLocation(location);
-                }
-
-                if (member.has("isFamilyFriendly")) {
-                    clan.setFamilyFriendly(member.getBoolean("isFamilyFriendly"));
-                }
-
-                if (member.has("badgeUrls")) {
-                    JSONObject badgeJson = member.getJSONObject("badgeUrls");
-                    BadgeUrls badgeUrls = new BadgeUrls();
-                    badgeUrls.setSmall(badgeJson.getString("small"));
-                    badgeUrls.setMedium(badgeJson.getString("medium"));
-                    badgeUrls.setLarge(badgeJson.getString("large"));
-                    clan.setBadgeUrls(badgeUrls);
-                }
-
-                clans.add(clan);
-            }
-
-            observableItemsClan.postValue(clans);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadClanDataFromJsonAlt(String json) {
-        try {
-            JSONObject jsonResponse = new JSONObject(json);
-            JSONArray items = jsonResponse.getJSONArray("items");
-
-//            clanCards.clear();
-
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject member = items.getJSONObject(i);
-                Clan foundClanCard = new Clan();
-                foundClanCard.setName(member.getString("name"));
-                foundClanCard.setTag(member.getString("tag"));
-                foundClanCard.setType(net.htlgkr.lugern.coctracker.models.clan.Type.valueOf(member.getString("type")));
-                foundClanCard.setClanLevel(member.getInt("clanLevel"));
-                foundClanCard.setClanPoints(member.getInt("clanPoints"));
-                foundClanCard.setClanCapitalPoints(member.getInt("clanCapitalPoints"));
-                foundClanCard.setClanBuilderBasePoints(member.getInt("clanBuilderBasePoints"));
-                foundClanCard.setRequiredTrophies(member.getInt("requiredTrophies"));
-                foundClanCard.setWarFrequency(WarFrequency.valueOf(member.getString("warFrequency")));
-                foundClanCard.setWarWinStreak(member.getInt("warWinStreak"));
-                foundClanCard.setWarWins(member.getInt("warWins"));
-                foundClanCard.setWarLogPublic(member.getBoolean("isWarLogPublic"));
-                foundClanCard.setMembers(member.getInt("members"));
-                foundClanCard.setRequiredBuilderBaseTrophies(member.getInt("requiredBuilderBaseTrophies"));
-                foundClanCard.setRequiredTownhallLevel(member.getInt("requiredTownhallLevel"));
-
-
-                if (member.has("location")) {
-                    JSONObject locationJson = member.getJSONObject("location");
-                    Location location = new Location();
-                    location.setId(locationJson.getInt("id"));
-                    location.setName(locationJson.getString("name"));
-                    if (locationJson.has("countryCode") && !locationJson.isNull("countryCode")) {
-                        location.setCountryCode(locationJson.getString("countryCode"));
-                    } else {
-                        location.setCountryCode("N/A");
-                    }
-
-
-                    foundClanCard.setLocation(location);
-                }
-
-                if (member.has("isFamilyFriendly")) {
-                    foundClanCard.setFamilyFriendly(member.getBoolean("isFamilyFriendly"));
-                }
-
-                if (member.has("badgeUrls")) {
-                    JSONObject badgeJson = member.getJSONObject("badgeUrls");
-                    BadgeUrls badgeUrls = new BadgeUrls();
-                    badgeUrls.setSmall(badgeJson.getString("small"));
-                    badgeUrls.setMedium(badgeJson.getString("medium"));
-                    badgeUrls.setLarge(badgeJson.getString("large"));
-                    foundClanCard.setBadgeUrls(badgeUrls);
-                }
-
-//                clanCards.add(foundClanCard);
-            }
-
-//            observableItems.postValue(clanCards);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void setTopClan(String json) {
-        try {
-            JSONObject jsonResponse = new JSONObject(json);
-            JSONArray items = jsonResponse.getJSONArray("items");
-
-            clanRankings.clear();
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject member = items.getJSONObject(i);
-                ClanRanking clanRanking = new ClanRanking();
-                clanRanking.setRank(member.getInt("rank"));
-                clanRanking.setMembers(member.getInt("members"));
-                clanRanking.setName(member.getString("name"));
-                clanRanking.setTag(member.getString("tag"));
-                clanRanking.setClanLevel(member.getInt("clanLevel"));
-                clanRanking.setClanPoints(member.getInt("clanPoints"));
-                clanRanking.setPreviousRank(member.getInt("previousRank"));
-                clanRankings.add(clanRanking);
-            }
-
-            observableItemsClanRanking.postValue(clanRankings);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

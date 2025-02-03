@@ -27,7 +27,4 @@ public class League {
         return iconUrls;
     }
 
-    public void setIconUrls(IconUrls iconUrls) {
-        this.iconUrls = iconUrls;
-    }
 }

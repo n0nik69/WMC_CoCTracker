@@ -15,41 +15,25 @@ public class ClanRanking {
         return clanPoints;
     }
 
-    public void setClanPoints(int clanPoints) {
-        this.clanPoints = clanPoints;
-    }
 
     public int getClanLevel() {
         return clanLevel;
-    }
-
-    public void setClanLevel(int clanLevel) {
-        this.clanLevel = clanLevel;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 
     public int getMembers() {
         return members;
     }
 
-    public void setMembers(int members) {
-        this.members = members;
-    }
 
     public String getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
 
     public String getName() {
         return name;
@@ -63,23 +47,14 @@ public class ClanRanking {
         return rank;
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
 
     public int getPreviousRank() {
         return previousRank;
     }
 
-    public void setPreviousRank(int previousRank) {
-        this.previousRank = previousRank;
-    }
 
     public BadgeUrls getBadgeUrls() {
         return badgeUrls;
     }
 
-    public void setBadgeUrls(BadgeUrls badgeUrls) {
-        this.badgeUrls = badgeUrls;
-    }
 }

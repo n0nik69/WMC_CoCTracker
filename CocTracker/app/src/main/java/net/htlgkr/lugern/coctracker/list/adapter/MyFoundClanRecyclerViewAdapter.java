@@ -14,9 +14,6 @@ import net.htlgkr.lugern.coctracker.models.clan.Clan;
 
 import java.util.List;
 
-/**
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFoundClanRecyclerViewAdapter.ViewHolder> {
 
     private final List<Clan> values;
@@ -60,13 +57,10 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
                 warFrequencyText = "<1x/W";
                 break;
             case never:
-                warFrequencyText = "Egal";
+                warFrequencyText = "Nie";
                 break;
             case any:
                 warFrequencyText = "Egal";
-                break;
-            case unknown:
-                warFrequencyText = "N/A";
                 break;
             default:
                 warFrequencyText = "N/A";

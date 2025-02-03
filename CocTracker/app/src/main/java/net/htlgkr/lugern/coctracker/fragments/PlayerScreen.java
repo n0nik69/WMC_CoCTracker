@@ -1,6 +1,7 @@
 package net.htlgkr.lugern.coctracker.fragments;
 
 import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,18 +18,13 @@ import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
 import net.htlgkr.lugern.coctracker.models.player.Player;
-import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
-
-import java.util.List;
 
 public class PlayerScreen extends Fragment {
     FragmentPlayerScreenBinding binding;
-    //    RequestViewModel requestViewModel;
     LogicViewModel logicViewModel;
 
     public PlayerScreen() {
-        // Required empty public constructor
     }
 
     @Override
@@ -61,7 +57,7 @@ public class PlayerScreen extends Fragment {
             logicViewModel.requestData(new HTTPListener<>() {
                 @Override
                 public void onSuccess(String json) {
-                    logicViewModel.loadPlayerInfo(json);
+                    logicViewModel.loadPlayerFromJson(json);
                     Player player = logicViewModel.getPlayer();
                     System.out.println();
                 }
@@ -105,9 +101,9 @@ public class PlayerScreen extends Fragment {
             } else if (menuItem.getItemId() == R.id.playerSpells) {
                 return true;
             } else if (menuItem.getItemId() == R.id.topPlayers) {
-                binding.tvPlayer.setOnClickListener(view -> {
-                    logicViewModel.setPlayerClicked();
-                });
+
+                logicViewModel.setPlayerClicked();
+                binding.playerCP.setVisibility(VISIBLE);
                 loadTopPlayers();
             }
             return false;
@@ -118,17 +114,16 @@ public class PlayerScreen extends Fragment {
 
     private void loadTopPlayers() {
         logicViewModel.setShowTopPlayersList(true);
-        String url = "https://api.clashofclans.com/v1/locations/32000022/rankings/players?limit=10";
+        String url = "https://api.clashofclans.com/v1/locations/32000022/rankings/players?limit=25";
 
         logicViewModel.setApiUrl(url);
         logicViewModel.requestData(new HTTPListener<>() {
             @Override
             public void onSuccess(String json) {
-                logicViewModel.loadTopPlayers(json);
+                logicViewModel.loadTopPlayerFromJson(json);
                 binding.btnSearchPlayer.setVisibility(INVISIBLE);
                 binding.textInputLayout2.setVisibility(INVISIBLE);
-                logicViewModel.setTopPlayer(json);
-                List<PlayerRanking> playerRankingList = logicViewModel.getPlayerRankings();
+                binding.playerCP.setVisibility(INVISIBLE);
                 System.out.println();
             }
 

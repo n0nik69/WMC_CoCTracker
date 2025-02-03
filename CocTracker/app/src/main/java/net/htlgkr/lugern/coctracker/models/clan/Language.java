@@ -24,8 +24,4 @@ public class Language {
     public String getLanguageCode() {
         return languageCode;
     }
-
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
-    }
 }

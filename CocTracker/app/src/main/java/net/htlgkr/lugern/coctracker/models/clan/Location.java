@@ -19,9 +19,6 @@ public class Location {
         return isCountry;
     }
 
-    public void setCountry(boolean country) {
-        isCountry = country;
-    }
 
     public int getId() {
         return id;
@@ -44,7 +41,4 @@ public class Location {
         return countryCode;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
 }

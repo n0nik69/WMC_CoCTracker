@@ -52,24 +52,7 @@ public class FoundClanFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
 
-//            foundClanViewModel.observableItems.observe(getViewLifecycleOwner(), items -> {
-//                adapter[0] = new MyFoundClanRecyclerViewAdapter(items);
-//                recyclerView.setAdapter(adapter[0]);
-//
-//                adapter[0].setOnFoundClanClickListener(position -> {
-//                    FoundClanCard clickedClan = items.get(position);
-//                    if (clickedClan != null) {
-//                        String clanTag = clickedClan.getTag();
-//                        int listFragment = Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
-//                        ClanScreen clanScreen = new ClanScreen();
-//                        clanScreen.loadClanFromName(clanTag);
-//
-//
-//                    }
-//                });
-//            });
-
-            logicViewModel.observableItemsClan.observe(getViewLifecycleOwner(), items -> {
+            logicViewModel.observableItemsFoundClans.observe(getViewLifecycleOwner(), items -> {
                 adapter[0] = new MyFoundClanRecyclerViewAdapter(items);
                 recyclerView.setAdapter(adapter[0]);
 
@@ -79,15 +62,11 @@ public class FoundClanFragment extends Fragment {
                         String clanTag = clickedClan.getTag();
                         Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
 
-                        // Neue Instanz von ClanScreen erstellen
                         ClanScreen clanScreen = new ClanScreen();
-
-                        // Übergabe des Clan-Tags als Argument
                         Bundle args = new Bundle();
                         args.putString("CLAN_TAG", clanTag);
                         clanScreen.setArguments(args);
 
-                        // Fragment Transaktion durchführen
                         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.mainFragment, clanScreen);
                         transaction.addToBackStack(null);
@@ -95,11 +74,7 @@ public class FoundClanFragment extends Fragment {
                     }
                 });
             });
-
-
         }
         return view;
     }
-
-
 }

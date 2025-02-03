@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentAchievmentBinding;
-import net.htlgkr.lugern.coctracker.list.listModel.AchievmentCard;
+import net.htlgkr.lugern.coctracker.models.player.AchievmentCard;
 
 import java.util.List;
 
@@ -28,7 +28,6 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        //hier daten
         AchievmentCard achievmentCard = values.get(position);
 
         holder.binding.ivAchievmentStars.setImageResource(achievmentCard.getStars());

@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentTopClansBinding;
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
@@ -16,7 +18,6 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
 
 
     private final List<ClanRanking> values;
-    //    private MyTopClansRecyclerViewAdapter myTopClansRecyclerViewAdapter;
     private MyOnCardClickListener myOnCardClickListener;
 
     public MyTopClansRecyclerViewAdapter(List<ClanRanking> items) {
@@ -35,15 +36,15 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         ClanRanking clanRanking = values.get(position);
-//        Picasso.get()
-//                .load(clanRanking.getBadgeUrls().getLarge())
-//                .into(holder.binding.ivClanRankBadge);
-
         holder.binding.tvClanRank.setText(String.valueOf(clanRanking.getRank()));
         holder.binding.tvClanRankMembers.setText(clanRanking.getMembers() + "/50");
         holder.binding.tvClanRankName.setText(clanRanking.getName());
-//        holder.binding.tvClanRankTag.setText(clanRanking.getTag());
         holder.binding.tvClanRankTrophies.setText(String.valueOf(clanRanking.getClanPoints()));
+        String imageUrl = clanRanking.getBadgeUrls().getLarge();
+
+        Picasso.get()
+                .load(imageUrl)
+                .into(holder.binding.ivClanRankBadge);
 
         holder.clanRanking = clanRanking;
         holder.itemView.setOnClickListener(v -> {

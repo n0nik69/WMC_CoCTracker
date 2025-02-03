@@ -13,9 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
 
-/**
- * A fragment representing a list of Items.
- */
 public class AchievmentFragment extends Fragment {
 
     private int columnCount = 1;
@@ -33,7 +30,6 @@ public class AchievmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_achievment_list, container, false);
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -42,7 +38,6 @@ public class AchievmentFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
-//            recyclerView.setAdapter(new MyAchievmentRecyclerViewAdapter(PlaceholderContent.ITEMS));
         }
         return view;
     }

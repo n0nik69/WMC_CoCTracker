@@ -10,15 +10,9 @@ public class ClanCapital {
         return capitalHallLevel;
     }
 
-    public void setCapitalHallLevel(int capitalHallLevel) {
-        this.capitalHallLevel = capitalHallLevel;
-    }
 
     public List<ClanDistrictData> getClanDistrictDataList() {
         return clanDistrictDataList;
     }
 
-    public void setClanDistrictDataList(List<ClanDistrictData> clanDistrictDataList) {
-        this.clanDistrictDataList = clanDistrictDataList;
-    }
 }

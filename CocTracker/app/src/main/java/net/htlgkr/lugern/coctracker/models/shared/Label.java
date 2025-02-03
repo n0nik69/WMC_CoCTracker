@@ -26,8 +26,4 @@ public class Label {
     public IconUrls getIconUrls() {
         return iconUrls;
     }
-
-    public void setIconUrls(IconUrls iconUrls) {
-        this.iconUrls = iconUrls;
-    }
 }

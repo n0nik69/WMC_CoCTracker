@@ -40,7 +40,6 @@ public class ClanScreen extends Fragment {
     private boolean isMenuSelected = false;
 
     public ClanScreen() {
-        // Required empty public constructor
     }
 
     @Override
@@ -52,7 +51,6 @@ public class ClanScreen extends Fragment {
             loadClanFromName(clanTag);
         }
     }
-
 
     public void loadClanFromName(String clanTagOrName) {
         updateButtonState();
@@ -74,14 +72,12 @@ public class ClanScreen extends Fragment {
             public void onSuccess(String json) {
                 System.out.println();
 
-                logicViewModel.loadClanInfo(json);
+                logicViewModel.loadClanFromJson(json);
                 Clan clan = logicViewModel.getClan();
                 binding.tvClanName.setText(clan.getName());
                 binding.tvClanDescription.setText(clan.getDescription());
                 binding.tvClanDescription.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(VISIBLE);
-                binding.cp.setVisibility(INVISIBLE);
-                logicViewModel.setPlayerPerClan(json);
                 binding.listLayout.setVisibility(VISIBLE);
 
                 Picasso.get()
@@ -118,13 +114,11 @@ public class ClanScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentClanScreenBinding.inflate(inflater, container, false);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         logicViewModel.init(requireContext());
         imageView = binding.ivClanBadge;
         progressIndicator = binding.cp;
-        binding.cp.setVisibility(INVISIBLE);
         binding.listLayout.setVisibility(INVISIBLE);
         binding.tvClans.setOnClickListener(view -> {
             logicViewModel.setSearchPerName(false);
@@ -144,22 +138,21 @@ public class ClanScreen extends Fragment {
                 }
             });
         });
-//        logicViewModel.observableItemsClan.observe(getViewLifecycleOwner(), items -> {
-//            MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(logicViewModel.observableItemsClan.getValue());
-//            adapter.setOnItemClickListener(position -> {
-////                ClanRanking clanRanking = topClansViewModel.observableItems.getValue().get(position);
-////                if (clanRanking != null) {
-////                    String clanTag = clanRanking.getTag();
-////                    Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
-////
-////                }
-//            });
-//        });
+
+        logicViewModel.observableItemsFoundClans.observe(getViewLifecycleOwner(), items -> {
+            MyFoundClanRecyclerViewAdapter adapter = new MyFoundClanRecyclerViewAdapter(logicViewModel.observableItemsFoundClans.getValue());
+            adapter.setOnFoundClanClickListener(position -> {
+                Clan clan = logicViewModel.observableItemsFoundClans.getValue().get(position);
+                if (clan != null) {
+                    String clanTag = clan.getTag();
+                    Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
+                }
+            });
+        });
 
 
         binding.btnSearchClan.setEnabled(false);
         binding.btnSearchClan.setOnClickListener(view -> {
-
             testMethod(imageView, progressIndicator, logicViewModel);
         });
 
@@ -183,7 +176,6 @@ public class ClanScreen extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-
 
         return binding.getRoot();
     }
@@ -210,21 +202,19 @@ public class ClanScreen extends Fragment {
 
         binding.cp.setVisibility(VISIBLE);
 
-
         logicViewModel.setApiUrl(url);
         logicViewModel.requestData(new HTTPListener<>() {
             @Override
             public void onSuccess(String json) {
                 System.out.println();
                 if (Boolean.TRUE.equals(logicViewModel.getSearchPerTag().getValue())) {
-                    logicViewModel.loadClanInfo(json);
+                    logicViewModel.loadClanFromJson(json);
                     Clan clan = logicViewModel.getClan();
                     binding.tvClanName.setText(clan.getName());
                     binding.tvClanDescription.setText(clan.getDescription());
                     binding.tvClanDescription.setVisibility(VISIBLE);
                     binding.tvClanName.setVisibility(VISIBLE);
                     binding.cp.setVisibility(INVISIBLE);
-                    logicViewModel.setPlayerPerClan(json);
                     binding.listLayout.setVisibility(VISIBLE);
                     ConstraintLayout listLayout = binding.listLayout;
                     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
@@ -246,18 +236,17 @@ public class ClanScreen extends Fragment {
                             });
 
                 } else if (Boolean.TRUE.equals(logicViewModel.getSearchPerName().getValue())) {
-                    logicViewModel.loadFoundClanInfo(json);
-                    logicViewModel.loadClanDataFromJson(json);
+                    logicViewModel.loadFoundClansFromJson(json);
+
                     binding.cp.setVisibility(INVISIBLE);
                     binding.listLayout.setVisibility(VISIBLE);
                     ConstraintLayout listLayout = binding.listLayout;
                     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
-                    params.topMargin = 8;
+                    params.topMargin = 240;
                 } else {
                     displayTopClans();
                 }
             }
-
 
             @Override
             public void onError(String error) {
@@ -274,21 +263,20 @@ public class ClanScreen extends Fragment {
 
     private void displayTopClans() {
         Log.i("klasdf", "displayTop clans ageajdfffffffffffffffffff");
-        url = "https://api.clashofclans.com/v1/locations/32000022/rankings/clans?limit=10";
+        url = "https://api.clashofclans.com/v1/locations/32000022/rankings/clans?limit=25";
         logicViewModel.setApiUrl(url);
         logicViewModel.requestData(new HTTPListener<>() {
             @Override
             public void onSuccess(String json) {
                 Log.d("DEBUG", "API-Antwort erhalten: " + json);
-                logicViewModel.loadTopClans(json);
-                logicViewModel.setTopClan(json);
+                logicViewModel.loadTopClansFromJson(json);
                 binding.cp.setVisibility(INVISIBLE);
                 binding.listLayout.setVisibility(VISIBLE);
                 binding.listLayout.invalidate();
 
                 ConstraintLayout listLayout = binding.listLayout;
                 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) listLayout.getLayoutParams();
-                params.topMargin = 0;
+                params.topMargin = 16;
             }
 
             @Override
@@ -296,8 +284,6 @@ public class ClanScreen extends Fragment {
                 System.out.println(error);
             }
         });
-
-
     }
 
     private void showMenu(View v, int menuRes) {
@@ -324,7 +310,6 @@ public class ClanScreen extends Fragment {
                 binding.tvClanName.setVisibility(INVISIBLE);
                 binding.ivClanBadge.setVisibility(INVISIBLE);
                 binding.tvClanDescription.setVisibility(INVISIBLE);
-                binding.listLayout.setVisibility(INVISIBLE);
                 textInputLayout.setHint("Clan per Tag suchen");
 
             } else if (menuItem.getItemId() == R.id.topClans) {
@@ -336,7 +321,6 @@ public class ClanScreen extends Fragment {
                 binding.tvClanDescription.setVisibility(INVISIBLE);
                 binding.listLayout.setVisibility(VISIBLE);
                 displayTopClans();
-
                 return false;
             }
 

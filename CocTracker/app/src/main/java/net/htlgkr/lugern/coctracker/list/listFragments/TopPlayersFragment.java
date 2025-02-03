@@ -18,9 +18,6 @@ import net.htlgkr.lugern.coctracker.list.adapter.MyTopPlayersRecyclerViewAdapter
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
-/**
- * A fragment representing a list of Items.
- */
 public class TopPlayersFragment extends Fragment {
 
     MainViewModel mainViewModel;
@@ -41,7 +38,6 @@ public class TopPlayersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_top_players_list, container, false);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;

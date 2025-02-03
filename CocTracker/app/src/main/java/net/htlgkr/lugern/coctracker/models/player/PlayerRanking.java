@@ -16,25 +16,16 @@ public class PlayerRanking {
         return league;
     }
 
-    public void setLeague(League league) {
-        this.league = league;
-    }
 
     public PlayerRankingClan getPlayerRankingClan() {
         return playerRankingClan;
     }
 
-    public void setPlayerRankingClan(PlayerRankingClan playerRankingClan) {
-        this.playerRankingClan = playerRankingClan;
-    }
 
     public int getAttackWins() {
         return attackWins;
     }
 
-    public void setAttackWins(int attackWins) {
-        this.attackWins = attackWins;
-    }
 
     public int getDefenseWins() {
         return defenseWins;
