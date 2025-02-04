@@ -43,29 +43,34 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
 
         String warFrequencyText;
 
-        switch (clan.getWarFrequency()) {
-            case oncePerWeek:
-                warFrequencyText = "1x/W";
-                break;
-            case always:
-                warFrequencyText = "Immer";
-                break;
-            case moreThanOncePerWeek:
-                warFrequencyText = ">1x/W";
-                break;
-            case lessThanOncePerWeek:
-                warFrequencyText = "<1x/W";
-                break;
-            case never:
-                warFrequencyText = "Nie";
-                break;
-            case any:
-                warFrequencyText = "Egal";
-                break;
-            default:
-                warFrequencyText = "N/A";
-                break;
+        if (clan.getWarFrequency() != null) {
+            switch (clan.getWarFrequency()) {
+                case oncePerWeek:
+                    warFrequencyText = "1x/W";
+                    break;
+                case always:
+                    warFrequencyText = "Immer";
+                    break;
+                case moreThanOncePerWeek:
+                    warFrequencyText = ">1x/W";
+                    break;
+                case lessThanOncePerWeek:
+                    warFrequencyText = "<1x/W";
+                    break;
+                case never:
+                    warFrequencyText = "Nie";
+                    break;
+                case any:
+                    warFrequencyText = "Egal";
+                    break;
+                default:
+                    warFrequencyText = "N/A";
+                    break;
+            }
+        } else {
+            warFrequencyText = "N/A";
         }
+
 
         holder.binding.tvFoundClanWarFrequency.setText(warFrequencyText);
 

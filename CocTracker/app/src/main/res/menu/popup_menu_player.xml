@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/searchPlayerPerTag"
+        android:title="Search Player per Tag" />
+    <item
         android:id="@+id/playerTroops"
-        android:title="Truppen" />
+        android:title="Troops" />
     <item
         android:id="@+id/playerSpells"
-        android:title="Zauber" />
+        android:title="Spells" />
     <item
         android:id="@+id/playerHeroes"
-        android:title="Helden" />
+        android:title="Heroes" />
     <item
         android:id="@+id/playerAchievments"
-        android:title="Errungenschaften" />
+        android:title="Achievments" />
     <item
         android:id="@+id/topPlayers"
-        android:title="Spieler-Bestenliste" />
+        android:title="Top Players" />
 
 </menu>

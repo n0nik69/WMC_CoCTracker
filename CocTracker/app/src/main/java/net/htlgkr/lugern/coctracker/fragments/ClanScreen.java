@@ -29,11 +29,13 @@ import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class ClanScreen extends Fragment {
     FragmentClanScreenBinding binding;
     LogicViewModel logicViewModel;
     String clanTagOrName;
+    MainViewModel mainViewModel;
     ImageView imageView;
     String url;
     CircularProgressIndicator progressIndicator;
@@ -117,13 +119,12 @@ public class ClanScreen extends Fragment {
         binding = FragmentClanScreenBinding.inflate(inflater, container, false);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         logicViewModel.init(requireContext());
+
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         imageView = binding.ivClanBadge;
         progressIndicator = binding.cp;
         binding.listLayout.setVisibility(INVISIBLE);
         binding.tvClans.setOnClickListener(view -> {
-            logicViewModel.setSearchPerName(false);
-            logicViewModel.setSearchPerTag(false);
-            logicViewModel.setShowTopClansList(false);
             showMenu(view, R.menu.popup_menu_clans);
         });
 
@@ -221,7 +222,7 @@ public class ClanScreen extends Fragment {
                     params.topMargin = 600;
 
                     Picasso.get()
-                            .load(clan.getBadgeUrls().getMedium())
+                            .load(clan.getBadgeUrls().getLarge())
                             .into(imageView, new Callback() {
                                 @Override
                                 public void onSuccess() {
@@ -304,7 +305,8 @@ public class ClanScreen extends Fragment {
                 textInputLayout.setHint("Clan per Name suchen");
 
             } else if (menuItem.getItemId() == R.id.searchClanPerTag) {
-                logicViewModel.setSearchPerTag(true);
+//                logicViewModel.setSearchPerTag(true);
+//                mainViewModel.showScreen(MainViewModel.)
                 binding.textInputLayout.setVisibility(VISIBLE);
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.tvClanName.setVisibility(INVISIBLE);

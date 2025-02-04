@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/searchClanPerName"
-        android:title="Clan per Name suchen" />
+        android:title="Search Clan per Name" />
     <item
         android:id="@+id/searchClanPerTag"
-        android:title="Clan per Tag suchen" />
+        android:title="Search Clan per Tag" />
     <item
         android:id="@+id/topClans"
-        android:title="Clan-Bestenliste" />
+        android:title="Top Clans" />
 </menu>

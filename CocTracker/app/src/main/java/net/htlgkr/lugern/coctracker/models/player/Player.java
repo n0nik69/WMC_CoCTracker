@@ -4,6 +4,7 @@ import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.models.shared.BuilderBaseLeague;
 import net.htlgkr.lugern.coctracker.models.shared.Label;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -30,19 +31,15 @@ public class Player {
     private BuilderBaseLeague builderBaseLeague;
     private PlayerHouse playerHouse;
     private LegendStatistics legendStatistics;
-    private List<PlayerItemLevel> troops;
-    private List<PlayerItemLevel> heroes;
-    private List<PlayerItemLevel> heroEquipments;
-    private List<PlayerItemLevel> spells;
-    private List<PlayerAchievmentProgress> achievements;
-    private List<Label> labels;
+    private ArrayList<PlayerItemLevel> troops;
+    private ArrayList<PlayerItemLevel> heroes;
+    private ArrayList<PlayerItemLevel> heroEquipments;
+    private ArrayList<PlayerItemLevel> spells;
+    private ArrayList<PlayerAchievmentProgress> achievements;
+    private ArrayList<Label> labels;
 
-    public List<PlayerAchievmentProgress> getAchievements() {
+    public ArrayList<PlayerAchievmentProgress> getAchievements() {
         return achievements;
-    }
-
-    public void setAchievements(List<PlayerAchievmentProgress> achievements) {
-        this.achievements = achievements;
     }
 
     public String getTag() {

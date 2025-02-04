@@ -7,6 +7,7 @@ public class PlayerAchievmentProgress {
     private int target;
     private String completionInfo;
     private Village village;
+    private String info;
 
     public int getStars() {
         return stars;
@@ -37,4 +38,7 @@ public class PlayerAchievmentProgress {
         return village;
     }
 
+    public String getInfo() {
+        return info;
+    }
 }

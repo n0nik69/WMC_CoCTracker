@@ -15,10 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
-import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
-import net.htlgkr.lugern.coctracker.list.listFragments.FoundClanFragment;
-import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
-import net.htlgkr.lugern.coctracker.list.listFragments.TopPlayersFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.AchievmentFragment;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -65,40 +62,51 @@ public class MainActivity extends AppCompatActivity {
                 case MainViewModel.clanScreen:
                     transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
                     break;
+                case MainViewModel.playerAchievmentList:
+                    transaction.replace(R.id.playerListLayout, new AchievmentFragment(), "CLANSCREEN");
+                    break;
             }
             transaction.commit();
         });
 
-        logicViewModel.getSearchPerName().observe(this, isSearchPerName -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            if (isSearchPerName) {
-                transaction.replace(R.id.listLayout, new FoundClanFragment());
-            }
-            transaction.commit();
-        });
+//        logicViewModel.getSearchPerName().observe(this, isSearchPerName -> {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            if (isSearchPerName) {
+//                transaction.replace(R.id.listLayout, new FoundClanFragment());
+//            }
+//            transaction.commit();
+//        });
+//
+//        logicViewModel.getSearchPerTag().observe(this, isSearchPerTag -> {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            if (isSearchPerTag) {
+//                transaction.replace(R.id.listLayout, new ClanFragment());
+//            }
+//            transaction.commit();
+//        });
+//
+//        logicViewModel.getShowTopClansList().observe(this, showTopClansList -> {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            if (showTopClansList) {
+//                transaction.replace(R.id.listLayout, new TopClansFragment());
+//            }
+//            transaction.commit();
+//        });
+//
+//        logicViewModel.getShowTopPlayersList().observe(this, showTopPlayersList -> {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            if (showTopPlayersList) {
+//                transaction.replace(R.id.playerListLayout, new TopPlayersFragment());
+//            }
+//            transaction.commit();
+//        });
 
-        logicViewModel.getSearchPerTag().observe(this, isSearchPerTag -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            if (isSearchPerTag) {
-                transaction.replace(R.id.listLayout, new ClanFragment());
-            }
-            transaction.commit();
-        });
-
-        logicViewModel.getShowTopClansList().observe(this, showTopClansList -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            if (showTopClansList) {
-                transaction.replace(R.id.listLayout, new TopClansFragment());
-            }
-            transaction.commit();
-        });
-
-        logicViewModel.getShowTopPlayersList().observe(this, showTopPlayersList -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            if (showTopPlayersList) {
-                transaction.replace(R.id.playerListLayout, new TopPlayersFragment());
-            }
-            transaction.commit();
-        });
+//        logicViewModel.getShowPlayerAchievment().observe(this, showPlayerAchievments -> {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            if (showPlayerAchievments) {
+//                transaction.replace(R.id.playerListLayout, new AchievmentFragment());
+//            }
+//            transaction.commit();
+//        });
     }
 }

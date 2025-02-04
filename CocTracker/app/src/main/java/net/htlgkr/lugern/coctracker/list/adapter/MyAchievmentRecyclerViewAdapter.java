@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentAchievmentBinding;
-import net.htlgkr.lugern.coctracker.models.player.AchievmentCard;
+import net.htlgkr.lugern.coctracker.models.player.PlayerAchievmentProgress;
 
 import java.util.List;
 
 public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchievmentRecyclerViewAdapter.ViewHolder> {
 
-    private final List<AchievmentCard> values;
+    private final List<PlayerAchievmentProgress> values;
     private MyOnCardClickListener onCardClickListener;
 
-    public MyAchievmentRecyclerViewAdapter(List<AchievmentCard> items) {
+    public MyAchievmentRecyclerViewAdapter(List<PlayerAchievmentProgress> items) {
         values = items;
     }
 
@@ -28,18 +28,20 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        AchievmentCard achievmentCard = values.get(position);
+        PlayerAchievmentProgress achievment = values.get(position);
 
-        holder.binding.ivAchievmentStars.setImageResource(achievmentCard.getStars());
-        holder.binding.tvAchievmentName.setText(achievmentCard.getName());
-        holder.binding.tvAchievmentCompletionInfo.setText(achievmentCard.getCompletionInfo());
-        holder.binding.tvAchievmentInfo.setText(achievmentCard.getInfo());
-        holder.achievmentCard = achievmentCard;
+//        holder.binding.ivAchievmentStars.setImageResource(achievment.getStars());
+        holder.binding.tvAchievmentName.setText(achievment.getName());
+        holder.binding.tvAchievmentCompletionInfo.setText(achievment.getCompletionInfo());
+        holder.binding.tvAchievmentInfo.setText(achievment.getInfo());
+        holder.achievment = achievment;
         holder.itemView.setOnClickListener(v -> {
             if (onCardClickListener != null) {
                 onCardClickListener.onItemClick(holder.getLayoutPosition());
             }
         });
+
+        holder.achievment = achievment;
     }
 
     public void setOnItemClickListener(MyOnCardClickListener onItemClickListener) {
@@ -53,7 +55,7 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public FragmentAchievmentBinding binding;
-        public AchievmentCard achievmentCard;
+        public PlayerAchievmentProgress achievment;
 
         public ViewHolder(FragmentAchievmentBinding binding) {
             super(binding.getRoot());
