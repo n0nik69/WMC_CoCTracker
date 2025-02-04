@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 case MainViewModel.playerAchievmentList:
                     transaction.replace(R.id.playerListLayout, new AchievmentFragment(), "CLANSCREEN");
                     break;
+                case MainViewModel.clanMemberList:
             }
             transaction.commit();
         });
