@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
             transaction.commit();
         });
+        //nigga nigaa nigagiasng
 
 //        logicViewModel.getSearchPerName().observe(this, isSearchPerName -> {
 //            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
