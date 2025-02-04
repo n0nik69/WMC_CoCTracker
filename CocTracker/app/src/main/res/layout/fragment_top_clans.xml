@@ -25,9 +25,9 @@
 
         <ImageView
             android:id="@+id/ivClanRankBadge"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="4dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/tvClanRank"
             card_view:layout_constraintTop_toTopOf="parent"
@@ -37,7 +37,7 @@
             android:id="@+id/tvClanRankTrophies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="2dp"
             android:text="55555"
             android:textSize="12sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/ivClanRankBadge"
             card_view:layout_constraintTop_toTopOf="parent">
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SL SUPER HEAROS"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 

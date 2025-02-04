@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyTopClansRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -38,9 +40,9 @@ public class TopClansFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_top_clans_list, container, false);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
+        final MyTopClansRecyclerViewAdapter[] adapter = new MyTopClansRecyclerViewAdapter[1];
 
         View listView = view.findViewById(R.id.list);
-        // Set the adapter
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
@@ -51,9 +53,25 @@ public class TopClansFragment extends Fragment {
             }
 
             logicViewModel.observableItemsClanRanking.observe(getViewLifecycleOwner(), items -> {
-                MyTopClansRecyclerViewAdapter adapter = new MyTopClansRecyclerViewAdapter(items);
-                recyclerView.setAdapter(adapter);
-                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+                adapter[0] = new MyTopClansRecyclerViewAdapter(items);
+                recyclerView.setAdapter(adapter[0]);
+                
+                adapter[0].setOnItemClickListener(position -> {
+                    ClanRanking clickedClan = items.get(position);
+                    if (clickedClan != null) {
+                        String clanTag = clickedClan.getTag();
+                        Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
+
+                        ClanScreen clanScreen = (ClanScreen) getParentFragmentManager().findFragmentByTag("CLANSCREEN");
+
+                        if (clanScreen != null) {
+                            clanScreen.searchClanPerTag(clanTag);
+                        } else {
+                            Log.e("FoundClanFragment", "ClanScreen Fragment not found");
+                        }
+                    }
+                });
+
             });
         }
         return view;

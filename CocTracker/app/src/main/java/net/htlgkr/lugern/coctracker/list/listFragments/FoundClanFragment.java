@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,23 +55,25 @@ public class FoundClanFragment extends Fragment {
                 adapter[0] = new MyFoundClanRecyclerViewAdapter(items);
                 recyclerView.setAdapter(adapter[0]);
 
+
                 adapter[0].setOnFoundClanClickListener(position -> {
                     Clan clickedClan = items.get(position);
                     if (clickedClan != null) {
                         String clanTag = clickedClan.getTag();
                         Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
 
-                        ClanScreen clanScreen = new ClanScreen();
-                        Bundle args = new Bundle();
-                        args.putString("CLAN_TAG", clanTag);
-                        clanScreen.setArguments(args);
+                        // Hole das bestehende ClanScreen-Fragment
+                        ClanScreen clanScreen = (ClanScreen) getParentFragmentManager().findFragmentByTag("CLANSCREEN");
 
-                        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.mainFragment, clanScreen);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        // Stelle sicher, dass das Fragment gefunden wurde und rufe die Methode auf
+                        if (clanScreen != null) {
+                            clanScreen.searchClanPerTag(clanTag);
+                        } else {
+                            Log.e("FoundClanFragment", "ClanScreen Fragment not found");
+                        }
                     }
                 });
+
             });
         }
         return view;

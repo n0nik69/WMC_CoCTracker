@@ -2,7 +2,6 @@ package net.htlgkr.lugern.coctracker.list.listFragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
-import net.htlgkr.lugern.coctracker.list.adapter.MyAchievmentRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 
 public class AchievmentFragment extends Fragment {
@@ -45,16 +43,16 @@ public class AchievmentFragment extends Fragment {
             }
 
             logicViewModel.observableItemsPlayerAchievments.observe(getViewLifecycleOwner(), items -> {
-                Log.d("ClanFragment", "Items erhalten: " + items.size());
+//                if (items.isEmpty()) {
+//                    Log.e("ClanFragment", "Die Liste ist leer!");
+//                }
+//                Log.d("ClanFragment", "Items erhalten: " + items.size());
 
-                if (items.isEmpty()) {
-                    Log.e("ClanFragment", "Die Liste ist leer!");
-                }
 
-                MyAchievmentRecyclerViewAdapter adapter = new MyAchievmentRecyclerViewAdapter(items);
-                recyclerView.setAdapter(adapter);
+//                MyAchievmentRecyclerViewAdapter adapter = new MyAchievmentRecyclerViewAdapter(items);
+//                recyclerView.setAdapter(adapter);
 
-                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked an achievment " + position));
+//                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked an achievment " + position));
             });
         }
         return view;

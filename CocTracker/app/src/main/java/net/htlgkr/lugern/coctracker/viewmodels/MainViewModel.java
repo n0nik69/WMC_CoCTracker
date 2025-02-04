@@ -13,6 +13,7 @@ public class MainViewModel extends ViewModel {
     public static final int foundClansList = 6;
     public static final int playerAchievmentList = 7;
     public static final int clanMemberList = 8;
+    public static final int topPlayersList = 9;
 
     private final MutableLiveData<Integer> _state = new MutableLiveData<>(clanScreen);
     public LiveData<Integer> state = _state;

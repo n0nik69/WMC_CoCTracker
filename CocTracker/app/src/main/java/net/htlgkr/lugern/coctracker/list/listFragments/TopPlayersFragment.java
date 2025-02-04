@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyTopPlayersRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -38,6 +40,7 @@ public class TopPlayersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_top_players_list, container, false);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
+        final MyTopPlayersRecyclerViewAdapter[] adapter = new MyTopPlayersRecyclerViewAdapter[1];
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -47,9 +50,23 @@ public class TopPlayersFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
             logicViewModel.observableItemsPlayerRanking.observe(getViewLifecycleOwner(), items -> {
-                MyTopPlayersRecyclerViewAdapter adapter = new MyTopPlayersRecyclerViewAdapter(items);
-                recyclerView.setAdapter(adapter);
-                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked top players list " + position));
+                adapter[0] = new MyTopPlayersRecyclerViewAdapter(items);
+                recyclerView.setAdapter(adapter[0]);
+
+                adapter[0].setOnItemClickListener(position -> {
+                    PlayerRanking clickedPlayer = items.get(position);
+                    if (clickedPlayer != null) {
+                        String playerTag = clickedPlayer.getTag();
+                        Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", Player: " + playerTag);
+                        PlayerScreen playerScreen = (PlayerScreen) getParentFragmentManager().findFragmentByTag("PLAYERSCREEN");
+                        if (playerScreen != null) {
+                            playerScreen.searchPlayerPerTag(playerTag);
+                        } else {
+                            Log.e("TopPlayerFragment", "PlayerScreen Fragment not found");
+                        }
+                    }
+                });
+
             });
         }
         return view;

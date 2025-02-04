@@ -12,17 +12,17 @@ import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentCardBinding;
 import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ClanMember> values;
+    private final ArrayList<ClanMember> values;
     private MyOnCardClickListener onCardClickListener;
 
-    public MyClanRecyclerViewAdapter(List<ClanMember> items) {
+    public MyClanRecyclerViewAdapter(ArrayList<ClanMember> items) {
         values = items;
     }
 
@@ -39,7 +39,7 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         ClanMember clanMember = values.get(position);
 
-        ImageView ivTownhallLvl = holder.binding.ivCardTownhallLvl;
+        ImageView ivTownhallLvl = holder.binding.ivPlayerTownhallLevel;
         int[] images = {
                 R.drawable.a1, R.drawable.a2, R.drawable.a3, R.drawable.a4, R.drawable.a5,
                 R.drawable.a6, R.drawable.a7, R.drawable.a8, R.drawable.a9, R.drawable.a10,
@@ -66,6 +66,72 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
 
         Integer imageRes = leagueImages.get(leagueType);
         ivLeague.setImageResource(Objects.requireNonNullElseGet(imageRes, () -> R.drawable.l1));
+        ImageView ivBuilderBaseLeague = holder.binding.ivPlayerBuildbaseLeague;
+        if (clanMember.getBuilderBaseLeague() != null) {
+            String builderBaseLeagueName = clanMember.getBuilderBaseLeague().getName();
+
+            Map<String, String> leagueMapping = new HashMap<>();
+            leagueMapping.put("Wood League V", "wood5");
+            leagueMapping.put("Wood League IV", "wood4");
+            leagueMapping.put("Wood League III", "wood3");
+            leagueMapping.put("Wood League II", "wood2");
+            leagueMapping.put("Wood League I", "wood1");
+
+            leagueMapping.put("Clay League V", "clay5");
+            leagueMapping.put("Clay League IV", "clay4");
+            leagueMapping.put("Clay League III", "clay3");
+            leagueMapping.put("Clay League II", "clay2");
+            leagueMapping.put("Clay League I", "clay1");
+
+            leagueMapping.put("Stone League V", "stone5");
+            leagueMapping.put("Stone League IV", "stone4");
+            leagueMapping.put("Stone League III", "stone3");
+            leagueMapping.put("Stone League II", "stone2");
+            leagueMapping.put("Stone League I", "stone1");
+
+            leagueMapping.put("Copper League V", "copper5");
+            leagueMapping.put("Copper League IV", "copper4");
+            leagueMapping.put("Copper League III", "copper3");
+            leagueMapping.put("Copper League II", "copper2");
+            leagueMapping.put("Copper League I", "copper1");
+
+            leagueMapping.put("Brass League III", "brass3");
+            leagueMapping.put("Brass League II", "brass2");
+            leagueMapping.put("Brass League I", "brass1");
+
+            leagueMapping.put("Iron League III", "iron3");
+            leagueMapping.put("Iron League II", "iron2");
+            leagueMapping.put("Iron League I", "iron1");
+
+            leagueMapping.put("Steel League III", "steel3");
+            leagueMapping.put("Steel League II", "steel2");
+            leagueMapping.put("Steel League I", "steel1");
+
+            leagueMapping.put("Titanium League III", "titanium3");
+            leagueMapping.put("Titanium League II", "titanium2");
+            leagueMapping.put("Titanium League I", "titanium1");
+
+            leagueMapping.put("Platinum League III", "platinum3");
+            leagueMapping.put("Platinum League II", "platinum2");
+            leagueMapping.put("Platinum League I", "platinum1");
+
+            leagueMapping.put("Emerald League III", "emerald3");
+            leagueMapping.put("Emerald League II", "emerald2");
+            leagueMapping.put("Emerald League I", "emerald1");
+
+            leagueMapping.put("Ruby League III", "ruby3");
+            leagueMapping.put("Ruby League II", "ruby2");
+            leagueMapping.put("Ruby League I", "ruby1");
+
+            leagueMapping.put("Diamond League", "diamond");
+            String mappedLeague = leagueMapping.getOrDefault(builderBaseLeagueName, "wood5");
+
+            // Resource ID aus Drawable abrufen
+            int resourceId = holder.itemView.getContext().getResources()
+                    .getIdentifier(mappedLeague, "drawable", holder.itemView.getContext().getPackageName());
+
+            ivBuilderBaseLeague.setImageResource(resourceId);
+        }
 
 
         holder.binding.tvPlayerTownhallLevel.setText("RH-Lvl: " + clanMember.getTownHallLevel());
@@ -75,11 +141,13 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
         holder.binding.tvPlayerBuildbaseTrophies.setText(String.valueOf(clanMember.getBuilderBaseTrophies()));
         holder.binding.tvClanRole.setText(clanMember.getRole().name());
         holder.binding.tvCardDonations.setText(String.valueOf(clanMember.getDonations()));
+        holder.binding.tvPlayerBuildbaseLeague.setText(clanMember.getBuilderBaseLeague().getName());
         if (clanMember.getLeague() == null) {
             holder.binding.tvPlayerLeague.setText("N/A");
         } else {
             holder.binding.tvPlayerLeague.setText(clanMember.getLeague().getName());
         }
+
 
         holder.clan = clanMember;
         holder.itemView.setOnClickListener(v -> {

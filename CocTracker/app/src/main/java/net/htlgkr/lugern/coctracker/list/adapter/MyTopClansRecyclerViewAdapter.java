@@ -36,7 +36,7 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         ClanRanking clanRanking = values.get(position);
-        holder.binding.tvClanRank.setText(String.valueOf(clanRanking.getRank()));
+        holder.binding.tvClanRank.setText(clanRanking.getRank() + ".");
         holder.binding.tvClanRankMembers.setText(clanRanking.getMembers() + "/50");
         holder.binding.tvClanRankName.setText(clanRanking.getName());
         holder.binding.tvClanRankTrophies.setText(String.valueOf(clanRanking.getClanPoints()));

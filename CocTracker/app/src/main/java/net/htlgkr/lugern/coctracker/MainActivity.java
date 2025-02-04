@@ -1,5 +1,6 @@
 package net.htlgkr.lugern.coctracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -16,10 +17,28 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.listFragments.AchievmentFragment;
-import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
+import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.FoundClanFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.TopPlayersFragment;
+import net.htlgkr.lugern.coctracker.misc.MusicService;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Intent musicServiceIntent = new Intent(this, MusicService.class);
+        stopService(musicServiceIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent musicServiceIntent = new Intent(this, MusicService.class);
+        startService(musicServiceIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
             );
             return WindowInsetsCompat.CONSUMED;
         });
-        LogicViewModel logicViewModel = new ViewModelProvider(this).get(LogicViewModel.class);
         MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -53,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        Intent musicServiceIntent = new Intent(this, MusicService.class);
+        startService(musicServiceIntent);
+
+
         mainViewModel.state.observe(this, state -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (state) {
@@ -63,52 +85,21 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
                     break;
                 case MainViewModel.playerAchievmentList:
-                    transaction.replace(R.id.playerListLayout, new AchievmentFragment(), "CLANSCREEN");
+                    transaction.replace(R.id.listLayoutTopPlayers, new AchievmentFragment(), "CLANSCREEN");
+                    break;
+                case MainViewModel.topClansList:
+                    transaction.replace(R.id.listLayoutTopAndFoundClans, new TopClansFragment(), "TOPSCLANS");
+                    break;
+                case MainViewModel.foundClansList:
+                    transaction.replace(R.id.listLayoutTopAndFoundClans, new FoundClanFragment(), "FOUNDCLANS");
                     break;
                 case MainViewModel.clanMemberList:
+                    transaction.replace(R.id.listLayoutClanMembers, new ClanFragment(), "CLANMEMBER");
+                case MainViewModel.topPlayersList:
+                    transaction.replace(R.id.listLayoutTopPlayers, new TopPlayersFragment(), "TOPPLAYERS");
             }
             transaction.commit();
         });
-        //nigga nigaa nigagiasng
 
-//        logicViewModel.getSearchPerName().observe(this, isSearchPerName -> {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            if (isSearchPerName) {
-//                transaction.replace(R.id.listLayout, new FoundClanFragment());
-//            }
-//            transaction.commit();
-//        });
-//
-//        logicViewModel.getSearchPerTag().observe(this, isSearchPerTag -> {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            if (isSearchPerTag) {
-//                transaction.replace(R.id.listLayout, new ClanFragment());
-//            }
-//            transaction.commit();
-//        });
-//
-//        logicViewModel.getShowTopClansList().observe(this, showTopClansList -> {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            if (showTopClansList) {
-//                transaction.replace(R.id.listLayout, new TopClansFragment());
-//            }
-//            transaction.commit();
-//        });
-//
-//        logicViewModel.getShowTopPlayersList().observe(this, showTopPlayersList -> {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            if (showTopPlayersList) {
-//                transaction.replace(R.id.playerListLayout, new TopPlayersFragment());
-//            }
-//            transaction.commit();
-//        });
-
-//        logicViewModel.getShowPlayerAchievment().observe(this, showPlayerAchievments -> {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            if (showPlayerAchievments) {
-//                transaction.replace(R.id.playerListLayout, new AchievmentFragment());
-//            }
-//            transaction.commit();
-//        });
     }
 }
