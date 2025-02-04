@@ -20,4 +20,8 @@ public class MainViewModel extends ViewModel {
     public void showScreen(int screen) {
         _state.postValue(screen);
     }
+
+    public LiveData<Integer> getState() {
+        return state;
+    }
 }
