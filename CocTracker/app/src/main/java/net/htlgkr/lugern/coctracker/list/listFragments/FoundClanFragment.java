@@ -18,11 +18,9 @@ import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyFoundClanRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
-import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class FoundClanFragment extends Fragment {
 
-    MainViewModel mainViewModel;
     private LogicViewModel logicViewModel;
     private int columnCount = 1;
 
@@ -39,7 +37,6 @@ public class FoundClanFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_foundclan_list, container, false);
         View listView = view.findViewById(R.id.list);
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         final MyFoundClanRecyclerViewAdapter[] adapter = new MyFoundClanRecyclerViewAdapter[1];
         if (listView instanceof RecyclerView) {

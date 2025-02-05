@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
+import net.htlgkr.lugern.coctracker.fragments.LeagueScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.listFragments.AchievmentFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
@@ -68,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 mainViewModel.showScreen(MainViewModel.playerScreen);
             } else if (item.getItemId() == R.id.item_3) {
                 mainViewModel.showScreen(MainViewModel.leagueScreen);
-            } else if (item.getItemId() == R.id.item_4) {
-                mainViewModel.showScreen(MainViewModel.rankingScreen);
             }
             return true;
         });
@@ -86,20 +85,23 @@ public class MainActivity extends AppCompatActivity {
                 case MainViewModel.clanScreen:
                     transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
                     break;
+                case MainViewModel.leagueScreen:
+                    transaction.replace(R.id.mainFragment, new LeagueScreen(), "LEAGUESCREEN");
+                    break;
                 case MainViewModel.playerAchievmentList:
                     transaction.replace(R.id.listLayoutTopPlayers, new AchievmentFragment(), "PLAYERACHIEVMENTS");
                     break;
                 case MainViewModel.topClansList:
-                    transaction.replace(R.id.listLayoutTopAndFoundClans, new TopClansFragment(), "TOPSCLANS");
+                    transaction.replace(R.id.listLayoutLeague, new TopClansFragment(), "TOPSCLANS");
                     break;
                 case MainViewModel.foundClansList:
-                    transaction.replace(R.id.listLayoutTopAndFoundClans, new FoundClanFragment(), "FOUNDCLANS");
+                    transaction.replace(R.id.listLayoutFoundClans, new FoundClanFragment(), "FOUNDCLANS");
                     break;
                 case MainViewModel.clanMemberList:
                     transaction.replace(R.id.listLayoutClanMembers, new ClanFragment(), "CLANMEMBER");
                     break;
                 case MainViewModel.topPlayersList:
-                    transaction.replace(R.id.listLayoutTopPlayers, new TopPlayersFragment(), "TOPPLAYERS");
+                    transaction.replace(R.id.listLayoutLeague, new TopPlayersFragment(), "TOPPLAYERS");
                     break;
                 case MainViewModel.playerTroops:
                     transaction.replace(R.id.listLayoutTopPlayers, new TroopsFragment(), "PLAYERTROOPS");
@@ -109,6 +111,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MainViewModel.playerHeroes:
                     transaction.replace(R.id.listLayoutTopPlayers, new HeroFragment(), "PLAYERHEROES");
+                    break;
+                case MainViewModel.topBuilderBaseClan:
+//                    transaction.replace(R.id.listLayoutLeague, new HeroFragment(), "PLAYERHEROES");
+                    break;
+                case MainViewModel.topBuilderBasePlayer:
+//                    transaction.replace(R.id.listLayoutLeague, new HeroFragment(), "PLAYERHEROES");
                     break;
             }
             transaction.commit();

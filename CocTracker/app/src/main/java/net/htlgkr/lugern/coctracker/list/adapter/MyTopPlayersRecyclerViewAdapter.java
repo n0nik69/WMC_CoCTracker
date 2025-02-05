@@ -1,5 +1,7 @@
 package net.htlgkr.lugern.coctracker.list.adapter;
 
+import static android.view.View.GONE;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,6 @@ import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 
 import java.util.List;
 
-/**
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyTopPlayersRecyclerViewAdapter extends RecyclerView.Adapter<MyTopPlayersRecyclerViewAdapter.ViewHolder> {
 
     private final List<PlayerRanking> values;
@@ -34,11 +33,19 @@ public class MyTopPlayersRecyclerViewAdapter extends RecyclerView.Adapter<MyTopP
         PlayerRanking playerRanking = values.get(position);
 
         holder.binding.tvTopPlayerLevel.setText(String.valueOf(playerRanking.getExpLevel()));
-        holder.binding.tvTopPlayerAttacksWon.setText("Attack Wins: " + playerRanking.getAttackWins());
-        holder.binding.tvTopPlayerDefensesWon.setText("Defenses Won: " + playerRanking.getDefenseWins());
+        if (playerRanking.getAttackWins() == 0) {
+            holder.binding.tvTopPlayerTrophies.setText(String.valueOf(playerRanking.getBuilderBaseTrophies()));
+            holder.binding.tvTopPlayerAttacksWon.setVisibility(GONE);
+            holder.binding.tvTopPlayerDefensesWon.setVisibility(GONE);
+        } else {
+            holder.binding.tvTopPlayerAttacksWon.setText("Attack Wins: " + playerRanking.getAttackWins());
+            holder.binding.tvTopPlayerDefensesWon.setText("Defenses Won: " + playerRanking.getDefenseWins());
+            holder.binding.tvTopPlayerTrophies.setText(String.valueOf(playerRanking.getTrophies()));
+        }
+
         holder.binding.tvTopPlayerName.setText(playerRanking.getName());
         holder.binding.tvTopPlayerRank.setText(String.valueOf(playerRanking.getRank()));
-        holder.binding.tvTopPlayerTrophies.setText(String.valueOf(playerRanking.getTrophies()));
+
 
         holder.playerRanking = playerRanking;
         holder.itemView.setOnClickListener(v -> {

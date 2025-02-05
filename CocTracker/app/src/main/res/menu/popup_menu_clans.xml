@@ -6,7 +6,4 @@
     <item
         android:id="@+id/searchClanPerTag"
         android:title="Search Clan per Tag" />
-    <item
-        android:id="@+id/topClans"
-        android:title="Top Clans" />
 </menu>

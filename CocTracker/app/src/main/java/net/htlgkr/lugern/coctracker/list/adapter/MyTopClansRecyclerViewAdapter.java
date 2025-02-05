@@ -39,7 +39,12 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
         holder.binding.tvClanRank.setText(clanRanking.getRank() + ".");
         holder.binding.tvClanRankMembers.setText(clanRanking.getMembers() + "/50");
         holder.binding.tvClanRankName.setText(clanRanking.getName());
-        holder.binding.tvClanRankTrophies.setText(String.valueOf(clanRanking.getClanPoints()));
+        if (clanRanking.getClanPoints() == 0) {
+            holder.binding.tvClanRankTrophies.setText(String.valueOf(clanRanking.getClanBuilderBasePoints()));
+        } else {
+            holder.binding.tvClanRankTrophies.setText(String.valueOf(clanRanking.getClanPoints()));
+        }
+
         String imageUrl = clanRanking.getBadgeUrls().getLarge();
 
         Picasso.get()

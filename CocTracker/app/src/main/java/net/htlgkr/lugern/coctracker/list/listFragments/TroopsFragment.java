@@ -16,17 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.list.adapter.MyTroopsRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
-import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class TroopsFragment extends Fragment {
 
-    private MainViewModel mainViewModel;
     private int columnCount = 3;
     private LogicViewModel logicViewModel;
 
     public TroopsFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +35,6 @@ public class TroopsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_troop_list, container, false);
         View listView = view.findViewById(R.id.list);
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
 
         if (listView instanceof RecyclerView) {

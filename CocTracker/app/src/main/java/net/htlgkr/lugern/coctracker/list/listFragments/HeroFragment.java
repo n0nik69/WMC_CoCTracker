@@ -16,11 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.list.adapter.MyHeroRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
-import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class HeroFragment extends Fragment {
 
-    private MainViewModel mainViewModel;
     private int columnCount = 1;
     private LogicViewModel logicViewModel;
 
@@ -37,7 +35,6 @@ public class HeroFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hero_list, container, false);
         View listView = view.findViewById(R.id.list);
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
 
         // Set the adapter

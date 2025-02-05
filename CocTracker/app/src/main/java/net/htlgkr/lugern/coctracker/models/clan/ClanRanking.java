@@ -2,6 +2,7 @@ package net.htlgkr.lugern.coctracker.models.clan;
 
 public class ClanRanking {
     private int clanPoints;
+    private int clanBuilderBasePoints;
     private int clanLevel;
     private Location location;
     private int members;
@@ -10,6 +11,10 @@ public class ClanRanking {
     private int rank;
     private int previousRank;
     private BadgeUrls badgeUrls;
+
+    public int getClanBuilderBasePoints() {
+        return clanBuilderBasePoints;
+    }
 
     public int getClanPoints() {
         return clanPoints;

@@ -1,7 +1,10 @@
 package net.htlgkr.lugern.coctracker.models.player;
 
+import net.htlgkr.lugern.coctracker.models.shared.BuilderBaseLeague;
+
 public class PlayerRanking {
     League league;
+    BuilderBaseLeague builderBaseLeague;
     PlayerRankingClan playerRankingClan;
     private int attackWins;
     private int defenseWins;
@@ -11,6 +14,15 @@ public class PlayerRanking {
     private int rank;
     private int previousRank;
     private int trophies;
+    private int builderBaseTrophies;
+
+    public BuilderBaseLeague getBuilderBaseLeague() {
+        return builderBaseLeague;
+    }
+
+    public int getBuilderBaseTrophies() {
+        return builderBaseTrophies;
+    }
 
     public League getLeague() {
         return league;

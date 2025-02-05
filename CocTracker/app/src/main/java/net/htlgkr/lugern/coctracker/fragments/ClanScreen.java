@@ -48,7 +48,7 @@ public class ClanScreen extends Fragment {
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         String clanTag = getArguments() != null ? getArguments().getString("CLAN_TAG") : null;
         if (clanTag != null) {
-//            loadClanFromName(clanTag);
+            searchClanPerTag(clanTag);
         }
     }
 
@@ -67,7 +67,7 @@ public class ClanScreen extends Fragment {
         imageView = binding.ivClanBadge;
         progressIndicator = binding.cp;
         binding.btnSearchClan.setEnabled(false);
-        binding.listLayoutTopAndFoundClans.setVisibility(INVISIBLE);
+        binding.listLayoutFoundClans.setVisibility(INVISIBLE);
         binding.tvClans.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_clans));
 
         logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
@@ -98,7 +98,7 @@ public class ClanScreen extends Fragment {
                 binding.ivClanBadge.setVisibility(View.INVISIBLE);
                 binding.tvClanDescription.setVisibility(View.INVISIBLE);
                 binding.tvClanName.setVisibility(View.INVISIBLE);
-                binding.listLayoutTopAndFoundClans.setVisibility(View.INVISIBLE);
+                binding.listLayoutFoundClans.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -119,7 +119,7 @@ public class ClanScreen extends Fragment {
             if (menuItem.getItemId() == R.id.searchClanPerName) {
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.textInputLayout.setVisibility(VISIBLE);
-                binding.listLayoutTopAndFoundClans.setVisibility(INVISIBLE);
+                binding.listLayoutFoundClans.setVisibility(INVISIBLE);
                 binding.listLayoutClanMembers.setVisibility(INVISIBLE);
 
                 selectedAction = this::searchClanPerName;
@@ -131,22 +131,23 @@ public class ClanScreen extends Fragment {
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.textInputLayout.setVisibility(VISIBLE);
                 binding.listLayoutClanMembers.setVisibility(INVISIBLE);
-                binding.listLayoutTopAndFoundClans.setVisibility(INVISIBLE);
+                binding.listLayoutFoundClans.setVisibility(INVISIBLE);
                 selectedAction = () -> searchClanPerTag("");
 
                 binding.textInputLayout.setVisibility(VISIBLE);
                 textInputLayout.setHint("Clan per Tag suchen");
                 binding.tiClan.setText("");
 
-            } else if (menuItem.getItemId() == R.id.topClans) {
-                binding.btnSearchClan.setVisibility(INVISIBLE);
-                binding.cp.setVisibility(VISIBLE);
-                binding.textInputLayout.setVisibility(INVISIBLE);
-                binding.listLayoutClanMembers.setVisibility(INVISIBLE);
-                binding.listLayoutTopAndFoundClans.setVisibility(VISIBLE);
-                binding.tiClan.setText("");
-                loadTopClans();
             }
+//            else if (menuItem.getItemId() == R.id.topClans) {
+//                binding.btnSearchClan.setVisibility(INVISIBLE);
+//                binding.cp.setVisibility(VISIBLE);
+//                binding.textInputLayout.setVisibility(INVISIBLE);
+//                binding.listLayoutClanMembers.setVisibility(INVISIBLE);
+//                binding.listLayoutTopAndFoundClans.setVisibility(VISIBLE);
+//                binding.tiClan.setText("");
+//                loadTopClans();
+//            }
 
             binding.btnSearchClan.setVisibility(VISIBLE);
             isMenuSelected = true;
@@ -158,7 +159,7 @@ public class ClanScreen extends Fragment {
 
 
     public void searchClanPerTag(String clanTag) {
-        binding.listLayoutTopAndFoundClans.setVisibility(GONE);
+        binding.listLayoutFoundClans.setVisibility(GONE);
         if (clanTag.isEmpty()) {
             clanTagOrName = String.valueOf(binding.tiClan.getText()).trim().toUpperCase();
         } else {
@@ -201,7 +202,7 @@ public class ClanScreen extends Fragment {
             public void onSuccess(String json) {
                 logicViewModel.loadFoundClansFromJson(json);
                 mainViewModel.showScreen(MainViewModel.foundClansList);
-                binding.listLayoutTopAndFoundClans.setVisibility(VISIBLE);
+                binding.listLayoutFoundClans.setVisibility(VISIBLE);
                 binding.textInputLayout.setVisibility(INVISIBLE);
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.cp.setVisibility(INVISIBLE);
@@ -223,10 +224,10 @@ public class ClanScreen extends Fragment {
             public void onSuccess(String json) {
                 logicViewModel.loadTopClansFromJson(json);
                 binding.cp.setVisibility(INVISIBLE);
-                binding.listLayoutTopAndFoundClans.setVisibility(VISIBLE);
+                binding.listLayoutFoundClans.setVisibility(VISIBLE);
                 binding.btnSearchClan.setVisibility(GONE);
                 binding.textInputLayout.setVisibility(GONE);
-                binding.listLayoutTopAndFoundClans.invalidate();
+                binding.listLayoutFoundClans.invalidate();
                 mainViewModel.showScreen(MainViewModel.topClansList);
             }
 

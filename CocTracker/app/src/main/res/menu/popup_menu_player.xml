@@ -15,8 +15,5 @@
     <item
         android:id="@+id/playerAchievments"
         android:title="Achievments" />
-    <item
-        android:id="@+id/topPlayers"
-        android:title="Top Players" />
 
 </menu>

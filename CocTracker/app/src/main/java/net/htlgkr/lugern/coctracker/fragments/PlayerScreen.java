@@ -133,8 +133,9 @@ public class PlayerScreen extends Fragment {
             } else if (menuItem.getItemId() == R.id.playerSpells) {
                 mainViewModel.showScreen(MainViewModel.playerSpells);
                 return true;
-            } else if (menuItem.getItemId() == R.id.topPlayers) {
-                loadTopPlayers();
+            
+//            else if (menuItem.getItemId() == R.id.topPlayers) {
+//                loadTopPlayers();
             } else if (menuItem.getItemId() == R.id.searchPlayerPerTag) {
                 binding.tvPlayer.setVisibility(VISIBLE);
                 binding.textInputLayout2.setVisibility(VISIBLE);

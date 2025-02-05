@@ -18,11 +18,9 @@ import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyTopPlayersRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
-import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class TopPlayersFragment extends Fragment {
 
-    MainViewModel mainViewModel;
     private int columnCount = 1;
     private LogicViewModel logicViewModel;
 
@@ -38,7 +36,6 @@ public class TopPlayersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_players_list, container, false);
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         final MyTopPlayersRecyclerViewAdapter[] adapter = new MyTopPlayersRecyclerViewAdapter[1];
         if (view instanceof RecyclerView) {

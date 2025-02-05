@@ -107,12 +107,19 @@ public class LogicViewModel extends ViewModel {
     public void loadTopPlayerFromJson(String json) {
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
         JsonArray itemsArray = jsonObject.getAsJsonArray("items");
-
         Type listType = new TypeToken<List<PlayerRanking>>() {
         }.getType();
-
         playerRankings = gson.fromJson(itemsArray, listType);
         observableItemsPlayerRanking.postValue(playerRankings);
+    }
+
+    public void loadTopClansFromJson(String json) {
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+        JsonArray itemsArray = jsonObject.getAsJsonArray("items");
+        Type listType = new TypeToken<List<ClanRanking>>() {
+        }.getType();
+        clanRankings = gson.fromJson(itemsArray, listType);
+        observableItemsClanRanking.postValue(clanRankings);
     }
 
     public List<PlayerRanking> getPlayerRankings() {
@@ -127,14 +134,6 @@ public class LogicViewModel extends ViewModel {
         System.out.println();
     }
 
-    public void loadTopClansFromJson(String json) {
-        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
-        JsonArray itemsArray = jsonObject.getAsJsonArray("items");
-        Type listType = new TypeToken<List<ClanRanking>>() {
-        }.getType();
-        clanRankings = gson.fromJson(itemsArray, listType);
-        observableItemsClanRanking.postValue(clanRankings);
-    }
 
     public void loadFoundClansFromJson(String json) {
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
