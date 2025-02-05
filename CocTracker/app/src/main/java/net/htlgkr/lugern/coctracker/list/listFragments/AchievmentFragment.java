@@ -2,6 +2,7 @@ package net.htlgkr.lugern.coctracker.list.listFragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.list.adapter.MyAchievmentRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
+import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class AchievmentFragment extends Fragment {
 
+    private MainViewModel mainViewModel;
     private int columnCount = 1;
     private LogicViewModel logicViewModel;
 
@@ -32,10 +36,12 @@ public class AchievmentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_achievment_list, container, false);
+        View listView = view.findViewById(R.id.list);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (listView instanceof RecyclerView) {
+            Context context = listView.getContext();
+            RecyclerView recyclerView = (RecyclerView) listView;
             if (columnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -43,17 +49,16 @@ public class AchievmentFragment extends Fragment {
             }
 
             logicViewModel.observableItemsPlayerAchievments.observe(getViewLifecycleOwner(), items -> {
-//                if (items.isEmpty()) {
-//                    Log.e("ClanFragment", "Die Liste ist leer!");
-//                }
-//                Log.d("ClanFragment", "Items erhalten: " + items.size());
+                Log.d("AchievmentFragment", "Items erhalten: " + (items != null ? items.size() : "null"));
 
-
-//                MyAchievmentRecyclerViewAdapter adapter = new MyAchievmentRecyclerViewAdapter(items);
-//                recyclerView.setAdapter(adapter);
-
-//                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked an achievment " + position));
+                if (items == null || items.isEmpty()) {
+                    Log.e("AchievmentFragment", "Die Liste ist leer oder null!");
+                } else {
+                    MyAchievmentRecyclerViewAdapter adapter = new MyAchievmentRecyclerViewAdapter(items);
+                    recyclerView.setAdapter(adapter);
+                }
             });
+
         }
         return view;
     }

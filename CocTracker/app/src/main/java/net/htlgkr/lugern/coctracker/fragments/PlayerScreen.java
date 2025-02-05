@@ -7,7 +7,6 @@ import static android.view.View.VISIBLE;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,9 @@ import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
 import net.htlgkr.lugern.coctracker.list.adapter.MyAchievmentRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.adapter.MyHeroRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.adapter.MySpellRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.list.adapter.MyTroopsRecyclerViewAdapter;
-import net.htlgkr.lugern.coctracker.models.player.PlayerAchievmentProgress;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -67,24 +67,27 @@ public class PlayerScreen extends Fragment {
         binding.btnSearchPlayer.setOnClickListener(view -> {
             binding.playerCP.setVisibility(VISIBLE);
             searchPlayerPerTag("");
-
         });
 
 
         logicViewModel.observableItemsPlayerAchievments.observe(getViewLifecycleOwner(), items -> {
             MyAchievmentRecyclerViewAdapter adapter = new MyAchievmentRecyclerViewAdapter(logicViewModel.observableItemsPlayerAchievments.getValue());
-            mainViewModel.showScreen(MainViewModel.playerAchievmentList);
-            adapter.setOnItemClickListener(position -> {
-//                ArrayList<PlayerAchievmentProgress> playerAchievmentProgresses = logicViewModel.observableItemsPlayerAchievments.getValue();
-                PlayerAchievmentProgress playerAchievmentProgress = logicViewModel.observableItemsPlayerAchievments.getValue().get(position);
-
-            });
+//            mainViewModel.showScreen(MainViewModel.playerAchievmentList);
         });
 
         logicViewModel.obserVableItemsPlayerTroops.observe(getViewLifecycleOwner(), items -> {
             MyTroopsRecyclerViewAdapter adapter = new MyTroopsRecyclerViewAdapter(logicViewModel.obserVableItemsPlayerTroops.getValue());
-            mainViewModel.showScreen(MainViewModel.playerTroops);
-            
+//            mainViewModel.showScreen(MainViewModel.playerTroops);
+        });
+
+        logicViewModel.observableItemsPlayerSpells.observe(getViewLifecycleOwner(), items -> {
+            MySpellRecyclerViewAdapter adapter = new MySpellRecyclerViewAdapter(logicViewModel.observableItemsPlayerSpells.getValue());
+//            mainViewModel.showScreen(MainViewModel.playerSpells);
+        });
+
+        logicViewModel.observableItemsPlayerHeroes.observe(getViewLifecycleOwner(), items -> {
+            MyHeroRecyclerViewAdapter adapter = new MyHeroRecyclerViewAdapter(logicViewModel.observableItemsPlayerHeroes.getValue());
+//            mainViewModel.showScreen(MainViewModel.playerSpells);
         });
 
 
@@ -119,17 +122,23 @@ public class PlayerScreen extends Fragment {
     private void showMenu(View v, int menuRes) {
         popup.setOnMenuItemClickListener(menuItem -> {
             if (menuItem.getItemId() == R.id.playerAchievments) {
+                mainViewModel.showScreen(MainViewModel.playerAchievmentList);
                 return true;
             } else if (menuItem.getItemId() == R.id.playerHeroes) {
+                mainViewModel.showScreen(MainViewModel.playerHeroes);
                 return true;
             } else if (menuItem.getItemId() == R.id.playerTroops) {
+                mainViewModel.showScreen(MainViewModel.playerTroops);
                 return true;
             } else if (menuItem.getItemId() == R.id.playerSpells) {
+                mainViewModel.showScreen(MainViewModel.playerSpells);
                 return true;
             } else if (menuItem.getItemId() == R.id.topPlayers) {
                 loadTopPlayers();
             } else if (menuItem.getItemId() == R.id.searchPlayerPerTag) {
-
+                binding.tvPlayer.setVisibility(VISIBLE);
+                binding.textInputLayout2.setVisibility(VISIBLE);
+                binding.btnSearchPlayer.setVisibility(VISIBLE);
                 isMenuSelected = true;
                 updateButtonState();
                 binding.listLayoutTopPlayers.setVisibility(INVISIBLE);
@@ -159,14 +168,17 @@ public class PlayerScreen extends Fragment {
             public void onSuccess(String json) {
                 logicViewModel.loadPlayerFromJson(json);
                 popup.getMenu().findItem(R.id.playerTroops).setEnabled(true);
+                popup.getMenu().findItem(R.id.playerAchievments).setEnabled(true);
+                popup.getMenu().findItem(R.id.playerSpells).setEnabled(true);
+                popup.getMenu().findItem(R.id.playerHeroes).setEnabled(true);
                 binding.playerCP.setVisibility(INVISIBLE);
                 binding.listLayoutTopPlayers.setVisibility(VISIBLE);
-                mainViewModel.showScreen(MainViewModel.playerTroops);
+//                mainViewModel.showScreen(MainViewModel.playerTroops);
             }
 
             @Override
             public void onError(String error) {
-                Log.e("API Error", error);
+                binding.playerCP.setVisibility(INVISIBLE);
             }
         });
     }
@@ -187,7 +199,7 @@ public class PlayerScreen extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("API Error", error);
+                binding.playerCP.setVisibility(INVISIBLE);
             }
         });
     }

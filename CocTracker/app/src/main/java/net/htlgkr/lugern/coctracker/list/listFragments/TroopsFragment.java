@@ -20,7 +20,7 @@ import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class TroopsFragment extends Fragment {
 
-    MainViewModel mainViewModel;
+    private MainViewModel mainViewModel;
     private int columnCount = 3;
     private LogicViewModel logicViewModel;
 
@@ -36,13 +36,11 @@ public class TroopsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_troops_list, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_troop_list, container, false);
+        View listView = view.findViewById(R.id.list);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
-        View listView = view.findViewById(R.id.list);
 
-        // Set the adapter
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;

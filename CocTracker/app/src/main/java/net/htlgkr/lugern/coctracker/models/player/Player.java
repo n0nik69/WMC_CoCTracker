@@ -143,15 +143,15 @@ public class Player {
         return troops;
     }
 
-    public List<PlayerItemLevel> getHeroes() {
+    public ArrayList<PlayerItemLevel> getHeroes() {
         return heroes;
     }
 
-    public List<PlayerItemLevel> getHeroEquipments() {
+    public ArrayList<PlayerItemLevel> getHeroEquipments() {
         return heroEquipments;
     }
 
-    public List<PlayerItemLevel> getSpells() {
+    public ArrayList<PlayerItemLevel> getSpells() {
         return spells;
     }
 

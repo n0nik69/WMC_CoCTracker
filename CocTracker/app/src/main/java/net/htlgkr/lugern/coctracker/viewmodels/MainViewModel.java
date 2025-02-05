@@ -15,6 +15,8 @@ public class MainViewModel extends ViewModel {
     public static final int clanMemberList = 8;
     public static final int topPlayersList = 9;
     public static final int playerTroops = 10;
+    public static final int playerSpells = 11;
+    public static final int playerHeroes = 12;
 
 
     private final MutableLiveData<Integer> _state = new MutableLiveData<>(clanScreen);
@@ -24,7 +26,4 @@ public class MainViewModel extends ViewModel {
         _state.postValue(screen);
     }
 
-    public LiveData<Integer> getState() {
-        return state;
-    }
 }

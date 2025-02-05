@@ -19,6 +19,8 @@ import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.listFragments.AchievmentFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.FoundClanFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.HeroFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.SpellFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TopPlayersFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TroopsFragment;
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.mainFragment, new ClanScreen(), "CLANSCREEN");
                     break;
                 case MainViewModel.playerAchievmentList:
-                    transaction.replace(R.id.listLayoutTopPlayers, new AchievmentFragment(), "CLANSCREEN");
+                    transaction.replace(R.id.listLayoutTopPlayers, new AchievmentFragment(), "PLAYERACHIEVMENTS");
                     break;
                 case MainViewModel.topClansList:
                     transaction.replace(R.id.listLayoutTopAndFoundClans, new TopClansFragment(), "TOPSCLANS");
@@ -101,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MainViewModel.playerTroops:
                     transaction.replace(R.id.listLayoutTopPlayers, new TroopsFragment(), "PLAYERTROOPS");
+                    break;
+                case MainViewModel.playerSpells:
+                    transaction.replace(R.id.listLayoutTopPlayers, new SpellFragment(), "PLAYERSPELLS");
+                    break;
+                case MainViewModel.playerHeroes:
+                    transaction.replace(R.id.listLayoutTopPlayers, new HeroFragment(), "PLAYERHEROES");
                     break;
             }
             transaction.commit();

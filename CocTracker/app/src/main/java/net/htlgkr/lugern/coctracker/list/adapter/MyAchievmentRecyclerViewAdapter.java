@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentAchievmentBinding;
 import net.htlgkr.lugern.coctracker.models.player.PlayerAchievmentProgress;
@@ -30,19 +31,38 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         PlayerAchievmentProgress achievment = values.get(position);
 
-//        holder.binding.ivAchievmentStars.setImageResource(achievment.getStars());
+        // Setze den Namen und die Beschreibungen
         holder.binding.tvAchievmentName.setText(achievment.getName());
         holder.binding.tvAchievmentCompletionInfo.setText(achievment.getCompletionInfo());
         holder.binding.tvAchievmentInfo.setText(achievment.getInfo());
+
+        // Entscheide, welches Bild gesetzt werden soll
+        int starImageRes;
+        switch (achievment.getStars()) {
+            case 1:
+                starImageRes = R.drawable.onestars;
+                break;
+            case 2:
+                starImageRes = R.drawable.twostars;
+                break;
+            case 3:
+                starImageRes = R.drawable.threestars;
+                break;
+            default:
+                starImageRes = R.drawable.nostars;
+                break;
+        }
+
+        holder.binding.ivAchievmentStars.setImageResource(starImageRes);
+
         holder.achievment = achievment;
         holder.itemView.setOnClickListener(v -> {
             if (onCardClickListener != null) {
                 onCardClickListener.onItemClick(holder.getLayoutPosition());
             }
         });
-
-        holder.achievment = achievment;
     }
+
 
     public void setOnItemClickListener(MyOnCardClickListener onItemClickListener) {
         this.onCardClickListener = onItemClickListener;
