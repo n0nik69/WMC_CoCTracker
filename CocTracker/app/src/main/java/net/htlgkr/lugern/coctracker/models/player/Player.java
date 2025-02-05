@@ -139,7 +139,7 @@ public class Player {
         return legendStatistics;
     }
 
-    public List<PlayerItemLevel> getTroops() {
+    public ArrayList<PlayerItemLevel> getTroops() {
         return troops;
     }
 

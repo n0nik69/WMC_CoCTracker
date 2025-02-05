@@ -21,6 +21,7 @@ import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
 import net.htlgkr.lugern.coctracker.models.player.Player;
 import net.htlgkr.lugern.coctracker.models.player.PlayerAchievmentProgress;
+import net.htlgkr.lugern.coctracker.models.player.PlayerItemLevel;
 import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 
 import java.lang.reflect.Type;
@@ -30,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LogicViewModel extends ViewModel {
-    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImEyNDc0MjU4LTEzNTMtNGViMS1iMzIzLTNmNjZmYjJmYTBkNiIsImlhdCI6MTczODI1MzU2Nywic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.JowjsCiD3OsBWVOr8gxcCUHUzNgLJcXpXeN0G0-HcwVd1qB7p5YRizso0TQXCoufAC_f6Ri1c9WsiILZBIyhuw"; // Setze deinen API-Schlüssel hier ein
+    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY2OTAxZDhjLWVlYzQtNGM0NS05YzUzLTAyMWE5ODdhOTQwZiIsImlhdCI6MTczODMwOTQyMSwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjc4LjEwNC42Mi4xIl0sInR5cGUiOiJjbGllbnQifV19.Jd-jzhwBYgAosIPFdscP500sokLfK933LvuokvEcSUZhllZ7msjUfs7fmhREYthz1WQE1LrF-Dh-XneJ2XVeZw"; // Setze deinen API-Schlüssel hier ein
     private static String API_URL = "https://api.clashofclans.com/v1";
     public MutableLiveData<ArrayList<ClanMember>> observableItemsClanMember;
     public MutableLiveData<ArrayList<Clan>> observableItemsClan;
@@ -38,6 +39,7 @@ public class LogicViewModel extends ViewModel {
     public MutableLiveData<ArrayList<Clan>> observableItemsFoundClans;
     public MutableLiveData<ArrayList<PlayerRanking>> observableItemsPlayerRanking;
     public MutableLiveData<ArrayList<PlayerAchievmentProgress>> observableItemsPlayerAchievments;
+    public MutableLiveData<ArrayList<PlayerItemLevel>> obserVableItemsPlayerTroops;
     //    public MutableLiveData<ArrayList<Troop>>
 
     private RequestQueue queue;
@@ -50,6 +52,7 @@ public class LogicViewModel extends ViewModel {
 
     public LogicViewModel() {
         observableItemsPlayerAchievments = new MutableLiveData<>();
+        obserVableItemsPlayerTroops = new MutableLiveData<>();
         observableItemsFoundClans = new MutableLiveData<>();
         playerRankings = new ArrayList<>();
         observableItemsPlayerRanking = new MutableLiveData<>();
@@ -92,6 +95,7 @@ public class LogicViewModel extends ViewModel {
         };
         player = gson.fromJson(json, typeToken);
         observableItemsPlayerAchievments.postValue(player.getAchievements());
+        obserVableItemsPlayerTroops.postValue(player.getTroops());
     }
 
     public void loadTopPlayerFromJson(String json) {

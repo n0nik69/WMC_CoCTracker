@@ -21,6 +21,7 @@ import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
 import net.htlgkr.lugern.coctracker.list.adapter.MyAchievmentRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.list.adapter.MyTroopsRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.models.player.PlayerAchievmentProgress;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
@@ -63,7 +64,11 @@ public class PlayerScreen extends Fragment {
         binding.tvPlayer.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_player));
 
         binding.btnSearchPlayer.setEnabled(false);
-        binding.btnSearchPlayer.setOnClickListener(view -> binding.playerCP.setVisibility(VISIBLE));
+        binding.btnSearchPlayer.setOnClickListener(view -> {
+            binding.playerCP.setVisibility(VISIBLE);
+            searchPlayerPerTag("");
+
+        });
 
 
         logicViewModel.observableItemsPlayerAchievments.observe(getViewLifecycleOwner(), items -> {
@@ -74,6 +79,12 @@ public class PlayerScreen extends Fragment {
                 PlayerAchievmentProgress playerAchievmentProgress = logicViewModel.observableItemsPlayerAchievments.getValue().get(position);
 
             });
+        });
+
+        logicViewModel.obserVableItemsPlayerTroops.observe(getViewLifecycleOwner(), items -> {
+            MyTroopsRecyclerViewAdapter adapter = new MyTroopsRecyclerViewAdapter(logicViewModel.obserVableItemsPlayerTroops.getValue());
+            mainViewModel.showScreen(MainViewModel.playerTroops);
+            
         });
 
 
@@ -118,6 +129,7 @@ public class PlayerScreen extends Fragment {
             } else if (menuItem.getItemId() == R.id.topPlayers) {
                 loadTopPlayers();
             } else if (menuItem.getItemId() == R.id.searchPlayerPerTag) {
+
                 isMenuSelected = true;
                 updateButtonState();
                 binding.listLayoutTopPlayers.setVisibility(INVISIBLE);
@@ -146,8 +158,10 @@ public class PlayerScreen extends Fragment {
             @Override
             public void onSuccess(String json) {
                 logicViewModel.loadPlayerFromJson(json);
-                mainViewModel.showScreen(MainViewModel.playerScreen);
-                //nur noch Daten vom Spieler anzeigen
+                popup.getMenu().findItem(R.id.playerTroops).setEnabled(true);
+                binding.playerCP.setVisibility(INVISIBLE);
+                binding.listLayoutTopPlayers.setVisibility(VISIBLE);
+                mainViewModel.showScreen(MainViewModel.playerTroops);
             }
 
             @Override

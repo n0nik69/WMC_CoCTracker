@@ -21,6 +21,7 @@ import net.htlgkr.lugern.coctracker.list.listFragments.ClanFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.FoundClanFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TopPlayersFragment;
+import net.htlgkr.lugern.coctracker.list.listFragments.TroopsFragment;
 import net.htlgkr.lugern.coctracker.misc.MusicService;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         Intent musicServiceIntent = new Intent(this, MusicService.class);
         startService(musicServiceIntent);
 
-
         mainViewModel.state.observe(this, state -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (state) {
@@ -95,8 +95,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case MainViewModel.clanMemberList:
                     transaction.replace(R.id.listLayoutClanMembers, new ClanFragment(), "CLANMEMBER");
+                    break;
                 case MainViewModel.topPlayersList:
                     transaction.replace(R.id.listLayoutTopPlayers, new TopPlayersFragment(), "TOPPLAYERS");
+                    break;
+                case MainViewModel.playerTroops:
+                    transaction.replace(R.id.listLayoutTopPlayers, new TroopsFragment(), "PLAYERTROOPS");
+                    break;
             }
             transaction.commit();
         });

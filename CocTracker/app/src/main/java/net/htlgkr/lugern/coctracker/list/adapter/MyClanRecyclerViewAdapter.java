@@ -126,7 +126,6 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
             leagueMapping.put("Diamond League", "diamond");
             String mappedLeague = leagueMapping.getOrDefault(builderBaseLeagueName, "wood5");
 
-            // Resource ID aus Drawable abrufen
             int resourceId = holder.itemView.getContext().getResources()
                     .getIdentifier(mappedLeague, "drawable", holder.itemView.getContext().getPackageName());
 

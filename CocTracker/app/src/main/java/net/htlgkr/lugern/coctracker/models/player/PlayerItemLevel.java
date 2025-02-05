@@ -1,15 +1,15 @@
 package net.htlgkr.lugern.coctracker.models.player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerItemLevel {
-    List<PlayerItemLevel> playerItemLevels = new ArrayList<>();
+    ArrayList<PlayerItemLevel> playerItemLevels = new ArrayList<>();
     private int level;
     private String name;
     private int maxLevel;
     private Village village;
     private boolean superTroopIsActive;
+    private int playerItemImage;
 
     public int getLevel() {
         return level;
@@ -36,8 +36,11 @@ public class PlayerItemLevel {
     }
 
 
-    public List<PlayerItemLevel> getPlayerItemLevels() {
+    public ArrayList<PlayerItemLevel> getPlayerItemLevels() {
         return playerItemLevels;
     }
 
+    public int getPlayerItemImage() {
+        return playerItemImage;
+    }
 }

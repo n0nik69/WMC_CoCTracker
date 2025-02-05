@@ -32,10 +32,10 @@ public class MusicService extends Service {
     public void onDestroy() {
         super.onDestroy();
         // MediaPlayer freigeben, wenn der Service beendet wird
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-        }
+//        if (mediaPlayer != null) {
+//            mediaPlayer.stop();
+//            mediaPlayer.release();
+//        }
     }
 
     @Nullable
