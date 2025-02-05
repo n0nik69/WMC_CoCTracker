@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
+import net.htlgkr.lugern.coctracker.models.Goldpass;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
@@ -25,9 +26,13 @@ import net.htlgkr.lugern.coctracker.models.player.PlayerItemLevel;
 import net.htlgkr.lugern.coctracker.models.player.PlayerRanking;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class LogicViewModel extends ViewModel {
@@ -42,9 +47,9 @@ public class LogicViewModel extends ViewModel {
     public MutableLiveData<ArrayList<PlayerItemLevel>> observableItemsPlayerHeroes;
     public MutableLiveData<ArrayList<PlayerAchievmentProgress>> observableItemsPlayerAchievments;
     public MutableLiveData<ArrayList<PlayerItemLevel>> obserVableItemsPlayerTroops;
-    //    public MutableLiveData<ArrayList<Troop>>
-
+    private Goldpass goldpass;
     private RequestQueue queue;
+    //    public MutableLiveData<ArrayList<Troop>>
     private Gson gson;
     private Player player;
     private Clan clan;
@@ -72,6 +77,9 @@ public class LogicViewModel extends ViewModel {
         API_URL = apiUrl;
     }
 
+    public Goldpass getGoldpass() {
+        return goldpass;
+    }
 
     public void init(Context context) {
         queue = Volley.newRequestQueue(context);
@@ -162,5 +170,28 @@ public class LogicViewModel extends ViewModel {
 
     public void setClan(Clan clan) {
         this.clan = clan;
+    }
+
+    public void loadGoldpass(String json) {
+        TypeToken<Goldpass> typeToken = new TypeToken<>() {
+        };
+        goldpass = gson.fromJson(json, typeToken);
+        if (goldpass != null) {
+            goldpass.setStartTime(formatDate(goldpass.getStartTime()));
+            goldpass.setEndTime(formatDate(goldpass.getEndTime()));
+        }
+    }
+
+    private String formatDate(String dateString) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss.SSSX", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
+        try {
+            Date date = inputFormat.parse(dateString);
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "Ungültiges Datum";
+        }
     }
 }

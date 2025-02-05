@@ -27,34 +27,26 @@ import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass
- * create an instance of this fragment.
- */
 public class LeagueScreen extends Fragment {
     FragmentLeagueScreenBinding binding;
     MainViewModel mainViewModel;
     LogicViewModel logicViewModel;
 
-    private boolean isMoved = false; // Flag, um zu verfolgen, ob das AutoCompleteTextView verschoben wurde
+    private boolean isMoved = false;
 
     public LeagueScreen() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentLeagueScreenBinding.inflate(inflater, container, false);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel.init(requireContext());
-        // Lade die Liste der Länder aus der CountryList-Klasse
         List<Country> countryList = CountryList.getCountries();
         List<String> countryNames = new ArrayList<>();
 
-        // Namen der Länder extrahieren
         for (Country country : countryList) {
             if (country.isCountry()) {
                 countryNames.add(country.getName());
@@ -89,7 +81,6 @@ public class LeagueScreen extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                // Überprüfen, ob das AutoCompleteTextView leer ist und der RadioButton ausgewählt ist
                 updateSearchButtonState(autoCompleteTextView, radioGroup.getCheckedRadioButtonId());
             }
 
@@ -111,32 +102,26 @@ public class LeagueScreen extends Fragment {
             View selectedRadioButton = radioGroup.findViewById(selectedId);
             return ((android.widget.RadioButton) selectedRadioButton).getText().toString();
         }
-        return ""; // Falls kein RadioButton ausgewählt ist
+        return "";
     }
 
     private void updateSearchButtonState(AutoCompleteTextView autoCompleteTextView, int checkedId) {
-        boolean isCountrySelected = checkedId != -1; // Ein RadioButton wurde ausgewählt
-        boolean isCountryNameValid = !autoCompleteTextView.getText().toString().isEmpty(); // AutoCompleteTextView ist nicht leer
+        boolean isCountrySelected = checkedId != -1;
+        boolean isCountryNameValid = !autoCompleteTextView.getText().toString().isEmpty();
 
-        // Der Button wird aktiviert, wenn ein RadioButton ausgewählt ist und das AutoCompleteTextView nicht leer ist
         binding.btnSearchLeague.setEnabled(isCountrySelected && isCountryNameValid);
 
-        // Button transparent machen, wenn er deaktiviert ist, und voll sichtbar, wenn er aktiv ist
-        if (binding.btnSearchLeague.isEnabled()) {
-            binding.btnSearchLeague.setEnabled(true); // Voll sichtbar
-        } else {
-            binding.btnSearchLeague.setEnabled(false); // Halbtransparent
-        }
+        binding.btnSearchLeague.setEnabled(binding.btnSearchLeague.isEnabled());
     }
 
     private int getCountryIdByName(String countryName) {
         List<Country> countryList = CountryList.getCountries();
         for (Country country : countryList) {
             if (country.getName().equalsIgnoreCase(countryName)) {
-                return country.getId();  // Gibt die ID des gefundenen Landes zurück
+                return country.getId();
             }
         }
-        return -1;  // Falls kein Land gefunden wurde, eine ungültige ID zurückgeben
+        return -1;
     }
 
     private void loadTopClansOrPlayers(int countryId, String checkedOption) {
@@ -170,13 +155,11 @@ public class LeagueScreen extends Fragment {
                     logicViewModel.loadTopPlayerFromJson(json);
                     mainViewModel.showScreen(MainViewModel.topPlayersList);
                 }
-
-
             }
 
             @Override
             public void onError(String error) {
-                binding.tvNoCountry.setText("No Country found");
+                binding.tvNoCountry.setText("No Country/Player found");
             }
         });
     }

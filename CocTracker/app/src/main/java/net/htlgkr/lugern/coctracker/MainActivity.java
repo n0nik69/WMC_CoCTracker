@@ -1,7 +1,12 @@
 package net.htlgkr.lugern.coctracker;
 
+import static android.view.View.GONE;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +18,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
+import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.fragments.LeagueScreen;
 import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
@@ -26,9 +33,16 @@ import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TopPlayersFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TroopsFragment;
 import net.htlgkr.lugern.coctracker.misc.MusicService;
+import net.htlgkr.lugern.coctracker.models.Goldpass;
+import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
+    private View popupView;
+    private LogicViewModel logicViewModel;
+    private TextView goldpassSeason;
+    private CircularProgressIndicator circular;
+
 
     @Override
     protected void onPause() {
@@ -61,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
         MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        logicViewModel = new ViewModelProvider(this).get(LogicViewModel.class);
+        logicViewModel.init(this);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.item_1) {
@@ -72,6 +88,16 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        popupView = findViewById(R.id.popupContainer);
+        circular = findViewById(R.id.circular);
+        goldpassSeason = findViewById(R.id.currentGoldpassSeason);
+        Button closeButton = findViewById(R.id.btnClosePopup);
+        closeButton.setOnClickListener(v -> hidePopup());
+
+
+        showPopup();
+
 
         Intent musicServiceIntent = new Intent(this, MusicService.class);
         startService(musicServiceIntent);
@@ -89,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.mainFragment, new LeagueScreen(), "LEAGUESCREEN");
                     break;
                 case MainViewModel.playerAchievmentList:
-                    transaction.replace(R.id.listLayoutTopPlayers, new AchievmentFragment(), "PLAYERACHIEVMENTS");
+                    transaction.replace(R.id.listLayoutPlayer, new AchievmentFragment(), "PLAYERACHIEVMENTS");
                     break;
                 case MainViewModel.topClansList:
                     transaction.replace(R.id.listLayoutLeague, new TopClansFragment(), "TOPSCLANS");
@@ -104,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.listLayoutLeague, new TopPlayersFragment(), "TOPPLAYERS");
                     break;
                 case MainViewModel.playerTroops:
-                    transaction.replace(R.id.listLayoutTopPlayers, new TroopsFragment(), "PLAYERTROOPS");
+                    transaction.replace(R.id.listLayoutPlayer, new TroopsFragment(), "PLAYERTROOPS");
                     break;
                 case MainViewModel.playerSpells:
-                    transaction.replace(R.id.listLayoutTopPlayers, new SpellFragment(), "PLAYERSPELLS");
+                    transaction.replace(R.id.listLayoutPlayer, new SpellFragment(), "PLAYERSPELLS");
                     break;
                 case MainViewModel.playerHeroes:
-                    transaction.replace(R.id.listLayoutTopPlayers, new HeroFragment(), "PLAYERHEROES");
+                    transaction.replace(R.id.listLayoutPlayer, new HeroFragment(), "PLAYERHEROES");
                     break;
                 case MainViewModel.topBuilderBaseClan:
 //                    transaction.replace(R.id.listLayoutLeague, new HeroFragment(), "PLAYERHEROES");
@@ -121,6 +147,46 @@ public class MainActivity extends AppCompatActivity {
             }
             transaction.commit();
         });
+    }
 
+    private void showPopup() {
+        String url = "https://api.clashofclans.com/v1/goldpass/seasons/current";
+        logicViewModel.setApiUrl(url);
+        logicViewModel.requestData(new HTTPListener<>() {
+            @Override
+            public void onSuccess(String json) {
+                logicViewModel.loadGoldpass(json);
+                circular.setVisibility(GONE);
+                Goldpass goldpass = logicViewModel.getGoldpass();
+                goldpassSeason.setText("The current Goldpass season runs from " + goldpass.getStartTime() + " until " + goldpass.getEndTime());
+
+            }
+
+            @Override
+            public void onError(String error) {
+            }
+        });
+
+        if (popupView != null && popupView.getVisibility() != View.VISIBLE) {
+            popupView.setAlpha(0f);
+            popupView.setVisibility(View.VISIBLE);
+            popupView.animate().alpha(1f).setDuration(500).start(); // Sanfte Einblend-Animation
+        }
+    }
+
+
+    private void hidePopup() {
+        ConstraintLayout popupPassCL = findViewById(R.id.popupPassCL);
+
+        if (popupView.getVisibility() == View.VISIBLE) {
+            popupView.animate()
+                    .alpha(0f)
+                    .setDuration(500)
+                    .withEndAction(() -> {
+                        popupView.setVisibility(GONE);
+                        popupPassCL.setVisibility(GONE);
+                    })
+                    .start();
+        }
     }
 }
