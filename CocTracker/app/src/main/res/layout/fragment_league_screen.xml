@@ -21,12 +21,12 @@
         android:id="@+id/autoCompleteCountry"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:hint="Type a Country"
+        android:layout_marginTop="16dp"
+        android:hint="Enter a Country"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/btnSearchLeague"

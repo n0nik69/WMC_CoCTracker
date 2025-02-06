@@ -14,17 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentClanScreenBinding;
 import net.htlgkr.lugern.coctracker.list.adapter.MyClanRecyclerViewAdapter;
@@ -42,6 +41,8 @@ public class ClanScreen extends Fragment {
     private Runnable selectedAction;
     private boolean isMenuSelected = false;
     private boolean isMoved = false;
+    private boolean searchByTag = true; // Standardmäßig auf Tag-Suche setzen
+
 
     public ClanScreen() {
     }
@@ -73,7 +74,7 @@ public class ClanScreen extends Fragment {
         binding.btnSearchClan.setEnabled(false);
         binding.textInputLayout.setVisibility(VISIBLE);
         binding.listLayoutFoundClans.setVisibility(INVISIBLE);
-        binding.tvClans.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_clans));
+//        binding.tvClans.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_clans));
 
         logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
             MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(logicViewModel.observableItemsClanMember.getValue());
@@ -81,13 +82,62 @@ public class ClanScreen extends Fragment {
         });
 
         binding.btnSearchClan.setOnClickListener(view -> {
-            if (selectedAction != null) {
-                animateViews(binding.textInputLayout);
-                binding.cp.setVisibility(VISIBLE);
-                binding.btnSearchClan.setVisibility(INVISIBLE);
-                selectedAction.run();
+            animateViews(binding.textInputLayout);
+
+            // Alle Tabs deselektieren
+            for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
+                TabLayout.Tab tab = binding.tabLayout.getTabAt(i);
+                if (tab != null) {
+                    tab.view.setActivated(false); // Deaktiviert die visuelle Auswahl
+                }
+            }
+
+            // Alternativ: Falls `.setActivated(false)` nicht funktioniert, versuche das:
+            // binding.tabLayout.selectTab(null); // Funktioniert nur in manchen Versionen
+
+            binding.cp.setVisibility(View.VISIBLE);
+            binding.btnSearchClan.setVisibility(View.INVISIBLE);
+
+            if (searchByTag) {
+                searchClanPerTag("");
+            } else {
+                searchClanPerName();
+            }
+
+            binding.listLayoutFoundClans.setVisibility(View.VISIBLE);
+        });
+
+
+        TextInputEditText textInputLayout = binding.tiClan;
+
+
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                switch (position) {
+                    case 0:
+                        searchByTag = true;
+                        textInputLayout.setHint("Clan per Tag suchen");
+                        break;
+                    case 1:
+                        searchByTag = false;
+                        textInputLayout.setHint("Clan per Name suchen");
+                        break;
+                }
+                binding.tiClan.setText(""); // Eingabefeld leeren
+                binding.btnSearchClan.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
 
         binding.tiClan.setOnClickListener(v -> {
             binding.tvClanError.setText("");
@@ -119,38 +169,28 @@ public class ClanScreen extends Fragment {
         return binding.getRoot();
     }
 
-    private void showMenu(View v, int menuRes) {
-        PopupMenu popup = new PopupMenu(getContext(), v);
-        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
-        popup.setOnMenuItemClickListener(menuItem -> {
-            TextInputEditText textInputLayout = binding.tiClan;
 
-            if (menuItem.getItemId() == R.id.searchClanPerName) {
-                binding.btnSearchClan.setVisibility(VISIBLE);
-                binding.listLayoutFoundClans.setVisibility(INVISIBLE);
-                binding.listLayoutClanMembers.setVisibility(INVISIBLE);
-                selectedAction = this::searchClanPerName;
-                textInputLayout.setHint("Clan per Name suchen");
-                binding.tiClan.setText("");
-
-            } else if (menuItem.getItemId() == R.id.searchClanPerTag) {
-                binding.btnSearchClan.setVisibility(VISIBLE);
-                binding.listLayoutClanMembers.setVisibility(INVISIBLE);
-                binding.listLayoutFoundClans.setVisibility(INVISIBLE);
-                selectedAction = () -> searchClanPerTag("");
-
-                textInputLayout.setHint("Clan per Tag suchen");
-                binding.tiClan.setText("");
-
-            }
-
-            binding.btnSearchClan.setVisibility(VISIBLE);
-            isMenuSelected = true;
-            updateButtonState();
-            return true;
-        });
-        popup.show();
-    }
+//    private void showMenu(View v, int menuRes) {
+//        PopupMenu popup = new PopupMenu(getContext(), v);
+//        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+//        popup.setOnMenuItemClickListener(menuItem -> {
+//            TextInputEditText textInputLayout = binding.tiClan;
+//
+//            if (menuItem.getItemId() == R.id.searchClanPerName) {
+//
+//
+//            } else if (menuItem.getItemId() == R.id.searchClanPerTag) {
+//
+//
+//            }
+//
+//            binding.btnSearchClan.setVisibility(VISIBLE);
+//            isMenuSelected = true;
+//            updateButtonState();
+//            return true;
+//        });
+//        popup.show();
+//    }
 
     public void searchClanPerTag(String clanTag) {
         binding.listLayoutFoundClans.setVisibility(GONE);
@@ -195,7 +235,7 @@ public class ClanScreen extends Fragment {
             public void onSuccess(String json) {
                 logicViewModel.loadFoundClansFromJson(json);
                 mainViewModel.showScreen(MainViewModel.foundClansList);
-                binding.listLayoutFoundClans.setVisibility(VISIBLE);
+//                binding.listLayoutFoundClans.setVisibility(VISIBLE);
 //                binding.textInputLayout.setVisibility(INVISIBLE);
                 binding.btnSearchClan.setVisibility(VISIBLE);
                 binding.cp.setVisibility(INVISIBLE);
@@ -210,23 +250,23 @@ public class ClanScreen extends Fragment {
 
     private void animateViews(TextInputLayout textInputLayout) {
         if (!isMoved) {
-            ObjectAnimator moveX = ObjectAnimator.ofFloat(textInputLayout, "translationX", 190f); // Verschiebt nach rechts
-            ObjectAnimator moveY = ObjectAnimator.ofFloat(textInputLayout, "translationY", -180f); // Verschiebt nach oben
-
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(textInputLayout, "scaleX", 0.6f); // Verkleinert in X-Richtung
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(textInputLayout, "scaleY", 0.6f); // Verkleinert in Y-Richtung
+//            ObjectAnimator moveX = ObjectAnimator.ofFloat(textInputLayout, "translationX", 190f); // Verschiebt nach rechts
+//            ObjectAnimator moveY = ObjectAnimator.ofFloat(textInputLayout, "translationY", -180f); // Verschiebt nach oben
+//
+//            ObjectAnimator scaleX = ObjectAnimator.ofFloat(textInputLayout, "scaleX", 0.6f); // Verkleinert in X-Richtung
+//            ObjectAnimator scaleY = ObjectAnimator.ofFloat(textInputLayout, "scaleY", 0.6f); // Verkleinert in Y-Richtung
             binding.textInputLayout.setVisibility(VISIBLE);
-            ObjectAnimator fadeInLayout = ObjectAnimator.ofFloat(binding.textInputLayout, "alpha", 0f, 1f);
+            ObjectAnimator fadeOutLayout = ObjectAnimator.ofFloat(binding.textInputLayout, "alpha", 1f, 0f);
 
             long duration = 1000;
-            moveX.setDuration(duration);
-            moveY.setDuration(duration);
-            scaleX.setDuration(duration);
-            scaleY.setDuration(duration);
-            fadeInLayout.setDuration(duration);
+//            moveX.setDuration(duration);
+//            moveY.setDuration(duration);
+//            scaleX.setDuration(duration);
+//            scaleY.setDuration(duration);
+            fadeOutLayout.setDuration(duration);
 
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(moveX, moveY, scaleX, scaleY, fadeInLayout);
+            animatorSet.playTogether(fadeOutLayout);
             animatorSet.start();
 
             isMoved = true;
@@ -261,6 +301,6 @@ public class ClanScreen extends Fragment {
 
     private void updateButtonState() {
         boolean isTextNotEmpty = !binding.tiClan.getText().toString().trim().isEmpty();
-        binding.btnSearchClan.setEnabled(isTextNotEmpty && isMenuSelected);
+        binding.btnSearchClan.setEnabled(isTextNotEmpty);
     }
 }
