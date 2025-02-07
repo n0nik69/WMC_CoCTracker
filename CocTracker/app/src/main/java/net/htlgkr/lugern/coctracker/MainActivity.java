@@ -138,12 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 case MainViewModel.playerHeroes:
                     transaction.replace(R.id.listLayoutPlayer, new HeroFragment(), "PLAYERHEROES");
                     break;
-                case MainViewModel.topBuilderBaseClan:
-//                    transaction.replace(R.id.listLayoutLeague, new HeroFragment(), "PLAYERHEROES");
-                    break;
-                case MainViewModel.topBuilderBasePlayer:
-//                    transaction.replace(R.id.listLayoutLeague, new HeroFragment(), "PLAYERHEROES");
-                    break;
             }
             transaction.commit();
         });

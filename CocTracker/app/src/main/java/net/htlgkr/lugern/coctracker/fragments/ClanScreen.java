@@ -283,11 +283,11 @@ public class ClanScreen extends Fragment {
     private void animateViews(TextInputLayout textInputLayout) {
         if (!isMoved) {
 
-            ObjectAnimator moveX = ObjectAnimator.ofFloat(textInputLayout, "translationX", 200f); // Verschiebt nach rechts
-            ObjectAnimator moveY = ObjectAnimator.ofFloat(textInputLayout, "translationY", -200f); // Verschiebt nach oben
+            ObjectAnimator moveX = ObjectAnimator.ofFloat(textInputLayout, "translationX", 200f);
+            ObjectAnimator moveY = ObjectAnimator.ofFloat(textInputLayout, "translationY", -200f);
 
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(textInputLayout, "scaleX", 0.6f); // Verkleinert in X-Richtung
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(textInputLayout, "scaleY", 0.6f); // Verkleinert in Y-Richtung
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(textInputLayout, "scaleX", 0.6f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(textInputLayout, "scaleY", 0.6f);
             binding.textInputLayout.setVisibility(VISIBLE);
             ObjectAnimator fadeOutTabs = ObjectAnimator.ofFloat(binding.tabLayout, "alpha", 1f, 0f);
             ObjectAnimator fadeOutButton = ObjectAnimator.ofFloat(binding.btnSearchClan, "alpha", 1f, 0f);
@@ -314,10 +314,10 @@ public class ClanScreen extends Fragment {
             binding.listLayoutFoundClans.setVisibility(INVISIBLE);
             binding.listLayoutClanMembers.setVisibility(INVISIBLE);
 
-            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 0f); // Zurück an die ursprüngliche X-Position
-            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", 0f); // Zurück an die ursprüngliche Y-Position
+            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 0f);
+            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", 0f);
 
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleX", 1f); // Zurück auf die ursprüngliche Größe in X-Richtung
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleX", 1f);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleY", 1f); // Zurück auf die ursprüngliche Größe in Y-Richtung
             binding.tabLayout.setVisibility(VISIBLE);
             ObjectAnimator fadeInTextInputField = ObjectAnimator.ofFloat(binding.textInputLayout, "alpha", 0f, 1f);

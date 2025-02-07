@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +19,6 @@ import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 
 public class FoundClanFragment extends Fragment {
-
-    private LogicViewModel logicViewModel;
-    private int columnCount = 1;
 
     public FoundClanFragment() {
     }
@@ -37,16 +33,12 @@ public class FoundClanFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_foundclan_list, container, false);
         View listView = view.findViewById(R.id.list);
-        logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
+        LogicViewModel logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         final MyFoundClanRecyclerViewAdapter[] adapter = new MyFoundClanRecyclerViewAdapter[1];
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
-            if (columnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-            }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             logicViewModel.observableItemsFoundClans.observe(getViewLifecycleOwner(), items -> {
                 adapter[0] = new MyFoundClanRecyclerViewAdapter(items);

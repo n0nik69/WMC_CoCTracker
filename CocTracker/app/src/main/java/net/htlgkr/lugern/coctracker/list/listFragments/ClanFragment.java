@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +21,6 @@ import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 public class ClanFragment extends Fragment {
 
     LogicViewModel logicViewModel;
-    private int columnCount = 1;
 
     public ClanFragment() {
     }
@@ -42,11 +40,7 @@ public class ClanFragment extends Fragment {
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
-            if (columnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-            }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
                 adapter[0] = new MyClanRecyclerViewAdapter(items);

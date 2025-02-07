@@ -6,7 +6,7 @@ import java.util.List;
 public class CountryList {
 
     public static List<Country> getCountries() {
-        List<Country> countryList = new ArrayList<>();
+        List<Country> countryList = new ArrayList<>(); //sind hardcodiert, weil die Liste, welche ich von der API bekomme zu lange ist und ChatGPT diese nicht verarbeiten kann :)LVVRPUJ08
         countryList.add(new Country(32000120, "Italy", true, "IT"));
         countryList.add(new Country(32000022, "Austria", true, "AT"));
         countryList.add(new Country(32000094, "Germany", true, "DE"));

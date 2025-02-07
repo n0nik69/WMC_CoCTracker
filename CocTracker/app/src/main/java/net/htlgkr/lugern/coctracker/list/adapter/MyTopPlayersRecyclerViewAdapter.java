@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.callbacks.MyOnCardClickListener;
@@ -23,8 +24,9 @@ public class MyTopPlayersRecyclerViewAdapter extends RecyclerView.Adapter<MyTopP
         values = items;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentTopPlayersBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -74,6 +76,7 @@ public class MyTopPlayersRecyclerViewAdapter extends RecyclerView.Adapter<MyTopP
             this.binding = binding;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " ";

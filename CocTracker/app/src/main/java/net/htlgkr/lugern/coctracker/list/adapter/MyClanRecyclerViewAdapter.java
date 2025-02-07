@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
@@ -26,8 +27,9 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
         values = items;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentCardBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -170,6 +172,7 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
             this.binding = binding;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " ";

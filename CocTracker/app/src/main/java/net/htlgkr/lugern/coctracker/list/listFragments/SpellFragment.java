@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
@@ -18,9 +17,6 @@ import net.htlgkr.lugern.coctracker.list.adapter.MySpellRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 
 public class SpellFragment extends Fragment {
-
-    private int columnCount = 2;
-    private LogicViewModel logicViewModel;
 
     public SpellFragment() {
     }
@@ -35,16 +31,13 @@ public class SpellFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spell_list, container, false);
         View listView = view.findViewById(R.id.list);
-        logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
+        LogicViewModel logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
 
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
-            if (columnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-            }
+            int columnCount = 2;
+            recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
 
             logicViewModel.observableItemsPlayerSpells.observe(getViewLifecycleOwner(), items -> {
                 Log.d("ClanFragment", "Items erhalten: " + items.size());

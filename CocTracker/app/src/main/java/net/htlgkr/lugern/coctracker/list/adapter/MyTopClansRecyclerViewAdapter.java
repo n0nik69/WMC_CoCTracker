@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -28,8 +29,9 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
         this.myOnCardClickListener = myOnCardClickListener;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentTopClansBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -73,6 +75,7 @@ public class MyTopClansRecyclerViewAdapter extends RecyclerView.Adapter<MyTopCla
             this.binding = binding;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " ";

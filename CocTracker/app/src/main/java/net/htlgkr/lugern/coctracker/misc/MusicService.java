@@ -11,12 +11,10 @@ import net.htlgkr.lugern.coctracker.R;
 
 public class MusicService extends Service {
 
-    private MediaPlayer mediaPlayer;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        mediaPlayer = MediaPlayer.create(this, R.raw.cocmaintheme);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.cocmaintheme);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
     }

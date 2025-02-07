@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,13 +17,8 @@ import net.htlgkr.lugern.coctracker.fragments.ClanScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyTopClansRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
-import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
 public class TopClansFragment extends Fragment {
-
-    private int columnCount = 1;
-    private LogicViewModel logicViewModel;
-    private MainViewModel mainViewModel;
 
     public TopClansFragment() {
     }
@@ -38,19 +32,14 @@ public class TopClansFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_clans_list, container, false);
-        logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
-        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        LogicViewModel logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         final MyTopClansRecyclerViewAdapter[] adapter = new MyTopClansRecyclerViewAdapter[1];
 
         View listView = view.findViewById(R.id.list);
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
-            if (columnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-            }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             logicViewModel.observableItemsClanRanking.observe(getViewLifecycleOwner(), items -> {
                 adapter[0] = new MyTopClansRecyclerViewAdapter(items);

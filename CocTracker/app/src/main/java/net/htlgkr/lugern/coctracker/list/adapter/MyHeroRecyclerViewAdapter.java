@@ -14,6 +14,7 @@ import net.htlgkr.lugern.coctracker.models.player.PlayerItemLevel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecyclerViewAdapter.ViewHolder> {
 
@@ -72,13 +73,8 @@ public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecycl
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         PlayerItemLevel hero = values.get(position);
 
-        // Hero-Image setzen
         Integer heroImageRes = heroImageMap.get(hero.getName());
-        if (heroImageRes != null) {
-            holder.binding.ivHero.setImageResource(heroImageRes);
-        } else {
-            holder.binding.ivHero.setImageResource(R.drawable.resource_default);
-        }
+        holder.binding.ivHero.setImageResource(Objects.requireNonNullElseGet(heroImageRes, () -> R.drawable.resource_default));
 
         holder.binding.ivHeroName.setText(hero.getName());
         holder.binding.ivHeroLevel.setText("Level " + hero.getLevel() + " / " + hero.getMaxLevel());
@@ -87,21 +83,13 @@ public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecycl
         if (equipment != null && !equipment.isEmpty()) {
             PlayerItemLevel equip1 = equipment.get(0);
             Integer equip1ImageRes = equipmentImageMap.get(equip1.getName());
-            if (equip1ImageRes != null) {
-                holder.binding.ivHeroEquipment1.setImageResource(equip1ImageRes);
-            } else {
-                holder.binding.ivHeroEquipment1.setImageResource(R.drawable.resource_default);
-            }
+            holder.binding.ivHeroEquipment1.setImageResource(Objects.requireNonNullElseGet(equip1ImageRes, () -> R.drawable.resource_default));
             holder.binding.tvHeroEquipment1.setText(equip1.getName());
 
             if (equipment.size() > 1) {
                 PlayerItemLevel equip2 = equipment.get(1);
                 Integer equip2ImageRes = equipmentImageMap.get(equip2.getName());
-                if (equip2ImageRes != null) {
-                    holder.binding.ivHeroEquipment2.setImageResource(equip2ImageRes);
-                } else {
-                    holder.binding.ivHeroEquipment2.setImageResource(R.drawable.resource_default);
-                }
+                holder.binding.ivHeroEquipment2.setImageResource(Objects.requireNonNullElseGet(equip2ImageRes, () -> R.drawable.resource_default));
                 holder.binding.tvHeroEquipment2.setText(equip2.getName());
                 holder.binding.ivHeroEquipment2.setVisibility(View.VISIBLE);
                 holder.binding.tvHeroEquipment2.setVisibility(View.VISIBLE);

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -23,8 +24,9 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
         values = items;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentFoundclanBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -138,6 +140,7 @@ public class MyFoundClanRecyclerViewAdapter extends RecyclerView.Adapter<MyFound
             this.binding = binding;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " ";

@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
@@ -40,8 +41,9 @@ public class MySpellRecyclerViewAdapter extends RecyclerView.Adapter<MySpellRecy
 
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentSpellBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -67,7 +69,7 @@ public class MySpellRecyclerViewAdapter extends RecyclerView.Adapter<MySpellRecy
         return values.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public FragmentSpellBinding binding;
 
         public ViewHolder(FragmentSpellBinding binding) {

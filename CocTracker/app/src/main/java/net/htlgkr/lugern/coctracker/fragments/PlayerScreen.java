@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -42,7 +41,6 @@ public class PlayerScreen extends Fragment {
     MainViewModel mainViewModel;
     String playerTag;
     String url;
-    private PopupMenu popup;
     private boolean isMoved = false;
 
     public PlayerScreen() {
@@ -51,12 +49,6 @@ public class PlayerScreen extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        popup = new PopupMenu(requireContext(), binding.tvPlayer);
-        popup.getMenuInflater().inflate(R.menu.popup_menu_player, popup.getMenu());
-        popup.getMenu().findItem(R.id.playerTroops).setEnabled(false);
-        popup.getMenu().findItem(R.id.playerAchievments).setEnabled(false);
-        popup.getMenu().findItem(R.id.playerHeroes).setEnabled(false);
-        popup.getMenu().findItem(R.id.playerSpells).setEnabled(false);
 
         String playerTag = getArguments() != null ? getArguments().getString("PLAYER_TAG") : null;
         if (playerTag != null) {
@@ -134,10 +126,6 @@ public class PlayerScreen extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 updateButtonState();
                 showElements(false);
-                popup.getMenu().findItem(R.id.playerTroops).setEnabled(false);
-                popup.getMenu().findItem(R.id.playerAchievments).setEnabled(false);
-                popup.getMenu().findItem(R.id.playerHeroes).setEnabled(false);
-                popup.getMenu().findItem(R.id.playerSpells).setEnabled(false);
                 binding.listLayoutPlayer.setVisibility(INVISIBLE);
                 binding.tvPlayerError.setVisibility(INVISIBLE);
                 binding.btnSearchPlayer.setVisibility(View.VISIBLE);
@@ -261,7 +249,10 @@ public class PlayerScreen extends Fragment {
                 binding.tvPlayerDetailTownhallLevel.setText("TH LVL:" + player.getTownHallLevel());
                 binding.tvPlayerDetailExpLevel.setText(String.valueOf(player.getExpLevel()));
                 binding.tvPlayerDetailBBLeague.setText(player.getBuilderBaseLeague().getName());
-                if (player.getLeague() != null) {
+                if (player.getLeague() == null) {
+                    binding.tvPlayerDetailLeague.setText("Unranked");
+                    binding.ivPlayerDetailLeague.setImageResource(R.drawable.l1);
+                } else {
                     binding.tvPlayerDetailLeague.setText(player.getLeague().getName());
                     ImageView ivLeague = binding.ivPlayerDetailLeague;
                     String leagueName = player.getLeague().getName();
@@ -281,20 +272,26 @@ public class PlayerScreen extends Fragment {
 
                     Integer imageRes2 = leagueImages.get(leagueType);
                     ivLeague.setImageResource(Objects.requireNonNullElseGet(imageRes2, () -> R.drawable.l1));
-                } else {
-                    binding.tvPlayerDetailLeague.setText("Unranked");
-                    binding.ivPlayerDetailLeague.setImageResource(R.drawable.l1);
+
                 }
-                binding.tvPlayerDetailClanName.setText("Clan: " + player.getClan().getName());
-                binding.tvPlayerDetailClanTag.setText(player.getClan().getTag());
+                if (player.getClan() == null) {
+                    binding.tvPlayerDetailClanName.setText("Clan: N/A");
+                    binding.tvPlayerDetailClanTag.setText("N/A");
+                    binding.ivPlayerDetailClan.setImageResource(R.drawable.resource_default);
+                } else {
+                    binding.tvPlayerDetailClanName.setText("Clan: " + player.getClan().getName());
+                    binding.tvPlayerDetailClanTag.setText(player.getClan().getTag());
+                    String imageUrl = player.getClan().getBadgeUrls().getLarge();
+                    Glide.with(requireContext())
+                            .load(imageUrl)
+                            .into(binding.ivPlayerDetailClan);
+                }
+
                 binding.tvPlayerDetailBBTrophies.setText(String.valueOf(player.getBuilderBaseTrophies()));
                 binding.tvPlayerDetailTrophies.setText(String.valueOf(player.getTrophies()));
-                binding.tvPlayerDetailClanTag.setText(player.getClan().getTag());
+
                 binding.tvPlayerDetailBBTownhallLevel.setText("BTH: " + player.getBuilderHallLevel());
-                String imageUrl = player.getClan().getBadgeUrls().getLarge();
-                Glide.with(requireContext())
-                        .load(imageUrl)
-                        .into(binding.ivPlayerDetailClan);
+
                 List<Label> labels = player.getLabels();
                 int defaultBadge = R.drawable.resource_default;
 
@@ -340,12 +337,7 @@ public class PlayerScreen extends Fragment {
                 Integer imageRes = townhallImageMap.get(townhallLevel);
                 binding.ivPlayerDetailTownhallLevel.setImageResource(imageRes);
 
-
                 binding.listLayoutPlayer.setVisibility(VISIBLE);
-                popup.getMenu().findItem(R.id.playerTroops).setEnabled(true);
-                popup.getMenu().findItem(R.id.playerAchievments).setEnabled(true);
-                popup.getMenu().findItem(R.id.playerSpells).setEnabled(true);
-                popup.getMenu().findItem(R.id.playerHeroes).setEnabled(true);
                 binding.playerCP.setVisibility(INVISIBLE);
                 showElements(true);
                 mainViewModel.showScreen(MainViewModel.playerTroops);

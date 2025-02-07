@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
@@ -22,8 +23,9 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
         values = items;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentAchievmentBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -61,11 +63,6 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
         });
     }
 
-
-    public void setOnItemClickListener(MyOnCardClickListener onItemClickListener) {
-        this.onCardClickListener = onItemClickListener;
-    }
-
     @Override
     public int getItemCount() {
         return values.size();
@@ -80,6 +77,7 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
             this.binding = binding;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " ";
