@@ -16,21 +16,8 @@ public class PlayerRanking {
     private int trophies;
     private int builderBaseTrophies;
 
-    public BuilderBaseLeague getBuilderBaseLeague() {
-        return builderBaseLeague;
-    }
-
     public int getBuilderBaseTrophies() {
         return builderBaseTrophies;
-    }
-
-    public League getLeague() {
-        return league;
-    }
-
-
-    public PlayerRankingClan getPlayerRankingClan() {
-        return playerRankingClan;
     }
 
 
@@ -43,17 +30,11 @@ public class PlayerRanking {
         return defenseWins;
     }
 
-    public void setDefenseWins(int defenseWins) {
-        this.defenseWins = defenseWins;
-    }
 
     public String getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
 
     public String getName() {
         return name;
@@ -67,31 +48,12 @@ public class PlayerRanking {
         return expLevel;
     }
 
-    public void setExpLevel(int expLevel) {
-        this.expLevel = expLevel;
-    }
-
     public int getRank() {
         return rank;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public int getPreviousRank() {
-        return previousRank;
-    }
-
-    public void setPreviousRank(int previousRank) {
-        this.previousRank = previousRank;
     }
 
     public int getTrophies() {
         return trophies;
     }
 
-    public void setTrophies(int trophies) {
-        this.trophies = trophies;
-    }
 }

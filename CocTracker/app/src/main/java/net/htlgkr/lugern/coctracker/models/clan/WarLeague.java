@@ -8,9 +8,7 @@ public class WarLeague {
         return name;
     }
 
-
     public int getId() {
         return id;
     }
-
 }

@@ -50,7 +50,6 @@ public class Player {
         return name;
     }
 
-
     public int getExpLevel() {
         return expLevel;
     }
@@ -59,29 +58,10 @@ public class Player {
         return trophies;
     }
 
-    public int getBestTrophies() {
-        return bestTrophies;
-    }
-
-    public int getWarStars() {
-        return warStars;
-    }
-
-    public int getAttackWins() {
-        return attackWins;
-    }
-
-    public int getDefenseWins() {
-        return defenseWins;
-    }
-
     public int getTownHallLevel() {
         return townHallLevel;
     }
 
-    public int getTownHallWeaponLevel() {
-        return townHallWeaponLevel;
-    }
 
     public int getBuilderHallLevel() {
         return builderHallLevel;
@@ -91,33 +71,6 @@ public class Player {
         return builderBaseTrophies;
     }
 
-    public int getBestBuilderBaseTrophies() {
-        return bestBuilderBaseTrophies;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public String getWarPreference() {
-        return warPreference;
-    }
-
-    public void setWarPreference(String warPreference) {
-        this.warPreference = warPreference;
-    }
-
-    public int getDonations() {
-        return donations;
-    }
-
-    public int getDonationsReceived() {
-        return donationsReceived;
-    }
-
-    public int getClanCapitalContributions() {
-        return clanCapitalContributions;
-    }
 
     public Clan getClan() {
         return clan;
@@ -131,14 +84,6 @@ public class Player {
         return builderBaseLeague;
     }
 
-    public PlayerHouse getPlayerHouse() {
-        return playerHouse;
-    }
-
-    public LegendStatistics getLegendStatistics() {
-        return legendStatistics;
-    }
-
     public ArrayList<PlayerItemLevel> getTroops() {
         return troops;
     }
@@ -147,9 +92,6 @@ public class Player {
         return heroes;
     }
 
-    public ArrayList<PlayerItemLevel> getHeroEquipments() {
-        return heroEquipments;
-    }
 
     public ArrayList<PlayerItemLevel> getSpells() {
         return spells;

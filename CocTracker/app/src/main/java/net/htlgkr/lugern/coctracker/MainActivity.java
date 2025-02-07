@@ -33,7 +33,7 @@ import net.htlgkr.lugern.coctracker.list.listFragments.TopClansFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TopPlayersFragment;
 import net.htlgkr.lugern.coctracker.list.listFragments.TroopsFragment;
 import net.htlgkr.lugern.coctracker.misc.MusicService;
-import net.htlgkr.lugern.coctracker.models.Goldpass;
+import net.htlgkr.lugern.coctracker.models.player.Goldpass;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         if (popupView != null && popupView.getVisibility() != View.VISIBLE) {
             popupView.setAlpha(0f);
             popupView.setVisibility(View.VISIBLE);
-            popupView.animate().alpha(1f).setDuration(500).start(); // Sanfte Einblend-Animation
+            popupView.animate().alpha(1f).setDuration(500).start();
         }
     }
 

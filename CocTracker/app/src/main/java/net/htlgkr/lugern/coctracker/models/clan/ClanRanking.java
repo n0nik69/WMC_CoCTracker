@@ -20,25 +20,13 @@ public class ClanRanking {
         return clanPoints;
     }
 
-
-    public int getClanLevel() {
-        return clanLevel;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-
     public int getMembers() {
         return members;
     }
 
-
     public String getTag() {
         return tag;
     }
-
 
     public String getName() {
         return name;
@@ -51,12 +39,6 @@ public class ClanRanking {
     public int getRank() {
         return rank;
     }
-
-
-    public int getPreviousRank() {
-        return previousRank;
-    }
-
 
     public BadgeUrls getBadgeUrls() {
         return badgeUrls;

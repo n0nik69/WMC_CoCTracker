@@ -16,32 +16,24 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        // MediaPlayer erstellen und Musik laden
         mediaPlayer = MediaPlayer.create(this, R.raw.cocmaintheme);
-        mediaPlayer.setLooping(true);  // Musik in Schleife abspielen
-        mediaPlayer.start();  // Musik starten
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Der Service läuft auch dann weiter, wenn die Aktivität gestoppt wird
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // MediaPlayer freigeben, wenn der Service beendet wird
-//        if (mediaPlayer != null) {
-//            mediaPlayer.stop();
-//            mediaPlayer.release();
-//        }
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        // Bindung des Services (optional, nicht benötigt für reinen Hintergrundbetrieb)
         return null;
     }
 }

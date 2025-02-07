@@ -42,34 +42,17 @@ public class ClanMember {
         return role;
     }
 
-
     public int getTownHallLevel() {
         return townHallLevel;
     }
-
 
     public int getExpLevel() {
         return expLevel;
     }
 
-
-    public int getClanRank() {
-        return clanRank;
-    }
-
-    public int getPreviousClanRank() {
-        return previousClanRank;
-    }
-
-
     public int getDonations() {
         return donations;
     }
-
-    public int getDonationsReceived() {
-        return donationsReceived;
-    }
-
 
     public int getTrophies() {
         return trophies;

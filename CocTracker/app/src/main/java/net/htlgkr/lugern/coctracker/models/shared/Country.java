@@ -24,8 +24,4 @@ public class Country {
     public boolean isCountry() {
         return isCountry;
     }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
 }

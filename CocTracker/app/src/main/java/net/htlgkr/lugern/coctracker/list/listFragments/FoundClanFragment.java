@@ -59,10 +59,8 @@ public class FoundClanFragment extends Fragment {
                         String clanTag = clickedClan.getTag();
                         Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
 
-                        // Hole das bestehende ClanScreen-Fragment
                         ClanScreen clanScreen = (ClanScreen) getParentFragmentManager().findFragmentByTag("CLANSCREEN");
 
-                        // Stelle sicher, dass das Fragment gefunden wurde und rufe die Methode auf
                         if (clanScreen != null) {
                             clanScreen.searchClanPerTag(clanTag);
                         } else {

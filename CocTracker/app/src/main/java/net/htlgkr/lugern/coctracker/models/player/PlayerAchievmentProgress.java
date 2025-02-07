@@ -13,29 +13,12 @@ public class PlayerAchievmentProgress {
         return stars;
     }
 
-
-    public int getValue() {
-        return value;
-    }
-
-
     public String getName() {
         return name;
     }
 
-
-    public int getTarget() {
-        return target;
-    }
-
-
     public String getCompletionInfo() {
         return completionInfo;
-    }
-
-
-    public Village getVillage() {
-        return village;
     }
 
     public String getInfo() {

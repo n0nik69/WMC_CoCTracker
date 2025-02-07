@@ -11,15 +11,7 @@ public class PlayerRankingClan {
         return name;
     }
 
-
     public String getTag() {
         return tag;
     }
-
-
-    public BadgeUrls getBadgeUrls() {
-        return badgeUrls;
-    }
-
-
 }

@@ -31,12 +31,10 @@ public class MyAchievmentRecyclerViewAdapter extends RecyclerView.Adapter<MyAchi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         PlayerAchievmentProgress achievment = values.get(position);
 
-        // Setze den Namen und die Beschreibungen
         holder.binding.tvAchievmentName.setText(achievment.getName());
         holder.binding.tvAchievmentCompletionInfo.setText(achievment.getCompletionInfo());
         holder.binding.tvAchievmentInfo.setText(achievment.getInfo());
 
-        // Entscheide, welches Bild gesetzt werden soll
         int starImageRes;
         switch (achievment.getStars()) {
             case 1:

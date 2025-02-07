@@ -55,7 +55,6 @@ public class ClanScreen extends Fragment {
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         String clanTag = getArguments() != null ? getArguments().getString("CLAN_TAG") : null;
         if (clanTag != null) {
-//            isMoved = true;
             searchClanPerTag(clanTag);
         }
     }
@@ -86,6 +85,7 @@ public class ClanScreen extends Fragment {
 
         binding.tiClan.setOnClickListener(v -> {
             binding.tvClanError.setVisibility(INVISIBLE);
+            binding.cp.setVisibility(INVISIBLE);
             showElements(false);
             reverseAnimation(binding.textInputLayout);
         });
@@ -152,6 +152,7 @@ public class ClanScreen extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 updateButtonState();
                 showElements(false);
+                binding.cp.setVisibility(INVISIBLE);
                 binding.btnSearchClan.setVisibility(View.VISIBLE);
                 binding.listLayoutFoundClans.setVisibility(View.INVISIBLE);
             }
@@ -212,7 +213,11 @@ public class ClanScreen extends Fragment {
                 binding.tvClanName.setText(clan.getName());
                 binding.tvClanDescription.setText(clan.getDescription());
                 binding.tvClanType.setText(String.valueOf(clan.getType()));
-                binding.tvClanLocationName.setText(clan.getLocation().getName());
+                if (clan.getLocation() != null) {
+                    binding.tvClanLocationName.setText(clan.getLocation().getName());
+                } else {
+                    binding.tvClanLocationName.setText("-");
+                }
                 binding.tvClanRequiredTrophies.setText("Required Trophies: " + clan.getRequiredTrophies());
                 binding.tvClanLevel.setText("Level: " + clan.getClanLevel());
                 String imageUrl = clan.getBadgeUrls().getLarge();

@@ -249,9 +249,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="BTH: 15"
-        android:textSize="11sp"
+        android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailBBTownhall"
         app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailClan" />
 
@@ -262,7 +262,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="29834"
-        android:textSize="11sp"
+        android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailBBTownhall"
         app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailBBTownhallLevel" />
 
@@ -291,9 +291,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Master League I"
-        android:textSize="11sp"
+        android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailLeague"
         app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailClan" />
 
@@ -314,7 +314,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="BB: Steel League III"
-        android:textSize="11sp"
+        android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailLeague"
         app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailLeague" />
 
@@ -322,7 +322,7 @@
         android:id="@+id/ivPlayerDetailClan"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/clan"
         app:layout_constraintStart_toStartOf="parent"

@@ -38,60 +38,12 @@ public class Clan {
         return clanPoints;
     }
 
-    public int getClanBuilderBasePoints() {
-        return clanBuilderBasePoints;
-    }
-
-    public int getClanCapitalPoints() {
-        return clanCapitalPoints;
-    }
-
-    public int getRequiredBuilderBaseTrophies() {
-        return requiredBuilderBaseTrophies;
-    }
-
-    public int getWarWinStreak() {
-        return warWinStreak;
-    }
-
-    public int getWarWins() {
-        return warWins;
-    }
-
-    public int getWarTies() {
-        return warTies;
-    }
-
-    public int getWarLosses() {
-        return warLosses;
-    }
-
-    public boolean isWarLogPublic() {
-        return isWarLogPublic;
-    }
-
     public ArrayList<ClanMember> getMemberList() {
         return memberList;
     }
 
-    public CapitalLeague getCapitalLeague() {
-        return capitalLeague;
-    }
-
-    public WarLeague getWarLeague() {
-        return warLeague;
-    }
-
     public List<Label> getLabels() {
         return labels;
-    }
-
-    public Language getChatLanguage() {
-        return chatLanguage;
-    }
-
-    public ClanCapital getClanCapital() {
-        return clanCapital;
     }
 
     public Type getType() {

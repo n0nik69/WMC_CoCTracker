@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
@@ -25,10 +26,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import net.htlgkr.lugern.coctracker.R;
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
 import net.htlgkr.lugern.coctracker.databinding.FragmentPlayerScreenBinding;
-import net.htlgkr.lugern.coctracker.list.adapter.MyAchievmentRecyclerViewAdapter;
-import net.htlgkr.lugern.coctracker.list.adapter.MyHeroRecyclerViewAdapter;
-import net.htlgkr.lugern.coctracker.list.adapter.MySpellRecyclerViewAdapter;
-import net.htlgkr.lugern.coctracker.list.adapter.MyTroopsRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.models.player.Player;
 import net.htlgkr.lugern.coctracker.models.shared.Label;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
@@ -37,6 +34,7 @@ import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class PlayerScreen extends Fragment {
     FragmentPlayerScreenBinding binding;
@@ -44,7 +42,6 @@ public class PlayerScreen extends Fragment {
     MainViewModel mainViewModel;
     String playerTag;
     String url;
-    private boolean isMenuSelected = false;
     private PopupMenu popup;
     private boolean isMoved = false;
 
@@ -91,28 +88,12 @@ public class PlayerScreen extends Fragment {
 
         binding.tiPlayerTag.setOnClickListener(v -> {
             binding.listLayoutPlayer.setVisibility(GONE);
+            binding.playerCP.setVisibility(INVISIBLE);
             showElements(false);
             reverseAnimation(binding.textInputLayout2);
         });
 
         showElements(false);
-
-
-        logicViewModel.observableItemsPlayerAchievments.observe(getViewLifecycleOwner(), items -> {
-            MyAchievmentRecyclerViewAdapter adapter = new MyAchievmentRecyclerViewAdapter(logicViewModel.observableItemsPlayerAchievments.getValue());
-        });
-
-        logicViewModel.obserVableItemsPlayerTroops.observe(getViewLifecycleOwner(), items -> {
-            MyTroopsRecyclerViewAdapter adapter = new MyTroopsRecyclerViewAdapter(logicViewModel.obserVableItemsPlayerTroops.getValue());
-        });
-
-        logicViewModel.observableItemsPlayerSpells.observe(getViewLifecycleOwner(), items -> {
-            MySpellRecyclerViewAdapter adapter = new MySpellRecyclerViewAdapter(logicViewModel.observableItemsPlayerSpells.getValue());
-        });
-
-        logicViewModel.observableItemsPlayerHeroes.observe(getViewLifecycleOwner(), items -> {
-            MyHeroRecyclerViewAdapter adapter = new MyHeroRecyclerViewAdapter(logicViewModel.observableItemsPlayerHeroes.getValue());
-        });
 
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -144,9 +125,6 @@ public class PlayerScreen extends Fragment {
         });
 
 
-        //können wsl auskommentiert werden
-
-
         binding.tiPlayerTag.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -163,7 +141,6 @@ public class PlayerScreen extends Fragment {
                 binding.listLayoutPlayer.setVisibility(INVISIBLE);
                 binding.tvPlayerError.setVisibility(INVISIBLE);
                 binding.btnSearchPlayer.setVisibility(View.VISIBLE);
-//                binding.tvPlayerTrophies.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -178,26 +155,6 @@ public class PlayerScreen extends Fragment {
     private void updateButtonState() {
         boolean isTextNotEmpty = !binding.tiPlayerTag.getText().toString().trim().isEmpty();
         binding.btnSearchPlayer.setEnabled(isTextNotEmpty);
-    }
-
-    private void showMenu(View v, int menuRes) {
-        popup.setOnMenuItemClickListener(menuItem -> {
-            if (menuItem.getItemId() == R.id.playerAchievments) {
-                mainViewModel.showScreen(MainViewModel.playerAchievmentList);
-                return true;
-            } else if (menuItem.getItemId() == R.id.playerHeroes) {
-                mainViewModel.showScreen(MainViewModel.playerHeroes);
-                return true;
-            } else if (menuItem.getItemId() == R.id.playerTroops) {
-                mainViewModel.showScreen(MainViewModel.playerTroops);
-                return true;
-            } else if (menuItem.getItemId() == R.id.playerSpells) {
-                mainViewModel.showScreen(MainViewModel.playerSpells);
-                return true;
-            }
-            return false;
-        });
-        popup.show();
     }
 
     private void animateViews(TextInputLayout textInputLayout) {
@@ -304,16 +261,41 @@ public class PlayerScreen extends Fragment {
                 binding.tvPlayerDetailTownhallLevel.setText("TH LVL:" + player.getTownHallLevel());
                 binding.tvPlayerDetailExpLevel.setText(String.valueOf(player.getExpLevel()));
                 binding.tvPlayerDetailBBLeague.setText(player.getBuilderBaseLeague().getName());
-                binding.tvPlayerDetailLeague.setText(player.getLeague().getName());
+                if (player.getLeague() != null) {
+                    binding.tvPlayerDetailLeague.setText(player.getLeague().getName());
+                    ImageView ivLeague = binding.ivPlayerDetailLeague;
+                    String leagueName = player.getLeague().getName();
+
+                    Map<String, Integer> leagueImages = new HashMap<>();
+                    leagueImages.put("Unranked", R.drawable.l1);
+                    leagueImages.put("Bronze", R.drawable.l2);
+                    leagueImages.put("Silver", R.drawable.l3);
+                    leagueImages.put("Gold", R.drawable.l4);
+                    leagueImages.put("Crystal", R.drawable.l5);
+                    leagueImages.put("Master", R.drawable.l6);
+                    leagueImages.put("Champion", R.drawable.l7);
+                    leagueImages.put("Titan", R.drawable.l8);
+                    leagueImages.put("Legend", R.drawable.l9);
+
+                    String leagueType = leagueName.split(" ")[0];
+
+                    Integer imageRes2 = leagueImages.get(leagueType);
+                    ivLeague.setImageResource(Objects.requireNonNullElseGet(imageRes2, () -> R.drawable.l1));
+                } else {
+                    binding.tvPlayerDetailLeague.setText("Unranked");
+                    binding.ivPlayerDetailLeague.setImageResource(R.drawable.l1);
+                }
+                binding.tvPlayerDetailClanName.setText("Clan: " + player.getClan().getName());
+                binding.tvPlayerDetailClanTag.setText(player.getClan().getTag());
                 binding.tvPlayerDetailBBTrophies.setText(String.valueOf(player.getBuilderBaseTrophies()));
                 binding.tvPlayerDetailTrophies.setText(String.valueOf(player.getTrophies()));
                 binding.tvPlayerDetailClanTag.setText(player.getClan().getTag());
+                binding.tvPlayerDetailBBTownhallLevel.setText("BTH: " + player.getBuilderHallLevel());
                 String imageUrl = player.getClan().getBadgeUrls().getLarge();
                 Glide.with(requireContext())
                         .load(imageUrl)
                         .into(binding.ivPlayerDetailClan);
                 List<Label> labels = player.getLabels();
-                // Standardbild für fehlende Labels
                 int defaultBadge = R.drawable.resource_default;
 
                 if (labels.size() > 0) {
@@ -353,12 +335,11 @@ public class PlayerScreen extends Fragment {
                 townhallImageMap.put(15, R.drawable.a15);
                 townhallImageMap.put(16, R.drawable.a16);
                 townhallImageMap.put(17, R.drawable.a17);
-                // Falls weitere Levels benötigt werden, hier hinzufügen...
 
-                // Townhall-Level abrufen
                 int townhallLevel = player.getTownHallLevel();
                 Integer imageRes = townhallImageMap.get(townhallLevel);
                 binding.ivPlayerDetailTownhallLevel.setImageResource(imageRes);
+
 
                 binding.listLayoutPlayer.setVisibility(VISIBLE);
                 popup.getMenu().findItem(R.id.playerTroops).setEnabled(true);

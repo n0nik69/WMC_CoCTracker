@@ -5,12 +5,6 @@ public class BadgeUrls {
     private String medium;
     private String large;
 
-    // Getter und Setter
-    public String getSmall() {
-        return small;
-    }
-
-
     public String getMedium() {
         return medium;
     }

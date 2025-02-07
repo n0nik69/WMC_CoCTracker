@@ -24,7 +24,6 @@ public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecycl
     public MyHeroRecyclerViewAdapter(List<PlayerItemLevel> items) {
         values = items;
 
-        // Map für Helden-Bilder
         heroImageMap = new HashMap<>();
         heroImageMap.put("Barbarian King", R.drawable.barbarianking);
         heroImageMap.put("Archer Queen", R.drawable.archerqueen);
@@ -34,7 +33,6 @@ public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecycl
         heroImageMap.put("Battle Copter", R.drawable.battlecopter);
         heroImageMap.put("Minion Prince", R.drawable.minionprince);
 
-        // Map für Heldenausrüstungen
         equipmentImageMap = new HashMap<>();
         equipmentImageMap.put("Spiky Ball", R.drawable.spikyball);
         equipmentImageMap.put("Earthquake Boots", R.drawable.earthquakeboots);
@@ -85,10 +83,8 @@ public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecycl
         holder.binding.ivHeroName.setText(hero.getName());
         holder.binding.ivHeroLevel.setText("Level " + hero.getLevel() + " / " + hero.getMaxLevel());
 
-        // Equipment setzen
         List<PlayerItemLevel> equipment = hero.getEquipment();
         if (equipment != null && !equipment.isEmpty()) {
-            // Erstes Equipment
             PlayerItemLevel equip1 = equipment.get(0);
             Integer equip1ImageRes = equipmentImageMap.get(equip1.getName());
             if (equip1ImageRes != null) {
@@ -98,7 +94,6 @@ public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecycl
             }
             holder.binding.tvHeroEquipment1.setText(equip1.getName());
 
-            // Zweites Equipment (falls vorhanden)
             if (equipment.size() > 1) {
                 PlayerItemLevel equip2 = equipment.get(1);
                 Integer equip2ImageRes = equipmentImageMap.get(equip2.getName());
@@ -115,7 +110,6 @@ public class MyHeroRecyclerViewAdapter extends RecyclerView.Adapter<MyHeroRecycl
                 holder.binding.tvHeroEquipment2.setVisibility(View.GONE);
             }
         } else {
-            // Falls kein Equipment vorhanden ist, ausblenden
             holder.binding.ivHeroEquipment1.setVisibility(View.GONE);
             holder.binding.tvHeroEquipment1.setVisibility(View.GONE);
             holder.binding.ivHeroEquipment2.setVisibility(View.GONE);

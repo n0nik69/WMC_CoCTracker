@@ -6,13 +6,8 @@ public class ClanCapital {
     private int capitalHallLevel;
     private List<ClanDistrictData> clanDistrictDataList;
 
-    public int getCapitalHallLevel() {
-        return capitalHallLevel;
+    public ClanCapital(int capitalHallLevel, List<ClanDistrictData> clanDistrictDataList) {
+        this.capitalHallLevel = capitalHallLevel;
+        this.clanDistrictDataList = clanDistrictDataList;
     }
-
-
-    public List<ClanDistrictData> getClanDistrictDataList() {
-        return clanDistrictDataList;
-    }
-
 }

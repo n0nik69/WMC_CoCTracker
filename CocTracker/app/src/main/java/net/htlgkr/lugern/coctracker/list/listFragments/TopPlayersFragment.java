@@ -58,15 +58,13 @@ public class TopPlayersFragment extends Fragment {
                         String playerTag = clickedPlayer.getTag();
                         Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", Player: " + playerTag);
 
-                        // Erstelle ein neues PlayerScreen und übergebe das Player-Tag als Argument
                         PlayerScreen playerScreen = new PlayerScreen();
                         Bundle bundle = new Bundle();
-                        bundle.putString("PLAYER_TAG", playerTag);  // Übergebe das Player-Tag
-                        playerScreen.setArguments(bundle);  // Setze die Argumente
+                        bundle.putString("PLAYER_TAG", playerTag);
+                        playerScreen.setArguments(bundle);
 
-                        // Ersetze das Fragment mit dem neuen PlayerScreen
                         getParentFragmentManager().beginTransaction()
-                                .replace(R.id.mainFragment, playerScreen, "PLAYERSCREEN")  // Optional: Füge es zum Backstack hinzu
+                                .replace(R.id.mainFragment, playerScreen, "PLAYERSCREEN")
                                 .commit();
                     }
                 });

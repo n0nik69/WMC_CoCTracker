@@ -16,10 +16,10 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import net.htlgkr.lugern.coctracker.api.HTTPListener;
-import net.htlgkr.lugern.coctracker.models.Goldpass;
 import net.htlgkr.lugern.coctracker.models.clan.Clan;
 import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
 import net.htlgkr.lugern.coctracker.models.clan.ClanRanking;
+import net.htlgkr.lugern.coctracker.models.player.Goldpass;
 import net.htlgkr.lugern.coctracker.models.player.Player;
 import net.htlgkr.lugern.coctracker.models.player.PlayerAchievmentProgress;
 import net.htlgkr.lugern.coctracker.models.player.PlayerItemLevel;
@@ -36,7 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class LogicViewModel extends ViewModel {
-    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6Ijc1YWI0MDc2LTU3YjYtNGUzNy1iODJlLTUwZTEwNDU2NDk3OCIsImlhdCI6MTczODc3MzU5NSwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjE0NS40MC40OS44MiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.N6XCW1-TBaAEH49TL9sgg36oHm1lCDzrx2XTU5NdopjlD2U7-aIQ2QoLcK8BwHWfYwUO99vEkF6QGmrD6y74wQ"; // Setze deinen API-Schlüssel hier ein
+    private static final String API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImY2OTAxZDhjLWVlYzQtNGM0NS05YzUzLTAyMWE5ODdhOTQwZiIsImlhdCI6MTczODMwOTQyMSwic3ViIjoiZGV2ZWxvcGVyLzgzNjM3MjQ5LTdmZjEtZWRhNC03NWIwLTYzZDE5ZTkxNWM4YSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjc4LjEwNC42Mi4xIl0sInR5cGUiOiJjbGllbnQifV19.Jd-jzhwBYgAosIPFdscP500sokLfK933LvuokvEcSUZhllZ7msjUfs7fmhREYthz1WQE1LrF-Dh-XneJ2XVeZw"; // Setze deinen API-Schlüssel hier ein
     private static String API_URL = "https://api.clashofclans.com/v1";
     public MutableLiveData<ArrayList<ClanMember>> observableItemsClanMember;
     public MutableLiveData<ArrayList<Clan>> observableItemsClan;

@@ -37,7 +37,6 @@ public class SpellFragment extends Fragment {
         View listView = view.findViewById(R.id.list);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
 
-        // Set the adapter
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
@@ -61,34 +60,5 @@ public class SpellFragment extends Fragment {
         }
         return view;
     }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_spell_list, container, false);
-//        View listView = view.findViewById(R.id.list);
-//        logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
-//
-//        // Set the adapter
-//        if (listView instanceof RecyclerView) {
-//            Context context = listView.getContext();
-//            RecyclerView recyclerView = (RecyclerView) listView;
-//
-//            // Verwende GridLayoutManager mit 2 Spalten
-//            recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-//
-//            logicViewModel.observableItemsPlayerSpells.observe(getViewLifecycleOwner(), items -> {
-//                Log.d("ClanFragment", "Items erhalten: " + items.size());
-//
-//                if (items.isEmpty()) {
-//                    Log.e("ClanFragment", "Die Liste ist leer!");
-//                }
-//
-//                MySpellRecyclerViewAdapter adapter = new MySpellRecyclerViewAdapter(items);
-//                recyclerView.setAdapter(adapter);
-//            });
-//        }
-//        return view;
-//    }
 
 }

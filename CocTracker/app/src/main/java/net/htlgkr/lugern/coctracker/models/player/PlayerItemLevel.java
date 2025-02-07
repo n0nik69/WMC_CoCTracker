@@ -24,23 +24,8 @@ public class PlayerItemLevel {
         return maxLevel;
     }
 
-    public Village getVillage() {
-        return village;
-    }
-
-    public boolean isSuperTroopIsActive() {
-        return superTroopIsActive;
-    }
-
-    public int getPlayerItemImage() {
-        return playerItemImage;
-    }
-
     public List<PlayerItemLevel> getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(ArrayList<PlayerItemLevel> equipment) {
-        this.equipment = equipment;
-    }
 }

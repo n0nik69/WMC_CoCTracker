@@ -25,6 +25,7 @@ public class CountryList {
         countryList.add(new Country(32000116, "Iraq", true, "IQ"));
         countryList.add(new Country(32000117, "Ireland", true, "IE"));
         countryList.add(new Country(32000119, "Israel", true, "IL"));
+        countryList.add(new Country(32000087, "France", true, "FR"));
         return countryList;
     }
 }

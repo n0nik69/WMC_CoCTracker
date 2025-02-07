@@ -62,16 +62,13 @@ public class TopClansFragment extends Fragment {
                         String clanTag = clickedClan.getTag();
                         Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", ClanTag: " + clanTag);
 
-                        // Erstelle ein neues ClanScreen und setze das Clan-Tag als Argument
                         ClanScreen clanScreen = new ClanScreen();
                         Bundle bundle = new Bundle();
-                        bundle.putString("CLAN_TAG", clanTag);  // Übergebe das Clan-Tag
-                        clanScreen.setArguments(bundle);  // Setze die Argumente
+                        bundle.putString("CLAN_TAG", clanTag);
+                        clanScreen.setArguments(bundle);
 
-                        // Ersetze das Fragment mit dem neuen ClanScreen
                         getParentFragmentManager().beginTransaction()
                                 .replace(R.id.mainFragment, clanScreen, "CLANSCREEN")
-                                .addToBackStack(null)  // Optional: Füge es zum Backstack hinzu, wenn du eine Zurück-Navigation willst
                                 .commit();
                     }
                 });

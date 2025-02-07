@@ -23,8 +23,4 @@ public class League {
         this.name = name;
     }
 
-    public IconUrls getIconUrls() {
-        return iconUrls;
-    }
-
 }

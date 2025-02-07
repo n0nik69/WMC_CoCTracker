@@ -36,6 +36,7 @@ public class MySpellRecyclerViewAdapter extends RecyclerView.Adapter<MySpellRecy
         spellImageMap.put("Bat Spell", R.drawable.batspell);
         spellImageMap.put("Recall Spell", R.drawable.recallspell);
         spellImageMap.put("Overgrowth Spell", R.drawable.overgrowthspell);
+        spellImageMap.put("Revive Spell", R.drawable.revivespell);
 
     }
 

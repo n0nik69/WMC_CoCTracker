@@ -21,8 +21,5 @@ public class ClanDistrictData {
         this.id = id;
     }
 
-    public int getDistrictHallLevel() {
-        return districtHallLevel;
-    }
 
 }

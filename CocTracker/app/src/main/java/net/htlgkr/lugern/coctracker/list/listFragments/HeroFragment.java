@@ -37,7 +37,6 @@ public class HeroFragment extends Fragment {
         View listView = view.findViewById(R.id.list);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
 
-        // Set the adapter
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;

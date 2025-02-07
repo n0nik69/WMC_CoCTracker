@@ -160,17 +160,18 @@ public class LeagueScreen extends Fragment {
             @Override
             public void onError(String error) {
                 binding.tvNoCountry.setText("No Country/Player found");
+                binding.cpLeague.setVisibility(INVISIBLE);
             }
         });
     }
 
     private void animateViews(AutoCompleteTextView autoCompleteTextView) {
         if (!isMoved) {
-            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 220f); // Verschiebt nach rechts
-            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", -185f); // Verschiebt nach oben
+            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 220f);
+            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", -185f);
 
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleX", 0.6f); // Verkleinert in X-Richtung
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleY", 0.6f); // Verkleinert in Y-Richtung
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleX", 0.6f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleY", 0.6f);
             binding.listLayoutLeague.setVisibility(VISIBLE);
             ObjectAnimator fadeInLayout = ObjectAnimator.ofFloat(binding.listLayoutLeague, "alpha", 0f, 1f);
             ObjectAnimator fadeOutButton = ObjectAnimator.ofFloat(binding.btnSearchLeague, "alpha", 1f, 0f);
@@ -195,11 +196,11 @@ public class LeagueScreen extends Fragment {
 
     private void reverseAnimation(AutoCompleteTextView autoCompleteTextView) {
         if (isMoved) {
-            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 0f); // Zurück an die ursprüngliche X-Position
-            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", 0f); // Zurück an die ursprüngliche Y-Position
+            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 0f);
+            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", 0f);
 
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleX", 1f); // Zurück auf die ursprüngliche Größe in X-Richtung
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleY", 1f); // Zurück auf die ursprüngliche Größe in Y-Richtung
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleX", 1f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleY", 1f);
 
             ObjectAnimator fadeOutLayout = ObjectAnimator.ofFloat(binding.listLayoutLeague, "alpha", 1f, 0f);
             ObjectAnimator fadeInButton = ObjectAnimator.ofFloat(binding.btnSearchLeague, "alpha", 0f, 1f);

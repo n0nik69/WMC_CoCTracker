@@ -48,19 +48,6 @@ public class ClanFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
 
-//            logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
-//                Log.d("ClanFragment", "Items erhalten: " + items.size());
-//
-//                if (items.isEmpty()) {
-//                    Log.e("ClanFragment", "Die Liste ist leer!");
-//                }
-//
-//                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(items);
-//                recyclerView.setAdapter(adapter);
-//
-//                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
-//            });
-
             logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
                 adapter[0] = new MyClanRecyclerViewAdapter(items);
                 recyclerView.setAdapter(adapter[0]);
@@ -71,15 +58,13 @@ public class ClanFragment extends Fragment {
                         String playerTag = clanMember.getTag();
                         Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", Player: " + playerTag);
 
-                        // Erstelle ein neues PlayerScreen und übergebe das Player-Tag als Argument
                         PlayerScreen playerScreen = new PlayerScreen();
                         Bundle bundle = new Bundle();
-                        bundle.putString("PLAYER_TAG", playerTag);  // Übergebe das Player-Tag
-                        playerScreen.setArguments(bundle);  // Setze die Argumente
+                        bundle.putString("PLAYER_TAG", playerTag);
+                        playerScreen.setArguments(bundle);
 
-                        // Ersetze das Fragment mit dem neuen PlayerScreen
                         getParentFragmentManager().beginTransaction()
-                                .replace(R.id.mainFragment, playerScreen, "PLAYERSCREEN")  // Optional: Füge es zum Backstack hinzu
+                                .replace(R.id.mainFragment, playerScreen, "PLAYERSCREEN")
                                 .commit();
                     }
                 });

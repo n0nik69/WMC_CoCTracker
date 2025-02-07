@@ -38,7 +38,6 @@ public class MyTroopsRecyclerViewAdapter extends RecyclerView.Adapter<MyTroopsRe
         holder.binding.tvTroopName.setText(playerItemLevel.getName());
         holder.binding.tvTroopLevel.setText("Lvl: " + playerItemLevel.getLevel() + "/" + playerItemLevel.getMaxLevel());
 
-        // Bild laden
         int imageResId = getTroopImageResource(holder.itemView, playerItemLevel.getName());
         if (imageResId != 0) {
             holder.binding.ivTroop.setImageResource(imageResId);
@@ -56,7 +55,6 @@ public class MyTroopsRecyclerViewAdapter extends RecyclerView.Adapter<MyTroopsRe
     }
 
     private String getImageName(String troopName) {
-        // Ausnahmen
         switch (troopName) {
             case "P.E.K.K.A":
                 return "pekka";
@@ -66,7 +64,6 @@ public class MyTroopsRecyclerViewAdapter extends RecyclerView.Adapter<MyTroopsRe
                 return "lassi";
         }
 
-        // Standard: Leerzeichen entfernen, in Kleinbuchstaben umwandeln
         return troopName.toLowerCase().replace(" ", "");
     }
 

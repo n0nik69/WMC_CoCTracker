@@ -20,8 +20,4 @@ public class Language {
     public void setId(int id) {
         this.id = id;
     }
-
-    public String getLanguageCode() {
-        return languageCode;
-    }
 }

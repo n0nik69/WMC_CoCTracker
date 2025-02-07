@@ -7,19 +7,6 @@ public class Location {
     private String localizedName;
     private boolean isCountry;
 
-    public String getLocalizedName() {
-        return localizedName;
-    }
-
-    public void setLocalizedName(String localizedName) {
-        this.localizedName = localizedName;
-    }
-
-    public boolean isCountry() {
-        return isCountry;
-    }
-
-
     public int getId() {
         return id;
     }
@@ -35,7 +22,6 @@ public class Location {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getCountryCode() {
         return countryCode;

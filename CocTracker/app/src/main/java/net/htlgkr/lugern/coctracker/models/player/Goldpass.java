@@ -1,4 +1,4 @@
-package net.htlgkr.lugern.coctracker.models;
+package net.htlgkr.lugern.coctracker.models.player;
 
 public class Goldpass {
     String startTime;
