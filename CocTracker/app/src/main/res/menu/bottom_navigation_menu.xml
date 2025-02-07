@@ -9,11 +9,11 @@
         android:enabled="true"
         android:icon="@drawable/peka"
         android:textSize="50dp"
-        android:title="Spieler" />
+        android:title="Player" />
     <item
         android:id="@+id/item_3"
         android:enabled="true"
-        android:icon="@drawable/league"
+        android:icon="@drawable/l9"
         android:title="Leagues" />
 
 </menu>
