@@ -166,8 +166,8 @@ public class LeagueScreen extends Fragment {
 
     private void animateViews(AutoCompleteTextView autoCompleteTextView) {
         if (!isMoved) {
-            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 240f); // Verschiebt nach rechts
-            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", -220f); // Verschiebt nach oben
+            ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 220f); // Verschiebt nach rechts
+            ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", -185f); // Verschiebt nach oben
 
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleX", 0.6f); // Verkleinert in X-Richtung
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleY", 0.6f); // Verkleinert in Y-Richtung

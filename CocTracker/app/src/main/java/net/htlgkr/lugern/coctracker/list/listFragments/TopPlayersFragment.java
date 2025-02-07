@@ -38,9 +38,11 @@ public class TopPlayersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_top_players_list, container, false);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         final MyTopPlayersRecyclerViewAdapter[] adapter = new MyTopPlayersRecyclerViewAdapter[1];
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+
+        View listView = view.findViewById(R.id.list);
+        if (listView instanceof RecyclerView) {
+            Context context = listView.getContext();
+            RecyclerView recyclerView = (RecyclerView) listView;
             if (columnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -55,15 +57,19 @@ public class TopPlayersFragment extends Fragment {
                     if (clickedPlayer != null) {
                         String playerTag = clickedPlayer.getTag();
                         Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", Player: " + playerTag);
-                        PlayerScreen playerScreen = (PlayerScreen) getParentFragmentManager().findFragmentByTag("PLAYERSCREEN");
-                        if (playerScreen != null) {
-                            playerScreen.searchPlayerPerTag(playerTag);
-                        } else {
-                            Log.e("TopPlayerFragment", "PlayerScreen Fragment not found");
-                        }
+
+                        // Erstelle ein neues PlayerScreen und übergebe das Player-Tag als Argument
+                        PlayerScreen playerScreen = new PlayerScreen();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PLAYER_TAG", playerTag);  // Übergebe das Player-Tag
+                        playerScreen.setArguments(bundle);  // Setze die Argumente
+
+                        // Ersetze das Fragment mit dem neuen PlayerScreen
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.mainFragment, playerScreen, "PLAYERSCREEN")  // Optional: Füge es zum Backstack hinzu
+                                .commit();
                     }
                 });
-
             });
         }
         return view;

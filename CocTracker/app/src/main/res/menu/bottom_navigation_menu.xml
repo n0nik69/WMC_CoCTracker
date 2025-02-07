@@ -13,7 +13,7 @@
     <item
         android:id="@+id/item_3"
         android:enabled="true"
-        android:icon="@drawable/leagueicondrei"
+        android:icon="@drawable/league"
         android:title="Leagues" />
 
 </menu>

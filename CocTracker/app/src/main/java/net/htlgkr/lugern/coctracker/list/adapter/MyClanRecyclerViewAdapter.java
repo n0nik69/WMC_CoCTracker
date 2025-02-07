@@ -135,7 +135,7 @@ public class MyClanRecyclerViewAdapter extends RecyclerView.Adapter<MyClanRecycl
 
         holder.binding.tvPlayerTownhallLevel.setText("RH-Lvl: " + clanMember.getTownHallLevel());
         holder.binding.tvPlayerNameInClan.setText(clanMember.getName());
-        holder.binding.tvCardXPLevel.setText("XP-Lvl: " + clanMember.getExpLevel());
+        holder.binding.tvCardXPLevel.setText("XP: " + clanMember.getExpLevel());
         holder.binding.tvPlayerTrophies.setText(String.valueOf(clanMember.getTrophies()));
         holder.binding.tvPlayerBuildbaseTrophies.setText(String.valueOf(clanMember.getBuilderBaseTrophies()));
         holder.binding.tvClanRole.setText(clanMember.getRole().name());

@@ -1,5 +1,6 @@
 package net.htlgkr.lugern.coctracker.list.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -47,15 +48,18 @@ public class MySpellRecyclerViewAdapter extends RecyclerView.Adapter<MySpellRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         PlayerItemLevel spell = values.get(position);
         holder.binding.tvSpellName.setText(spell.getName());
-        holder.binding.tvSpellLevel.setText("Level " + spell.getLevel());
+        holder.binding.tvSpellLevel.setText("Level " + spell.getLevel() + "/" + spell.getMaxLevel());
 
         Integer imageRes = spellImageMap.get(spell.getName());
+        Log.d("ImageLoad", "Zaubername: " + spell.getName() + ", Bild-Resource: " + imageRes);
+
         if (imageRes != null) {
             holder.binding.ivSpell.setImageResource(imageRes);
         } else {
             holder.binding.ivSpell.setImageResource(R.drawable.resource_default); // Fallback-Bild
         }
     }
+
 
     @Override
     public int getItemCount() {

@@ -1,5 +1,6 @@
 package net.htlgkr.lugern.coctracker.fragments;
 
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
@@ -17,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputLayout;
 
 import net.htlgkr.lugern.coctracker.R;
@@ -27,8 +30,13 @@ import net.htlgkr.lugern.coctracker.list.adapter.MyHeroRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.list.adapter.MySpellRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.list.adapter.MyTroopsRecyclerViewAdapter;
 import net.htlgkr.lugern.coctracker.models.player.Player;
+import net.htlgkr.lugern.coctracker.models.shared.Label;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 import net.htlgkr.lugern.coctracker.viewmodels.MainViewModel;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PlayerScreen extends Fragment {
     FragmentPlayerScreenBinding binding;
@@ -52,6 +60,11 @@ public class PlayerScreen extends Fragment {
         popup.getMenu().findItem(R.id.playerAchievments).setEnabled(false);
         popup.getMenu().findItem(R.id.playerHeroes).setEnabled(false);
         popup.getMenu().findItem(R.id.playerSpells).setEnabled(false);
+
+        String playerTag = getArguments() != null ? getArguments().getString("PLAYER_TAG") : null;
+        if (playerTag != null) {
+            searchPlayerPerTag(playerTag);
+        }
     }
 
     @Override
@@ -66,7 +79,6 @@ public class PlayerScreen extends Fragment {
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         logicViewModel.init(requireContext());
-        binding.tvPlayer.setOnClickListener(view -> showMenu(view, R.menu.popup_menu_player));
 
         binding.btnSearchPlayer.setEnabled(false);
         binding.btnSearchPlayer.setOnClickListener(view -> {
@@ -75,10 +87,15 @@ public class PlayerScreen extends Fragment {
             searchPlayerPerTag("");
         });
 
+        binding.tiPlayerTag.setHint("Enter Playertag");
+
         binding.tiPlayerTag.setOnClickListener(v -> {
-//            binding.tvClanError.setText("");
+            binding.listLayoutPlayer.setVisibility(GONE);
+            showElements(false);
             reverseAnimation(binding.textInputLayout2);
         });
+
+        showElements(false);
 
 
         logicViewModel.observableItemsPlayerAchievments.observe(getViewLifecycleOwner(), items -> {
@@ -97,6 +114,36 @@ public class PlayerScreen extends Fragment {
             MyHeroRecyclerViewAdapter adapter = new MyHeroRecyclerViewAdapter(logicViewModel.observableItemsPlayerHeroes.getValue());
         });
 
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                switch (position) {
+                    case 0:
+                        mainViewModel.showScreen(MainViewModel.playerTroops);
+                        break;
+                    case 1:
+                        mainViewModel.showScreen(MainViewModel.playerSpells);
+                        break;
+                    case 2:
+                        mainViewModel.showScreen(MainViewModel.playerHeroes);
+                        break;
+                    case 3:
+                        mainViewModel.showScreen(MainViewModel.playerAchievmentList);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+
         //können wsl auskommentiert werden
 
 
@@ -108,6 +155,7 @@ public class PlayerScreen extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 updateButtonState();
+                showElements(false);
                 popup.getMenu().findItem(R.id.playerTroops).setEnabled(false);
                 popup.getMenu().findItem(R.id.playerAchievments).setEnabled(false);
                 popup.getMenu().findItem(R.id.playerHeroes).setEnabled(false);
@@ -115,8 +163,7 @@ public class PlayerScreen extends Fragment {
                 binding.listLayoutPlayer.setVisibility(INVISIBLE);
                 binding.tvPlayerError.setVisibility(INVISIBLE);
                 binding.btnSearchPlayer.setVisibility(View.VISIBLE);
-                binding.tvPlayerName.setVisibility(View.INVISIBLE);
-                binding.tvPlayerTrophies.setVisibility(View.INVISIBLE);
+//                binding.tvPlayerTrophies.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -148,13 +195,6 @@ public class PlayerScreen extends Fragment {
                 mainViewModel.showScreen(MainViewModel.playerSpells);
                 return true;
             }
-//            } else if (menuItem.getItemId() == R.id.searchPlayerPerTag) {
-//                binding.tvPlayer.setVisibility(VISIBLE);
-//                binding.textInputLayout2.setVisibility(VISIBLE);
-//                binding.btnSearchPlayer.setVisibility(VISIBLE);
-//                isMenuSelected = true;
-//                updateButtonState();
-//            }
             return false;
         });
         popup.show();
@@ -162,23 +202,25 @@ public class PlayerScreen extends Fragment {
 
     private void animateViews(TextInputLayout textInputLayout) {
         if (!isMoved) {
-            ObjectAnimator moveX = ObjectAnimator.ofFloat(textInputLayout, "translationX", 190f); // Verschiebt nach rechts
-            ObjectAnimator moveY = ObjectAnimator.ofFloat(textInputLayout, "translationY", -180f); // Verschiebt nach oben
+            ObjectAnimator moveX = ObjectAnimator.ofFloat(textInputLayout, "translationX", 200f); // Verschiebt nach rechts
+            ObjectAnimator moveY = ObjectAnimator.ofFloat(textInputLayout, "translationY", -200f); // Verschiebt nach oben
 
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(textInputLayout, "scaleX", 0.6f); // Verkleinert in X-Richtung
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(textInputLayout, "scaleY", 0.6f); // Verkleinert in Y-Richtung
             binding.textInputLayout2.setVisibility(VISIBLE);
             ObjectAnimator fadeInLayout = ObjectAnimator.ofFloat(binding.textInputLayout2, "alpha", 0f, 1f);
+            ObjectAnimator fadeOutButton = ObjectAnimator.ofFloat(binding.btnSearchPlayer, "alpha", 1f, 0f);
 
             long duration = 1000;
             moveX.setDuration(duration);
+            fadeInLayout.setDuration(duration);
             moveY.setDuration(duration);
             scaleX.setDuration(duration);
             scaleY.setDuration(duration);
             fadeInLayout.setDuration(duration);
 
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(moveX, moveY, scaleX, scaleY, fadeInLayout);
+            animatorSet.playTogether(moveX, moveY, scaleX, fadeOutButton, scaleY, fadeInLayout);
             animatorSet.start();
 
             isMoved = true;
@@ -187,8 +229,6 @@ public class PlayerScreen extends Fragment {
 
     private void reverseAnimation(TextInputLayout autoCompleteTextView) {
         if (isMoved) {
-//            binding.listLayoutFoundClans.setVisibility(INVISIBLE);
-//            binding.listLayoutClanMembers.setVisibility(INVISIBLE);
             ObjectAnimator moveX = ObjectAnimator.ofFloat(autoCompleteTextView, "translationX", 0f); // Zurück an die ursprüngliche X-Position
             ObjectAnimator moveY = ObjectAnimator.ofFloat(autoCompleteTextView, "translationY", 0f); // Zurück an die ursprüngliche Y-Position
 
@@ -196,21 +236,52 @@ public class PlayerScreen extends Fragment {
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(autoCompleteTextView, "scaleY", 1f); // Zurück auf die ursprüngliche Größe in Y-Richtung
 
             ObjectAnimator fadeInTextInputField = ObjectAnimator.ofFloat(binding.textInputLayout2, "alpha", 0f, 1f);
+            ObjectAnimator fadeInButton = ObjectAnimator.ofFloat(binding.btnSearchPlayer, "alpha", 0f, 1f);
 
             long duration = 1000;
             fadeInTextInputField.setDuration(duration);
+            fadeInButton.setDuration(duration);
             moveX.setDuration(duration);
             moveY.setDuration(duration);
             scaleX.setDuration(duration);
             scaleY.setDuration(duration);
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(moveX, moveY, scaleX, scaleY, fadeInTextInputField);
+            animatorSet.playTogether(moveX, moveY, scaleX, scaleY, fadeInTextInputField, fadeInButton);
             animatorSet.start();
             isMoved = false;
         }
     }
 
+    public void showElements(boolean show) {
+        int visibility = show ? View.VISIBLE : GONE;
+
+        binding.tvPlayerDetailBBTrophies.setVisibility(visibility);
+        binding.tvPlayerDetailLeague.setVisibility(visibility);
+        binding.tvPlayerDetailBBLeague.setVisibility(visibility);
+        binding.tvPlayerDetailClanName.setVisibility(visibility);
+        binding.tvPlayerDetailClanTag.setVisibility(visibility);
+        binding.tvPlayerDetailTrophies.setVisibility(visibility);
+        binding.tvPlayerDetailClanTag.setVisibility(visibility);
+        binding.ivPlayerBadgeOne.setVisibility(visibility);
+        binding.ivPlayerBadgeThree.setVisibility(visibility);
+        binding.ivPlayerBadgeTwo.setVisibility(visibility);
+
+        binding.ivPlayerDetailTownhallLevel.setVisibility(visibility);
+        binding.ivPlayerDetailBBTownhall.setVisibility(visibility);
+        binding.ivPlayerDetailLeague.setVisibility(visibility);
+        binding.ivPlayerDetailClan.setVisibility(visibility);
+        binding.tvPlayerDetailTownhallLevel.setVisibility(visibility);
+        binding.tvPlayerDetailBBTownhallLevel.setVisibility(visibility);
+        binding.ivHammer.setVisibility(visibility);
+        binding.ivTrophies.setVisibility(visibility);
+        binding.tvPlayerDetailName.setVisibility(visibility);
+        binding.tvPlayerDetailExpLevel.setVisibility(visibility);
+        binding.ivExp.setVisibility(visibility);
+        binding.tabLayout.setVisibility(visibility);
+    }
+
     public void searchPlayerPerTag(String clanTag) {
+        animateViews(binding.textInputLayout2);
         if (clanTag.isEmpty()) {
             playerTag = String.valueOf(binding.tiPlayerTag.getText()).trim().toUpperCase();
         } else {
@@ -229,14 +300,74 @@ public class PlayerScreen extends Fragment {
             public void onSuccess(String json) {
                 logicViewModel.loadPlayerFromJson(json);
                 Player player = logicViewModel.getPlayer();
-                binding.tvPlayerName.setText(player.getName());
-                binding.tvPlayerName.setVisibility(VISIBLE);
+                binding.tvPlayerDetailName.setText(player.getName());
+                binding.tvPlayerDetailTownhallLevel.setText("TH LVL:" + player.getTownHallLevel());
+                binding.tvPlayerDetailExpLevel.setText(String.valueOf(player.getExpLevel()));
+                binding.tvPlayerDetailBBLeague.setText(player.getBuilderBaseLeague().getName());
+                binding.tvPlayerDetailLeague.setText(player.getLeague().getName());
+                binding.tvPlayerDetailBBTrophies.setText(String.valueOf(player.getBuilderBaseTrophies()));
+                binding.tvPlayerDetailTrophies.setText(String.valueOf(player.getTrophies()));
+                binding.tvPlayerDetailClanTag.setText(player.getClan().getTag());
+                String imageUrl = player.getClan().getBadgeUrls().getLarge();
+                Glide.with(requireContext())
+                        .load(imageUrl)
+                        .into(binding.ivPlayerDetailClan);
+                List<Label> labels = player.getLabels();
+                // Standardbild für fehlende Labels
+                int defaultBadge = R.drawable.resource_default;
+
+                if (labels.size() > 0) {
+                    Glide.with(requireContext()).load(labels.get(0).getIconUrls().getMedium()).into(binding.ivPlayerBadgeOne);
+                } else {
+                    Glide.with(requireContext()).load(defaultBadge).into(binding.ivPlayerBadgeOne);
+                }
+
+                if (labels.size() > 1) {
+                    Glide.with(requireContext()).load(labels.get(1).getIconUrls().getMedium()).into(binding.ivPlayerBadgeTwo);
+                } else {
+                    Glide.with(requireContext()).load(defaultBadge).into(binding.ivPlayerBadgeTwo);
+                }
+
+                if (labels.size() > 2) {
+                    Glide.with(requireContext()).load(labels.get(2).getIconUrls().getMedium()).into(binding.ivPlayerBadgeThree);
+                } else {
+                    Glide.with(requireContext()).load(defaultBadge).into(binding.ivPlayerBadgeThree);
+                }
+
+
+                Map<Integer, Integer> townhallImageMap = new HashMap<>();
+                townhallImageMap.put(1, R.drawable.a1);
+                townhallImageMap.put(2, R.drawable.a2);
+                townhallImageMap.put(3, R.drawable.a3);
+                townhallImageMap.put(4, R.drawable.a4);
+                townhallImageMap.put(5, R.drawable.a5);
+                townhallImageMap.put(6, R.drawable.a6);
+                townhallImageMap.put(7, R.drawable.a7);
+                townhallImageMap.put(8, R.drawable.a8);
+                townhallImageMap.put(9, R.drawable.a9);
+                townhallImageMap.put(10, R.drawable.a10);
+                townhallImageMap.put(11, R.drawable.a11);
+                townhallImageMap.put(12, R.drawable.a12);
+                townhallImageMap.put(13, R.drawable.a13);
+                townhallImageMap.put(14, R.drawable.a14);
+                townhallImageMap.put(15, R.drawable.a15);
+                townhallImageMap.put(16, R.drawable.a16);
+                townhallImageMap.put(17, R.drawable.a17);
+                // Falls weitere Levels benötigt werden, hier hinzufügen...
+
+                // Townhall-Level abrufen
+                int townhallLevel = player.getTownHallLevel();
+                Integer imageRes = townhallImageMap.get(townhallLevel);
+                binding.ivPlayerDetailTownhallLevel.setImageResource(imageRes);
+
                 binding.listLayoutPlayer.setVisibility(VISIBLE);
                 popup.getMenu().findItem(R.id.playerTroops).setEnabled(true);
                 popup.getMenu().findItem(R.id.playerAchievments).setEnabled(true);
                 popup.getMenu().findItem(R.id.playerSpells).setEnabled(true);
                 popup.getMenu().findItem(R.id.playerHeroes).setEnabled(true);
                 binding.playerCP.setVisibility(INVISIBLE);
+                showElements(true);
+                mainViewModel.showScreen(MainViewModel.playerTroops);
             }
 
             @Override

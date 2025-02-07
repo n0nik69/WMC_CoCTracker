@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.htlgkr.lugern.coctracker.R;
+import net.htlgkr.lugern.coctracker.fragments.PlayerScreen;
 import net.htlgkr.lugern.coctracker.list.adapter.MyClanRecyclerViewAdapter;
+import net.htlgkr.lugern.coctracker.models.clan.ClanMember;
 import net.htlgkr.lugern.coctracker.viewmodels.LogicViewModel;
 
 public class ClanFragment extends Fragment {
@@ -36,6 +38,7 @@ public class ClanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_card_list, container, false);
         View listView = view.findViewById(R.id.list);
         logicViewModel = new ViewModelProvider(requireActivity()).get(LogicViewModel.class);
+        final MyClanRecyclerViewAdapter[] adapter = new MyClanRecyclerViewAdapter[1];
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
@@ -45,17 +48,41 @@ public class ClanFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
 
+//            logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
+//                Log.d("ClanFragment", "Items erhalten: " + items.size());
+//
+//                if (items.isEmpty()) {
+//                    Log.e("ClanFragment", "Die Liste ist leer!");
+//                }
+//
+//                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(items);
+//                recyclerView.setAdapter(adapter);
+//
+//                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+//            });
+
             logicViewModel.observableItemsClanMember.observe(getViewLifecycleOwner(), items -> {
-                Log.d("ClanFragment", "Items erhalten: " + items.size());
+                adapter[0] = new MyClanRecyclerViewAdapter(items);
+                recyclerView.setAdapter(adapter[0]);
 
-                if (items.isEmpty()) {
-                    Log.e("ClanFragment", "Die Liste ist leer!");
-                }
+                adapter[0].setOnItemClickListener(position -> {
+                    ClanMember clanMember = items.get(position);
+                    if (clanMember != null) {
+                        String playerTag = clanMember.getTag();
+                        Log.i("LIST FRAGMENT", "Clicked on position: " + position + ", Player: " + playerTag);
 
-                MyClanRecyclerViewAdapter adapter = new MyClanRecyclerViewAdapter(items);
-                recyclerView.setAdapter(adapter);
+                        // Erstelle ein neues PlayerScreen und übergebe das Player-Tag als Argument
+                        PlayerScreen playerScreen = new PlayerScreen();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PLAYER_TAG", playerTag);  // Übergebe das Player-Tag
+                        playerScreen.setArguments(bundle);  // Setze die Argumente
 
-                adapter.setOnItemClickListener(position -> Log.i("LIST FRAGMENT", "clicked " + position));
+                        // Ersetze das Fragment mit dem neuen PlayerScreen
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.mainFragment, playerScreen, "PLAYERSCREEN")  // Optional: Füge es zum Backstack hinzu
+                                .commit();
+                    }
+                });
             });
         }
         return view;

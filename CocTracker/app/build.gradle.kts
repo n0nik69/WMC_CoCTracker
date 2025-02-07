@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.volley)
     implementation(libs.gson)
     implementation(libs.picasso)
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
 
 
 }

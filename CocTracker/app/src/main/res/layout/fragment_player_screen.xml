@@ -6,71 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PlayerScreen">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/lol"
-        android:visibility="gone"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="-107dp"
-        tools:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailLeague">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Troops" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spells" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Heroes" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Achievments" />
+
+    </com.google.android.material.tabs.TabLayout>
+
 
     <TextView
-        android:id="@+id/tvTownhallLevel"
+        android:id="@+id/tvPlayerDetailName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="617dp"
-        android:text="Rathaus Lvl 15"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="invisible" />
-
-
-    <TextView
-        android:id="@+id/tvPlayerTrophies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="36dp"
-        android:text="9835"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlayerName"
-        tools:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/tvPlayerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="184dp"
-        android:text="super nik"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="invisible" />
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="28dp"
+        android:text="nik der größte"
+        app:layout_constraintStart_toEndOf="@+id/ivExp"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayer" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayer">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiPlayerTag"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Playertag" />
+            android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -79,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Spieler"
+        android:text="Player"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -89,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Spieler suchen"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,14 +105,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/listLayoutPlayer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="200dp"
+        android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearchPlayer"
-        tools:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -132,5 +126,206 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivExp">
+
+        <ImageView
+            android:id="@+id/ivPlayerBadgeOne"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:src="@drawable/a1" />
+
+        <ImageView
+            android:id="@+id/ivPlayerBadgeTwo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/a10" />
+
+        <ImageView
+            android:id="@+id/ivPlayerBadgeThree"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:src="@drawable/a11" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivPlayerDetailTownhallLevel"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/a10"
+        app:layout_constraintStart_toEndOf="@+id/tvPlayerDetailName"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayer" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailTownhallLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="TH Lvl: 15"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailTownhallLevel" />
+
+    <ImageView
+        android:id="@+id/ivExp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/xp_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayer" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailExpLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="252"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/ivExp"
+        app:layout_constraintEnd_toEndOf="@+id/ivExp"
+        app:layout_constraintStart_toStartOf="@+id/ivExp"
+        app:layout_constraintTop_toTopOf="@+id/ivExp" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailClanName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="Clan - Munich Village"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailClan"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailClanTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="#oiasdi097854"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailClan"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailClanName" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailTrophies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="390485"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailTownhallLevel" />
+
+    <ImageView
+        android:id="@+id/ivPlayerDetailBBTownhall"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/b10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailClan" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailBBTownhallLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="BTH: 15"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailBBTownhall"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailClan" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailBBTrophies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="29834"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailBBTownhall"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailBBTownhallLevel" />
+
+    <ImageView
+        android:id="@+id/ivTrophies"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/trophy"
+        app:layout_constraintStart_toEndOf="@+id/tvPlayerDetailTrophies"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailTownhallLevel" />
+
+    <ImageView
+        android:id="@+id/ivPlayerDetailLeague"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/balloon"
+        app:layout_constraintStart_toEndOf="@+id/tvPlayerDetailBBTownhallLevel"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailClan" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailLeague"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Master League I"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailLeague"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlayerDetailClan" />
+
+    <ImageView
+        android:id="@+id/ivHammer"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/hammer"
+        app:layout_constraintStart_toEndOf="@+id/tvPlayerDetailBBTrophies"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailBBTownhallLevel" />
+
+    <TextView
+        android:id="@+id/tvPlayerDetailBBLeague"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="BB: Steel League III"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPlayerDetailLeague"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayerDetailLeague" />
+
+    <ImageView
+        android:id="@+id/ivPlayerDetailClan"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/clan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

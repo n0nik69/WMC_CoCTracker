@@ -1,125 +1,133 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
-    android:layout_gravity="center"
-    android:layout_margin="6dp"
-    card_view:cardBackgroundColor="#FFFFFF"
-    card_view:cardCornerRadius="16dp"
-    card_view:cardElevation="6dp">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_margin="6dp"
+        card_view:cardBackgroundColor="#FFFFFF"
+        card_view:cardCornerRadius="16dp"
+        card_view:cardElevation="6dp">
 
-        <TextView
-            android:id="@+id/tvFoundClanNameAndTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:textSize="13sp"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/ivFoundClanBadge"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="24dp"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:srcCompat="@drawable/clan" />
+            <TextView
+                android:id="@+id/tvFoundClanNameAndTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:textSize="13sp"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvFoundClanIsFamilyFriendly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="45dp"
-            android:text="Familienfreundlich"
-            android:textSize="10sp"
-            card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/ivFoundClanBadge"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:srcCompat="@drawable/clan" />
 
-        <TextView
-            android:id="@+id/tvFoundClanWarFrequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="8dp"
-            android:text="1x/W"
-            android:textSize="10sp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tvFoundClanIsFamilyFriendly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="45dp"
+                android:text="Familienfreundlich"
+                android:textSize="10sp"
+                card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvFoundClanType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Offen"
-            android:textSize="10sp"
-            card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanIsFamilyFriendly" />
+            <TextView
+                android:id="@+id/tvFoundClanWarFrequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="8dp"
+                android:text="1x/W"
+                android:textSize="10sp"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvFoundClanMembers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="Mitglieder: 40"
-            android:textSize="10sp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanWarFrequency" />
+            <TextView
+                android:id="@+id/tvFoundClanType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Offen"
+                android:textSize="10sp"
+                card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanIsFamilyFriendly" />
 
-        <TextView
-            android:id="@+id/tvFoundClanLvl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Clan Lvl: 19"
-            android:textSize="10sp"
-            card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanType" />
+            <TextView
+                android:id="@+id/tvFoundClanMembers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="Mitglieder: 40"
+                android:textSize="10sp"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanWarFrequency" />
 
-        <TextView
-            android:id="@+id/tvFoundClanMinTHLvl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="Min. TH Lvl: 12"
-            android:textSize="10sp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanMembers" />
+            <TextView
+                android:id="@+id/tvFoundClanLvl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Clan Lvl: 19"
+                android:textSize="10sp"
+                card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanType" />
 
-        <TextView
-            android:id="@+id/tvFoundClanMinTrophies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Min. Trophäen: 7000"
-            android:textSize="10sp"
-            card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanLvl" />
+            <TextView
+                android:id="@+id/tvFoundClanMinTHLvl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="Min. TH Lvl: 12"
+                android:textSize="10sp"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanMembers" />
 
-        <TextView
-            android:id="@+id/tvFoundClanCountryCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="AT"
-            android:textSize="10sp"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanMinTHLvl" />
+            <TextView
+                android:id="@+id/tvFoundClanMinTrophies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Min. Trophäen: 7000"
+                android:textSize="10sp"
+                card_view:layout_constraintStart_toEndOf="@+id/ivFoundClanBadge"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanLvl" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/tvFoundClanCountryCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="AT"
+                android:textSize="10sp"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/tvFoundClanMinTHLvl" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
+
